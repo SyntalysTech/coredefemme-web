@@ -194,7 +194,8 @@ export default function EditArticlePage({ params }: { params: Promise<{ id: stri
             : article?.publish_date,
       };
 
-      const { error } = await supabase
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error } = await (supabase as any)
         .from("articles")
         .update(articleData)
         .eq("id", id);
