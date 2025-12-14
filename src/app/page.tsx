@@ -1,65 +1,142 @@
+import Link from "next/link";
 import Image from "next/image";
+import { Mail, MessageCircle, ChevronDown, Sparkles, Heart, Shield, Users, ArrowRight } from "lucide-react";
+import WelcomeModal from "@/components/WelcomeModal";
+import CoursSplit from "@/components/CoursSplit";
+import styles from "./page.module.css";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <>
+      <WelcomeModal />
+
+      {/* Hero Section - Full Screen avec image de fond */}
+      <section className={styles.hero}>
+        <div className={styles.heroBackground}>
+          <Image
+            src="/images/hero-pilates-bg.jpg"
+            alt="Pilates Core de Femme"
+            fill
+            priority
+            style={{ objectFit: "cover" }}
+            quality={90}
+          />
+          <div className={styles.heroOverlay}></div>
+        </div>
+
+        <div className={styles.heroContent}>
+          <div className={styles.heroBadge}>
+            <Sparkles size={16} />
+            3 séances découvertes offertes
+          </div>
+
+          <h1 className={styles.heroTitle}>
+            Reconnectez-vous<br />à votre corps
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+
+          <p className={styles.heroSubtitle}>
+            Pilates pour les mamans et Sculpt Pilates<br />
+            dans le Jura, Suisse
           </p>
+
+          <div className={styles.heroCtaContainer}>
+            <Link href="/seances-decouvertes" className={`${styles.heroCta} ${styles.heroCtaPrimary}`}>
+              Réserver ma séance gratuite
+            </Link>
+            <Link href="#cours" className={`${styles.heroCta} ${styles.heroCtaSecondary}`}>
+              Découvrir les cours
+            </Link>
+          </div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div className={styles.scrollIndicator}>
+          <ChevronDown size={32} />
         </div>
-      </main>
-    </div>
+      </section>
+
+      {/* Section Valeurs - Design épuré */}
+      <section className={styles.valuesSection}>
+        <div className={styles.valuesContainer}>
+          <div className={styles.valueItem}>
+            <div className={styles.valueIcon}>
+              <Heart size={28} />
+            </div>
+            <div className={styles.valueText}>
+              <h3>Bienveillance</h3>
+              <p>Un accompagnement adapté à votre rythme</p>
+            </div>
+          </div>
+          <div className={styles.valueDivider}></div>
+          <div className={styles.valueItem}>
+            <div className={styles.valueIcon}>
+              <Shield size={28} />
+            </div>
+            <div className={styles.valueText}>
+              <h3>Expertise</h3>
+              <p>Méthode APOR & Pilates De Gasquet</p>
+            </div>
+          </div>
+          <div className={styles.valueDivider}></div>
+          <div className={styles.valueItem}>
+            <div className={styles.valueIcon}>
+              <Users size={28} />
+            </div>
+            <div className={styles.valueText}>
+              <h3>Petits groupes</h3>
+              <p>Maximum 6 personnes par séance</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Cours Section - Split Interactif */}
+      <CoursSplit />
+
+      {/* Section Témoignage / Citation */}
+      <section className={styles.quoteSection}>
+        <div className={styles.quoteBackground}>
+          <Image
+            src="/images/pilates-stretch.jpg"
+            alt="Pilates étirement"
+            fill
+            style={{ objectFit: "cover" }}
+          />
+          <div className={styles.quoteOverlay}></div>
+        </div>
+        <div className={styles.quoteContent}>
+          <blockquote>
+            &ldquo;Le Pilates n&apos;est pas qu&apos;une pratique physique.
+            C&apos;est un moment pour soi, une reconnexion au corps et à l&apos;esprit.&rdquo;
+          </blockquote>
+          <cite>— Chloé Manzambi</cite>
+          <Link href="/a-propos" className={styles.quoteLink}>
+            Découvrir mon parcours
+            <ArrowRight size={18} />
+          </Link>
+        </div>
+      </section>
+
+      {/* Contact CTA Section - Design moderne */}
+      <section className={styles.contactCtaSection}>
+        <div className={styles.contactCtaContent}>
+          <h2 className={styles.contactCtaTitle}>Prête à commencer ?</h2>
+          <p className={styles.contactCtaText}>
+            Réservez votre séance découverte gratuite et faites le premier pas
+            vers votre bien-être.
+          </p>
+
+          <div className={styles.contactCtaButtons}>
+            <Link href="/contact" className={`${styles.contactBtn} ${styles.contactBtnPrimary}`}>
+              <Mail size={20} />
+              Me Contacter
+            </Link>
+            <a href="https://wa.me/41767059777" target="_blank" rel="noopener noreferrer" className={`${styles.contactBtn} ${styles.contactBtnSecondary}`}>
+              <MessageCircle size={20} />
+              WhatsApp
+            </a>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }

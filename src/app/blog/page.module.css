@@ -1,0 +1,250 @@
+/* ====================================
+   BLOG PAGE STYLES
+==================================== */
+
+/* Hero */
+.blogHero {
+  background: linear-gradient(135deg, var(--color-bg-light) 0%, var(--color-bg-extra-light) 100%);
+  padding: 120px 20px 80px;
+  text-align: center;
+}
+
+.blogHero h1 {
+  font-size: 3rem;
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+}
+
+.blogHero p {
+  font-size: 1.2rem;
+  color: var(--color-dark);
+  max-width: 600px;
+  margin: 0 auto;
+  opacity: 0.85;
+}
+
+/* Container */
+.blogContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+}
+
+/* Featured Section */
+.featuredSection {
+  margin-bottom: 4rem;
+}
+
+.featuredSection h2 {
+  font-size: 1.8rem;
+  color: var(--color-primary);
+  margin-bottom: 2rem;
+}
+
+.featuredGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+.featuredCard {
+  background: #fff;
+  border-radius: 25px;
+  overflow: hidden;
+  box-shadow: 0 15px 50px rgba(169, 128, 106, 0.15);
+  transition: var(--transition);
+  text-decoration: none;
+}
+
+.featuredCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 25px 70px rgba(169, 128, 106, 0.25);
+}
+
+.featuredImage {
+  position: relative;
+  height: 250px;
+}
+
+.featuredContent {
+  padding: 2rem;
+}
+
+.featuredContent h3 {
+  font-size: 1.5rem;
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+.featuredContent p {
+  color: var(--color-dark);
+  opacity: 0.85;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+.readMore {
+  color: var(--color-primary);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* Category Filters */
+.categoryFilters {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+  justify-content: center;
+}
+
+.categoryFilter {
+  padding: 0.7rem 1.5rem;
+  background: rgba(169, 128, 106, 0.1);
+  color: var(--color-primary);
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: var(--transition);
+}
+
+.categoryFilter:hover,
+.categoryFilter.active {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+/* Category Badge */
+.categoryBadge {
+  display: inline-block;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+/* Articles Grid */
+.articlesSection {
+  margin-top: 2rem;
+}
+
+.articlesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+.articleCard {
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 35px rgba(169, 128, 106, 0.12);
+  transition: var(--transition);
+  text-decoration: none;
+}
+
+.articleCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 50px rgba(169, 128, 106, 0.2);
+}
+
+.articleImage {
+  position: relative;
+  height: 180px;
+}
+
+.articleContent {
+  padding: 1.5rem;
+}
+
+.articleContent h3 {
+  font-size: 1.2rem;
+  color: var(--color-primary);
+  margin-bottom: 0.8rem;
+  line-height: 1.4;
+}
+
+.articleContent p {
+  color: var(--color-dark);
+  opacity: 0.8;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.articleMeta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--color-dark);
+  opacity: 0.6;
+}
+
+/* Empty State */
+.emptyState {
+  text-align: center;
+  padding: 5rem 2rem;
+  background: var(--color-bg-extra-light);
+  border-radius: 25px;
+}
+
+.emptyState h3 {
+  font-size: 1.5rem;
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+}
+
+.emptyState p {
+  color: var(--color-dark);
+  opacity: 0.75;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .articlesGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .blogHero h1 {
+    font-size: 2.2rem;
+  }
+
+  .blogContainer {
+    padding: 3rem 1.5rem;
+  }
+
+  .featuredGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .articlesGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .blogHero {
+    padding: 100px 15px 60px;
+  }
+
+  .blogHero h1 {
+    font-size: 1.9rem;
+  }
+
+  .featuredContent,
+  .articleContent {
+    padding: 1.2rem;
+  }
+}

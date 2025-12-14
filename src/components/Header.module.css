@@ -1,0 +1,432 @@
+/* ====================================
+   HEADER PRINCIPAL
+==================================== */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(255, 241, 231, 0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 2px 25px rgba(169, 128, 106, 0.1);
+  z-index: 1000;
+  transition: var(--transition);
+}
+
+.header.scrolled {
+  background: rgba(255, 241, 231, 0.98);
+  box-shadow: 0 4px 35px rgba(169, 128, 106, 0.18);
+}
+
+.headerContainer {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 1.2rem 2.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: var(--transition);
+}
+
+.header.scrolled .headerContainer {
+  padding: 0.9rem 2.5rem;
+}
+
+/* ====================================
+   LOGO
+==================================== */
+.logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: var(--transition);
+  z-index: 1001;
+}
+
+.logo img {
+  height: 70px;
+  width: auto;
+  transition: var(--transition);
+  filter: drop-shadow(0 2px 8px rgba(169, 128, 106, 0.1));
+}
+
+.header.scrolled .logo img {
+  height: 58px;
+}
+
+.logo:hover img {
+  transform: scale(1.05);
+  filter: drop-shadow(0 4px 12px rgba(169, 128, 106, 0.2));
+}
+
+/* ====================================
+   NAVIGATION DESKTOP
+==================================== */
+.navDesktop {
+  display: flex;
+  align-items: center;
+  gap: 3.5rem;
+}
+
+.navMenu {
+  display: flex;
+  align-items: center;
+  gap: 2.8rem;
+  list-style: none;
+}
+
+.navMenu li {
+  position: relative;
+}
+
+.navMenu > li > a,
+.dropdownToggle {
+  text-decoration: none;
+  color: var(--color-dark);
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: 0.3px;
+  transition: var(--transition);
+  position: relative;
+  padding: 0.6rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-main);
+}
+
+.navMenu > li > a::after,
+.dropdownToggle::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--color-primary);
+  transition: var(--transition);
+}
+
+.navMenu > li > a:hover,
+.dropdownToggle:hover {
+  color: var(--color-primary);
+}
+
+.navMenu > li > a:hover::after,
+.dropdownToggle:hover::after {
+  width: 100%;
+}
+
+.navMenu > li > a.active,
+.dropdownToggle.active {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.navMenu > li > a.active::after,
+.dropdownToggle.active::after {
+  width: 100%;
+}
+
+/* ====================================
+   MEGA MENU DROPDOWN
+==================================== */
+.hasDropdown {
+  position: relative;
+}
+
+.hasDropdown:hover .megaMenu {
+  opacity: 1;
+  visibility: visible;
+  margin-top: 0.8rem;
+}
+
+.hasDropdown:hover .dropdownToggle svg {
+  transform: rotate(180deg);
+}
+
+.megaMenu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-bg-extra-light);
+  border-radius: 18px;
+  box-shadow: 0 15px 50px rgba(169, 128, 106, 0.2);
+  padding: 2.5rem;
+  min-width: 550px;
+  opacity: 0;
+  visibility: hidden;
+  margin-top: 1.5rem;
+  transition: var(--transition);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+}
+
+.megaMenuItem {
+  padding: 1.5rem;
+  border-radius: 12px;
+  transition: var(--transition);
+  text-decoration: none;
+  display: block;
+  border: 2px solid transparent;
+}
+
+.megaMenuItem:hover {
+  background: rgba(169, 128, 106, 0.08);
+  transform: translateY(-5px);
+  border-color: rgba(169, 128, 106, 0.15);
+  box-shadow: 0 8px 25px rgba(169, 128, 106, 0.15);
+}
+
+.megaMenuItem.active {
+  background: rgba(169, 128, 106, 0.12);
+  border-color: rgba(169, 128, 106, 0.25);
+}
+
+.megaMenuTitle {
+  color: var(--color-primary);
+  font-weight: 600;
+  font-size: 1.15rem;
+  margin-bottom: 0.75rem;
+  display: block;
+}
+
+.megaMenuItem.active .megaMenuTitle {
+  font-weight: 700;
+}
+
+.megaMenuDesc {
+  color: var(--color-dark);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  opacity: 0.85;
+  margin: 0;
+}
+
+/* ====================================
+   CTA BUTTON
+==================================== */
+.ctaButton {
+  background: var(--color-primary);
+  color: #fff;
+  padding: 0.85rem 2rem;
+  border-radius: 35px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.92rem;
+  transition: var(--transition);
+  border: 2px solid var(--color-primary);
+  white-space: nowrap;
+  display: inline-block;
+  box-shadow: 0 6px 20px rgba(169, 128, 106, 0.25);
+}
+
+.ctaButton:hover {
+  background: transparent;
+  color: var(--color-primary);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(169, 128, 106, 0.35);
+}
+
+/* ====================================
+   MOBILE MENU TOGGLE
+==================================== */
+.menuToggle {
+  display: none;
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  z-index: 1001;
+  cursor: pointer;
+  color: var(--color-primary);
+}
+
+/* ====================================
+   MOBILE NAVIGATION
+==================================== */
+.navMobile {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 100%;
+  max-width: 420px;
+  height: 100vh;
+  background: var(--color-bg-extra-light);
+  box-shadow: -8px 0 40px rgba(169, 128, 106, 0.25);
+  padding: 7rem 2.5rem 2.5rem;
+  transition: var(--transition);
+  overflow-y: auto;
+  z-index: 999;
+}
+
+.navMobile.active {
+  right: 0;
+}
+
+.navMobileList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0;
+}
+
+.navMobileList li a {
+  display: block;
+  padding: 1.2rem 1.5rem;
+  color: var(--color-dark);
+  text-decoration: none;
+  font-weight: 500;
+  border-radius: 12px;
+  transition: var(--transition);
+  font-size: 1rem;
+}
+
+.navMobileList li a:hover,
+.navMobileList li a.active {
+  background: rgba(169, 128, 106, 0.12);
+  color: var(--color-primary);
+  padding-left: 2rem;
+}
+
+.mobileDropdownToggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 1.2rem 1.5rem;
+  color: var(--color-dark);
+  font-weight: 500;
+  border-radius: 12px;
+  transition: var(--transition);
+  font-size: 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-main);
+}
+
+.mobileDropdownToggle:hover,
+.mobileDropdownToggle.active {
+  background: rgba(169, 128, 106, 0.12);
+  color: var(--color-primary);
+}
+
+.mobileDropdownToggle svg {
+  transition: var(--transition);
+}
+
+.mobileDropdownToggle svg.rotated {
+  transform: rotate(180deg);
+}
+
+.mobileDropdown {
+  padding-left: 1.5rem;
+  margin-top: 0.5rem;
+  display: none;
+}
+
+.mobileDropdown.active {
+  display: block;
+}
+
+.mobileDropdown a {
+  font-size: 0.92rem;
+  padding: 1rem 1.2rem;
+}
+
+.mobileDropdown a.active {
+  background: rgba(169, 128, 106, 0.15);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.navMobile .ctaButton {
+  margin-top: 2.5rem;
+  display: block;
+  text-align: center;
+  padding: 1.1rem 2rem;
+  width: 100%;
+}
+
+/* Mobile Overlay */
+.mobileOverlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(118, 92, 74, 0.6);
+  backdrop-filter: blur(8px);
+  z-index: 998;
+  opacity: 0;
+  transition: var(--transition);
+}
+
+.mobileOverlay.active {
+  display: block;
+  opacity: 1;
+}
+
+/* ====================================
+   RESPONSIVE
+==================================== */
+@media (max-width: 1024px) {
+  .navMenu {
+    gap: 2rem;
+  }
+
+  .megaMenu {
+    min-width: 450px;
+    padding: 2rem;
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .headerContainer {
+    padding: 1rem 1.5rem;
+  }
+
+  .logo img {
+    height: 55px;
+  }
+
+  .header.scrolled .logo img {
+    height: 50px;
+  }
+
+  .navDesktop {
+    display: none;
+  }
+
+  .menuToggle {
+    display: flex;
+  }
+}
+
+@media (max-width: 480px) {
+  .headerContainer {
+    padding: 0.9rem 1rem;
+  }
+
+  .logo img {
+    height: 48px;
+  }
+
+  .header.scrolled .logo img {
+    height: 45px;
+  }
+
+  .navMobile {
+    max-width: 100%;
+    padding: 6rem 2rem 2rem;
+  }
+}

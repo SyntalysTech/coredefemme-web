@@ -1,0 +1,279 @@
+/* ====================================
+   ARTICLE PAGE STYLES
+==================================== */
+
+/* Hero */
+.articleHero {
+  position: relative;
+  min-height: 60vh;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 0 4rem;
+}
+
+.heroImage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.heroOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to top,
+    rgba(118, 92, 74, 0.95) 0%,
+    rgba(118, 92, 74, 0.5) 50%,
+    rgba(118, 92, 74, 0.3) 100%
+  );
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  color: #fff;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(255, 255, 255, 0.9);
+  text-decoration: none;
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+  transition: var(--transition);
+}
+
+.backLink:hover {
+  color: #fff;
+}
+
+.categoryBadge {
+  display: inline-block;
+  padding: 0.5rem 1.2rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #fff;
+  margin-bottom: 1.5rem;
+}
+
+.heroContent h1 {
+  font-size: 3rem;
+  color: #fff;
+  line-height: 1.25;
+  margin-bottom: 1.5rem;
+}
+
+.articleMeta {
+  display: flex;
+  gap: 2rem;
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+.articleMeta span {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Article Container */
+.articleContainer {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+}
+
+.articleBody {
+  margin-bottom: 4rem;
+}
+
+.excerpt {
+  font-size: 1.3rem;
+  color: var(--color-primary);
+  line-height: 1.7;
+  margin-bottom: 2.5rem;
+  font-weight: 500;
+  border-left: 4px solid var(--color-primary);
+  padding-left: 1.5rem;
+}
+
+.content {
+  font-size: 1.1rem;
+  line-height: 1.9;
+  color: var(--color-dark);
+}
+
+.content h2 {
+  font-size: 1.8rem;
+  color: var(--color-primary);
+  margin: 2.5rem 0 1.5rem;
+}
+
+.content h3 {
+  font-size: 1.4rem;
+  color: var(--color-primary);
+  margin: 2rem 0 1rem;
+}
+
+.content p {
+  margin-bottom: 1.5rem;
+}
+
+.content ul,
+.content ol {
+  margin: 1.5rem 0;
+  padding-left: 2rem;
+}
+
+.content li {
+  margin-bottom: 0.8rem;
+}
+
+.content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 15px;
+  margin: 2rem 0;
+}
+
+.content blockquote {
+  border-left: 4px solid var(--color-primary);
+  padding-left: 1.5rem;
+  margin: 2rem 0;
+  font-style: italic;
+  color: var(--color-primary);
+}
+
+/* Related Articles */
+.relatedSection {
+  border-top: 1px solid rgba(169, 128, 106, 0.2);
+  padding-top: 3rem;
+  margin-bottom: 3rem;
+}
+
+.relatedSection h3 {
+  font-size: 1.5rem;
+  color: var(--color-primary);
+  margin-bottom: 2rem;
+}
+
+.relatedGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.relatedCard {
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.relatedCard:hover {
+  transform: translateY(-5px);
+}
+
+.relatedImage {
+  position: relative;
+  height: 150px;
+  border-radius: 15px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.relatedCard span {
+  color: var(--color-primary);
+  font-weight: 600;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+/* CTA Section */
+.articleCta {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-dark) 100%);
+  padding: 3rem;
+  border-radius: 25px;
+  text-align: center;
+  color: #fff;
+}
+
+.articleCta h3 {
+  font-size: 1.8rem;
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+.articleCta p {
+  font-size: 1.1rem;
+  opacity: 0.95;
+  margin-bottom: 2rem;
+}
+
+.ctaBtn {
+  display: inline-block;
+  background: #fff;
+  color: var(--color-primary);
+  padding: 1rem 2.5rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.ctaBtn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .articleHero {
+    min-height: 50vh;
+    padding-bottom: 3rem;
+  }
+
+  .heroContent h1 {
+    font-size: 2rem;
+  }
+
+  .articleMeta {
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+
+  .articleContainer {
+    padding: 3rem 1.5rem;
+  }
+
+  .excerpt {
+    font-size: 1.15rem;
+  }
+
+  .content {
+    font-size: 1rem;
+  }
+
+  .relatedGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .articleCta {
+    padding: 2rem 1.5rem;
+  }
+
+  .articleCta h3 {
+    font-size: 1.5rem;
+  }
+}

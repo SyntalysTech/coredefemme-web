@@ -1,0 +1,425 @@
+/* ====================================
+   COURS SPLIT SECTION
+==================================== */
+.coursSection {
+  padding: 8rem 0;
+  background: #fff;
+}
+
+.coursHeader {
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 4rem;
+  padding: 0 2.5rem;
+}
+
+.coursTitle {
+  font-size: 3rem;
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.coursSubtitle {
+  font-size: 1.15rem;
+  color: var(--color-dark);
+  line-height: 1.7;
+  opacity: 0.8;
+}
+
+/* ====================================
+   SPLIT CONTAINER (Desktop)
+==================================== */
+.splitContainer {
+  display: flex;
+  height: 75vh;
+  min-height: 600px;
+  max-height: 800px;
+  overflow: hidden;
+  border-radius: 0;
+}
+
+.splitPanel {
+  position: relative;
+  flex: 1;
+  cursor: pointer;
+  overflow: hidden;
+  transition: flex 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.splitPanel.expanded {
+  flex: 2.2;
+}
+
+.splitPanel.collapsed {
+  flex: 0.6;
+}
+
+/* Panel Background */
+.panelBg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.panelBg img {
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.splitPanel:hover .panelBg img,
+.splitPanel.expanded .panelBg img {
+  transform: scale(1.1);
+}
+
+.panelOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(118, 92, 74, 0.3) 0%,
+    rgba(118, 92, 74, 0.6) 50%,
+    rgba(118, 92, 74, 0.95) 100%
+  );
+  transition: var(--transition);
+}
+
+.splitPanel:hover .panelOverlay {
+  background: linear-gradient(
+    180deg,
+    rgba(118, 92, 74, 0.35) 0%,
+    rgba(118, 92, 74, 0.65) 50%,
+    rgba(118, 92, 74, 0.97) 100%
+  );
+}
+
+/* Panel Content */
+.panelContent {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 3.5rem;
+  color: #fff;
+}
+
+.panelHeader {
+  transition: var(--transition);
+}
+
+.panelTitle {
+  font-size: 2.8rem;
+  color: #fff;
+  margin-bottom: 0.6rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.panelSubtitle {
+  font-size: 1.15rem;
+  opacity: 0.9;
+  margin-bottom: 1rem;
+  font-weight: 400;
+}
+
+.panelSchedule {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  padding: 0.6rem 1.3rem;
+  border-radius: 30px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Panel Details (hidden by default) */
+.panelDetails {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-top: 0;
+}
+
+.splitPanel.expanded .panelDetails {
+  max-height: 500px;
+  opacity: 1;
+  margin-top: 2rem;
+}
+
+.panelDescription {
+  font-size: 1.08rem;
+  line-height: 1.75;
+  margin-bottom: 1.8rem;
+  opacity: 0.95;
+  max-width: 500px;
+}
+
+.panelFeatures {
+  list-style: none;
+  margin-bottom: 2rem;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem 2rem;
+}
+
+.panelFeatures li {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.5rem 0;
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+.panelFeatures svg {
+  color: var(--color-bg-light);
+  flex-shrink: 0;
+}
+
+.panelButtons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.panelBtnPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #fff;
+  color: var(--color-primary);
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: var(--transition);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.panelBtnPrimary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+}
+
+.panelBtnSecondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  color: #fff;
+  padding: 1rem 2rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  transition: var(--transition);
+}
+
+.panelBtnSecondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #fff;
+  transform: translateY(-3px);
+}
+
+/* Panel Hint */
+.panelHint {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  font-size: 0.8rem;
+  opacity: 0.5;
+  transition: var(--transition);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.splitPanel.expanded .panelHint {
+  opacity: 0;
+}
+
+/* ====================================
+   MOBILE CARDS (hidden on desktop)
+==================================== */
+.mobileCards {
+  display: none;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 0 1.5rem;
+}
+
+.mobileCard {
+  background: #fff;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(169, 128, 106, 0.15);
+  border: 1px solid rgba(169, 128, 106, 0.1);
+}
+
+.mobileCardImage {
+  position: relative;
+  height: 240px;
+}
+
+.mobileCardOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to top,
+    rgba(118, 92, 74, 0.8) 0%,
+    transparent 60%
+  );
+}
+
+.mobileCardContent {
+  padding: 2rem;
+}
+
+.mobileCardContent h3 {
+  font-size: 1.9rem;
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.mobileCardSubtitle {
+  font-size: 1.05rem;
+  color: var(--color-dark);
+  margin-bottom: 1rem;
+  opacity: 0.8;
+}
+
+.mobileCardSchedule {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--color-bg-light) 0%, var(--color-bg-extra-light) 100%);
+  color: var(--color-primary);
+  padding: 0.6rem 1.2rem;
+  border-radius: 25px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.mobileCardDesc {
+  font-size: 1rem;
+  color: var(--color-dark);
+  line-height: 1.75;
+  margin-bottom: 1.8rem;
+  opacity: 0.85;
+}
+
+.mobileCardButtons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.mobileCardButtons .panelBtnPrimary {
+  background: var(--color-primary);
+  color: #fff;
+  flex: 1;
+  justify-content: center;
+  box-shadow: 0 10px 30px rgba(169, 128, 106, 0.3);
+}
+
+.mobileCardButtons .panelBtnPrimary:hover {
+  background: var(--color-dark);
+}
+
+.mobileCardButtons .panelBtnSecondary {
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+  flex: 1;
+  justify-content: center;
+}
+
+.mobileCardButtons .panelBtnSecondary:hover {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+/* ====================================
+   RESPONSIVE
+==================================== */
+@media (max-width: 1200px) {
+  .panelFeatures {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 1024px) {
+  .splitContainer {
+    height: 65vh;
+    min-height: 550px;
+  }
+
+  .panelTitle {
+    font-size: 2.2rem;
+  }
+
+  .panelContent {
+    padding: 2.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .coursSection {
+    padding: 5rem 0;
+  }
+
+  .coursHeader {
+    margin-bottom: 2.5rem;
+    padding: 0 1.5rem;
+  }
+
+  .coursTitle {
+    font-size: 2.2rem;
+  }
+
+  /* Hide split container on mobile */
+  .splitContainer {
+    display: none;
+  }
+
+  /* Show mobile cards */
+  .mobileCards {
+    display: flex;
+  }
+}
+
+@media (max-width: 480px) {
+  .mobileCard {
+    border-radius: 20px;
+  }
+
+  .mobileCardImage {
+    height: 200px;
+  }
+
+  .mobileCardContent {
+    padding: 1.5rem;
+  }
+
+  .mobileCardContent h3 {
+    font-size: 1.6rem;
+  }
+
+  .mobileCardButtons {
+    flex-direction: column;
+  }
+}

@@ -1,26 +1,425 @@
 @import "tailwindcss";
 
+/* ====================================
+   VARIABLES CSS - CORE DE FEMME
+==================================== */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Colores principales */
+  --color-primary: #A9806A;
+  --color-secondary: #A9846A;
+  --color-dark: #765C4A;
+  --color-bg-light: #FFE3CF;
+  --color-bg-extra-light: #FFF1E7;
+
+  /* Estados */
+  --color-success: #28A745;
+  --color-warning: #FFC107;
+  --color-danger: #DC3545;
+  --color-info: #17A2B8;
+
+  /* Fuentes */
+  --font-main: 'Montserrat', 'Lato', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Transiciones */
+  --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Layout */
+  --header-height: 90px;
+
+  /* Bordes */
+  --color-border: rgba(169, 128, 106, 0.2);
+
+  /* Textos */
+  --color-text: #765C4A;
+  --color-text-light: rgba(118, 92, 74, 0.75);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ====================================
+   RESET & BASE
+==================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-main);
+  background-color: var(--color-bg-light);
+  color: var(--color-dark);
+  line-height: 1.6;
+  overflow-x: hidden;
+  padding-top: var(--header-height);
+}
+
+/* ====================================
+   TIPOGRAFÍA
+==================================== */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-main);
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--color-primary);
+}
+
+h1 { font-size: 3.2rem; }
+h2 { font-size: 2.8rem; }
+h3 { font-size: 1.8rem; }
+h4 { font-size: 1.4rem; }
+
+p {
+  margin-bottom: 1rem;
+  line-height: 1.85;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+a:hover {
+  color: var(--color-dark);
+}
+
+/* ====================================
+   BOTONES
+==================================== */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  padding: 1.1rem 2.5rem;
+  border-radius: 50px;
+  font-weight: 600;
+  font-size: 1.05rem;
+  text-decoration: none;
+  transition: var(--transition);
+  border: 2px solid transparent;
+  cursor: pointer;
+  font-family: var(--font-main);
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+  box-shadow: 0 12px 35px rgba(169, 128, 106, 0.3);
+}
+
+.btn-primary:hover {
+  background: transparent;
+  color: var(--color-primary);
+  transform: translateY(-3px);
+  box-shadow: 0 18px 45px rgba(169, 128, 106, 0.4);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.btn-secondary:hover {
+  background: var(--color-primary);
+  color: #fff;
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(169, 128, 106, 0.3);
+}
+
+.btn-white {
+  background: #fff;
+  color: var(--color-primary);
+  border-color: #fff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.btn-white:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* ====================================
+   CONTENEDORES
+==================================== */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2.5rem;
+}
+
+.section {
+  padding: 7rem 2.5rem;
+}
+
+.section-light {
+  background: var(--color-bg-extra-light);
+}
+
+.section-gradient {
+  background: linear-gradient(135deg, var(--color-bg-light) 0%, var(--color-bg-extra-light) 100%);
+}
+
+/* ====================================
+   TÍTULOS DE SECCIÓN
+==================================== */
+.section-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.section-title {
+  font-size: 2.8rem;
+  color: var(--color-primary);
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.section-subtitle {
+  font-size: 1.15rem;
+  color: var(--color-dark);
+  opacity: 0.85;
+  line-height: 1.7;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* ====================================
+   BADGES
+==================================== */
+.badge {
+  display: inline-block;
+  padding: 0.6rem 1.5rem;
+  border-radius: 30px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.badge-primary {
+  background: rgba(169, 128, 106, 0.15);
+  color: var(--color-primary);
+}
+
+.badge-white {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* ====================================
+   CARDS
+==================================== */
+.card {
+  background: #fff;
+  border-radius: 25px;
+  padding: 2.5rem;
+  box-shadow: 0 15px 50px rgba(169, 128, 106, 0.15);
+  transition: var(--transition);
+  border: 2px solid transparent;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 25px 70px rgba(169, 128, 106, 0.25);
+  border-color: rgba(169, 128, 106, 0.2);
+}
+
+/* ====================================
+   FORMULARIOS
+==================================== */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  font-weight: 600;
+  color: var(--color-dark);
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.form-label .required {
+  color: var(--color-primary);
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  border: 2px solid var(--color-border);
+  border-radius: 12px;
+  font-size: 1rem;
+  font-family: var(--font-main);
+  transition: var(--transition);
+  background: #fff;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 4px rgba(169, 128, 106, 0.1);
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 150px;
+}
+
+/* ====================================
+   ALERTAS
+==================================== */
+.alert {
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+  border-left: 4px solid;
+}
+
+.alert-success {
+  background: #D4EDDA;
+  color: #155724;
+  border-color: var(--color-success);
+}
+
+.alert-error {
+  background: #F8D7DA;
+  color: #721C24;
+  border-color: var(--color-danger);
+}
+
+/* ====================================
+   LISTAS CON CHECK
+==================================== */
+.check-list {
+  list-style: none;
+}
+
+.check-list li {
+  padding: 1rem 0;
+  font-size: 1.08rem;
+  color: var(--color-dark);
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  line-height: 1.7;
+}
+
+.check-list li::before {
+  content: '✓';
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: var(--color-primary);
+  color: #fff;
+  border-radius: 50%;
+  font-weight: 700;
+  flex-shrink: 0;
+  font-size: 1rem;
+}
+
+/* ====================================
+   ANIMACIONES
+==================================== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(12px); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 1s ease-out;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 1s ease-out;
+}
+
+/* ====================================
+   RESPONSIVE
+==================================== */
+@media (max-width: 1024px) {
+  h1 { font-size: 2.8rem; }
+  h2 { font-size: 2.4rem; }
+
+  .section-title {
+    font-size: 2.4rem;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --header-height: 70px;
+  }
+
+  h1 { font-size: 2.2rem; }
+  h2 { font-size: 2rem; }
+
+  .section {
+    padding: 5rem 1.5rem;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .container {
+    padding: 0 1.5rem;
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 { font-size: 1.9rem; }
+  h2 { font-size: 1.8rem; }
+
+  .section {
+    padding: 4rem 1rem;
+  }
+
+  .section-title {
+    font-size: 1.8rem;
+  }
+
+  .container {
+    padding: 0 1rem;
+  }
 }

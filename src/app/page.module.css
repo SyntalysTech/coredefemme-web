@@ -1,0 +1,523 @@
+/* ====================================
+   HERO SECTION - Full Screen avec Image
+==================================== */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-top: calc(-1 * var(--header-height));
+}
+
+.heroBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.heroOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    rgba(169, 128, 106, 0.85) 0%,
+    rgba(118, 92, 74, 0.9) 100%
+  );
+  z-index: 1;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2.5rem;
+  text-align: center;
+  animation: fadeInUp 1s ease-out;
+}
+
+.heroBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  color: #fff;
+  padding: 0.8rem 1.8rem;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 2.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  animation: pulse 3s ease-in-out infinite;
+}
+
+.heroTitle {
+  font-size: 4.5rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  letter-spacing: -2px;
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+}
+
+.heroSubtitle {
+  font-size: 1.4rem;
+  color: rgba(255, 255, 255, 0.95);
+  line-height: 1.6;
+  margin-bottom: 3rem;
+  font-weight: 400;
+}
+
+.heroCtaContainer {
+  display: flex;
+  gap: 1.2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.heroCta {
+  padding: 1.2rem 2.5rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.heroCtaPrimary {
+  background: #fff;
+  color: var(--color-primary);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+}
+
+.heroCtaPrimary:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+.heroCtaSecondary {
+  background: transparent;
+  color: #fff;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.heroCtaSecondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #fff;
+  transform: translateY(-4px);
+}
+
+.scrollIndicator {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  color: #fff;
+  animation: bounce 2s ease-in-out infinite;
+  opacity: 0.8;
+}
+
+/* ====================================
+   VALUES SECTION - Barre horizontale
+==================================== */
+.valuesSection {
+  background: #fff;
+  padding: 0;
+  position: relative;
+  z-index: 10;
+  margin-top: -40px;
+  border-radius: 20px 20px 0 0;
+}
+
+.valuesContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+}
+
+.valueItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.valueIcon {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, var(--color-bg-light) 0%, var(--color-bg-extra-light) 100%);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.valueText h3 {
+  font-size: 1.1rem;
+  color: var(--color-primary);
+  margin-bottom: 0.2rem;
+  font-weight: 700;
+}
+
+.valueText p {
+  font-size: 0.9rem;
+  color: var(--color-dark);
+  opacity: 0.75;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.valueDivider {
+  width: 1px;
+  height: 50px;
+  background: var(--color-border);
+}
+
+/* ====================================
+   QUOTE SECTION - Citation avec image
+==================================== */
+.quoteSection {
+  position: relative;
+  padding: 10rem 2.5rem;
+  min-height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quoteBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.quoteOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    rgba(169, 128, 106, 0.92) 0%,
+    rgba(118, 92, 74, 0.95) 100%
+  );
+  z-index: 1;
+}
+
+.quoteContent {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 800px;
+}
+
+.quoteContent blockquote {
+  font-size: 2.2rem;
+  color: #fff;
+  font-style: italic;
+  line-height: 1.5;
+  font-weight: 300;
+  margin: 0 0 2rem 0;
+}
+
+.quoteContent cite {
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.85);
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 1px;
+  display: block;
+  margin-bottom: 2rem;
+}
+
+.quoteLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.8rem 1.8rem;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 50px;
+  transition: var(--transition);
+}
+
+.quoteLink:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #fff;
+  transform: translateY(-2px);
+}
+
+/* ====================================
+   CONTACT CTA SECTION
+==================================== */
+.contactCtaSection {
+  padding: 7rem 2.5rem;
+  background: #fff;
+  text-align: center;
+}
+
+.contactCtaContent {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.contactCtaTitle {
+  font-size: 2.8rem;
+  color: var(--color-primary);
+  margin-bottom: 1rem;
+  font-weight: 700;
+}
+
+.contactCtaText {
+  font-size: 1.15rem;
+  color: var(--color-dark);
+  line-height: 1.7;
+  margin-bottom: 2.5rem;
+  opacity: 0.85;
+}
+
+.contactCtaButtons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.contactBtn {
+  padding: 1.1rem 2.2rem;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: var(--transition);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.contactBtnPrimary {
+  background: var(--color-primary);
+  color: #fff;
+  box-shadow: 0 10px 30px rgba(169, 128, 106, 0.3);
+}
+
+.contactBtnPrimary:hover {
+  background: var(--color-dark);
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(169, 128, 106, 0.4);
+}
+
+.contactBtnSecondary {
+  background: transparent;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+}
+
+.contactBtnSecondary:hover {
+  background: var(--color-primary);
+  color: #fff;
+  transform: translateY(-3px);
+}
+
+/* ====================================
+   ANIMATIONS
+==================================== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(12px); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.02); opacity: 0.9; }
+}
+
+/* ====================================
+   RESPONSIVE
+==================================== */
+@media (max-width: 1024px) {
+  .heroTitle {
+    font-size: 3.5rem;
+  }
+
+  .chloeContainer {
+    gap: 3rem;
+  }
+
+  .chloeContent h2 {
+    font-size: 2.5rem;
+  }
+
+  .quoteContent blockquote {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .heroTitle {
+    font-size: 2.8rem;
+    letter-spacing: -1px;
+  }
+
+  .heroSubtitle {
+    font-size: 1.15rem;
+  }
+
+  .heroCtaContainer {
+    flex-direction: column;
+    padding: 0 1rem;
+  }
+
+  .heroCta {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .valuesSection {
+    margin-top: 0;
+    border-radius: 0;
+  }
+
+  .valuesContainer {
+    flex-direction: column;
+    gap: 2rem;
+    padding: 3rem 1.5rem;
+  }
+
+  .valueDivider {
+    width: 60px;
+    height: 1px;
+  }
+
+  .valueItem {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .chloeSection {
+    padding: 5rem 1.5rem;
+  }
+
+  .chloeContainer {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    text-align: center;
+  }
+
+  .chloeImageWrapper {
+    max-width: 350px;
+    margin: 0 auto;
+  }
+
+  .chloeImageDecor {
+    display: none;
+  }
+
+  .chloeContent h2 {
+    font-size: 2.2rem;
+  }
+
+  .chloeCredentials {
+    justify-content: center;
+  }
+
+  .quoteSection {
+    padding: 6rem 1.5rem;
+    min-height: auto;
+  }
+
+  .quoteContent blockquote {
+    font-size: 1.5rem;
+  }
+
+  .contactCtaSection {
+    padding: 5rem 1.5rem;
+  }
+
+  .contactCtaTitle {
+    font-size: 2.2rem;
+  }
+
+  .contactCtaButtons {
+    flex-direction: column;
+  }
+
+  .contactBtn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .heroTitle {
+    font-size: 2.2rem;
+  }
+
+  .heroSubtitle {
+    font-size: 1rem;
+  }
+
+  .heroBadge {
+    font-size: 0.75rem;
+    padding: 0.6rem 1.2rem;
+  }
+
+  .chloeContent h2 {
+    font-size: 1.9rem;
+  }
+
+  .chloeCredentials {
+    gap: 1.5rem;
+  }
+
+  .credentialNumber {
+    font-size: 2rem;
+  }
+
+  .quoteContent blockquote {
+    font-size: 1.25rem;
+  }
+
+  .contactCtaTitle {
+    font-size: 1.9rem;
+  }
+}
