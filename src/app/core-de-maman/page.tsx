@@ -34,7 +34,7 @@ const benefices = [
   {
     icon: "layers",
     title: "Énergie retrouvée",
-    description: "Retrouvez progressivement votre vitalité et votre force sans forcer, à votre rythme.",
+    description: "Retrouvez progressivement votre vitalité et votre force à votre rythme.",
   },
   {
     icon: "heart-2",
@@ -46,15 +46,15 @@ const benefices = [
 const faqItems = [
   {
     question: "Mon bébé a moins de 3 mois, puis-je participer ?",
-    answer: "Oui, absolument ! Core de Maman est adapté dès la naissance de votre bébé. Les exercices sont doux et progressifs, pensés pour respecter votre corps en phase de récupération. Nous adaptons chaque mouvement à votre niveau et à votre ressenti.",
+    answer: "Oui, absolument ! Core de Maman est adapté dès la naissance de votre bébé. Les exercices sont doux et progressifs, pensés pour respecter votre corps en phase de récupération. J'adapte chaque mouvement à votre niveau et à votre ressenti.",
   },
   {
     question: "Je n'ai jamais fait de Pilates, est-ce pour moi ?",
     answer: "Oui ! Core de Maman accueille tous les niveaux. Aucune expérience préalable en Pilates n'est nécessaire. Les cours sont conçus pour être accessibles et bienveillants, avec un accompagnement personnalisé pour chaque participante.",
   },
   {
-    question: "Faut-il du matériel ?",
-    answer: "Seulement un tapis de yoga ou de Pilates. Tout le reste du matériel est fourni sur place. Venez avec des vêtements confortables dans lesquels vous pouvez bouger librement.",
+    question: "Faut-il du materiel ?",
+    answer: "Non tout le matériel est fourni sur place. Il suffit de prendre une gourde et un petit linge",
   },
   {
     question: "J'ai eu une césarienne, puis-je suivre ce cours ?",
@@ -62,7 +62,7 @@ const faqItems = [
   },
   {
     question: "Puis-je venir avec mon bébé ?",
-    answer: "Le cours est pensé comme un moment pour vous. Nous recommandons de prévoir une garde pour votre bébé afin que vous puissiez pleinement vous reconnecter à vous-même. Contactez-moi si vous avez besoin de conseils pour organiser votre venue.",
+    answer: "Oui bébé, jusqu'à 12 mois, est le bienvenu",
   },
   {
     question: "Combien de temps après l'accouchement puis-je commencer ?",
@@ -94,12 +94,12 @@ export default function CoreDeMamanPage() {
           </p>
 
           <div className={styles.heroCtaContainer}>
-            <Link href="/seances-decouvertes" className={styles.heroCtaPrimary}>
+            <Link href="/contact" className={styles.heroCtaPrimary}>
               <Calendar size={20} />
-              Réserver une séance découverte
+              Ma séance d'essai gratuite
             </Link>
             <Link href="#tarifs" className={styles.heroCtaSecondary}>
-              Voir les horaires
+              Horaire & tarifs
             </Link>
           </div>
         </div>
@@ -123,7 +123,7 @@ export default function CoreDeMamanPage() {
             <p>Parce qu&apos;après avoir donné la vie, ton corps mérite toute ton attention.</p>
             <p>Ce programme doux et progressif s&apos;adresse à toi, que tu aies accouché récemment ou il y a plusieurs années.</p>
             <p>(Re)découvre ta puissance intérieure, renforce ton core et reconnecte-toi à ton corps avec bienveillance et gratitude.</p>
-            <p>Tu souffres de fuites urinaires, d&apos;un ventre ballonné, des maux de dos ou un diastasis ?</p>
+            <p>Tu souffres de fuites urinaires, d&apos;un ventre ballonné, de maux de dos ou d&apos;un diastasis ?</p>
             <p><strong>Ce cours est fait pour toi</strong> — pour t&apos;accompagner pas à pas, en douceur, vers plus de confort, de confiance et de force.</p>
           </div>
         </div>
@@ -133,7 +133,7 @@ export default function CoreDeMamanPage() {
       <section className={styles.beneficesSection}>
         <div className={styles.sectionHeader}>
           <h2>Objectifs du cours</h2>
-          <p>Renforcer le core et le plancher pelvien, améliorer posture et mobilité, retrouver confort et confiance dans ton corps après l&apos;accouchement</p>
+          <p>Renforcer le centre (transverse) et le plancher pelvien, améliorer la posture et la mobilité, retrouver confort et confiance en son corps après l&apos;accouchement.</p>
         </div>
 
         <div className={styles.beneficesGrid}>
@@ -189,13 +189,16 @@ export default function CoreDeMamanPage() {
               </li>
               <li>
                 <Dumbbell size={20} />
-                <span>Équipement : tapis (à apporter), accessoires fournis sur place si besoin</span>
+                <span>Tout est fourni sur place</span>
               </li>
               <li>
                 <Droplets size={20} />
                 <span>Une gourde et un petit linge recommandés</span>
               </li>
             </ul>
+            <p style={{ marginTop: '1rem', fontWeight: 'bold', color: '#A9806A' }}>
+              Bébés bienvenus ! Amenez votre petit avec vous pendant la séance.
+            </p>
           </div>
 
           <div className={styles.pourquiImageWrapper}>
@@ -213,40 +216,37 @@ export default function CoreDeMamanPage() {
       {/* Tarifs Section */}
       <section className={styles.tarifsSection} id="tarifs">
         <div className={styles.sectionHeader}>
-          <h2>Horaires & Formules</h2>
-          <p>Choisissez la formule qui vous convient. Les cours ont lieu chaque mardi matin à Bressaucourt.</p>
+          <h2>Horaire & Tarifs</h2>
+          <p>Choisissez la formule qui vous convient.</p>
         </div>
 
         <div className={styles.tarifsGrid}>
           <div className={styles.tarifCard}>
-            <div className={styles.tarifBadge}>Découverte Gratuite</div>
-            <h3>Séances Découverte</h3>
+            <h3>Séance Découverte</h3>
             <p className={styles.tarifSchedule}>
-              <strong>Mardi matin</strong><br />
+              <strong>Mercredi matin</strong><br />
               09h30 - 10h30
             </p>
             <div className={styles.tarifPrice}>Gratuit</div>
-            <p className={styles.tarifPriceDetail}>3 séances offertes</p>
+            <p className={styles.tarifPriceDetail}>On commence le 14/01/2026</p>
             <ul className={styles.tarifFeatures}>
-              <li><Check size={16} /> 11, 18 & 25 novembre 2025</li>
               <li><Check size={16} /> Découvrir la méthode</li>
               <li><Check size={16} /> Sans engagement</li>
               <li><Check size={16} /> Tous niveaux acceptés</li>
             </ul>
-            <Link href="/seances-decouvertes" className={styles.tarifCta}>
-              Réserver gratuitement
+            <Link href="/contact" className={styles.tarifCta}>
+              Réserver ma séance d'essai gratuite
             </Link>
           </div>
 
           <div className={styles.tarifCard}>
-            <div className={styles.tarifBadge}>Formule Régulière</div>
-            <h3>Cours Hebdomadaires</h3>
+            <h3>Pack 6 séances</h3>
             <p className={styles.tarifSchedule}>
-              <strong>Mardi matin</strong><br />
+              <strong>Mercredi matin</strong><br />
               09h30 - 10h30
             </p>
             <div className={styles.tarifPrice}>CHF XX</div>
-            <p className={styles.tarifPriceDetail}>Par séance ou forfait mensuel</p>
+            <p className={styles.tarifPriceDetail}>Par pack de 6 séances</p>
             <ul className={styles.tarifFeatures}>
               <li><Check size={16} /> Séances de 60 minutes</li>
               <li><Check size={16} /> Suivi personnalisé</li>
@@ -254,14 +254,33 @@ export default function CoreDeMamanPage() {
               <li><Check size={16} /> Matériel fourni</li>
             </ul>
             <Link href="/contact" className={styles.tarifCta}>
-              Nous contacter
+              Acheter le pack
+            </Link>
+          </div>
+
+          <div className={styles.tarifCard}>
+            <h3>Cours privé</h3>
+            <p className={styles.tarifSchedule}>
+              <strong>Séance post-partum à domicile</strong><br />
+              Je viens à vous !
+            </p>
+            <div className={styles.tarifPrice}>CHF XX</div>
+            <p className={styles.tarifPriceDetail}>Par séance</p>
+            <ul className={styles.tarifFeatures}>
+              <li><Check size={16} /> Séance individuelle</li>
+              <li><Check size={16} /> À domicile</li>
+              <li><Check size={16} /> Programme personnalisé</li>
+            </ul>
+            <Link href="/contact" className={styles.tarifCta}>
+              Me contacter
             </Link>
           </div>
         </div>
 
-        <p className={styles.tarifsLocation}>
-          <strong>Domaine du Pré sur l&apos;Eau</strong> — Rue de la Maltière 82H, 2904 Bressaucourt
-        </p>
+        <div className={styles.tarifsLocation}>
+          <strong>Mes cours se déroulent à la salle Crossfit la Vouivre</strong>
+          <p>Rue Pierre-Péquignat 7, 1er étage<br />2900 Porrentruy, Suisse</p>
+        </div>
       </section>
 
       {/* FAQ Section */}
@@ -277,12 +296,12 @@ export default function CoreDeMamanPage() {
       <section className={styles.ctaFinal}>
         <h2>Prête à retrouver votre centre ?</h2>
         <p>
-          Rejoignez Core de Maman et offrez-vous ce moment de reconnexion. Testez gratuitement pendant 3 semaines et découvrez comment retrouver votre force intérieure.
+          Rejoignez Core de Maman et offrez-vous ce moment de reconnexion. Venez tester, votre premier cours est gratuit.
         </p>
         <div className={styles.ctaFinalButtons}>
-          <Link href="/seances-decouvertes" className={styles.heroCtaPrimary}>
+          <Link href="/contact" className={styles.heroCtaPrimary}>
             <Calendar size={20} />
-            Réserver mes séances gratuites
+            Réserver ma séance d'essai gratuite
           </Link>
           <Link href="/contact" className={styles.heroCtaSecondary}>
             Poser une question

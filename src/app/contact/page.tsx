@@ -1,17 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { Metadata } from "next";
-import Link from "next/link";
 import { MapPin, Mail, Phone, Instagram, Facebook, MessageCircle, Send } from "lucide-react";
 import styles from "./page.module.css";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
-    name: "",
+    prenom: "",
+    nom: "",
     email: "",
     phone: "",
     subject: "",
+    withBaby: "",
+    courseDate: "",
     message: "",
   });
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
@@ -33,10 +34,13 @@ export default function ContactPage() {
       await new Promise((resolve) => setTimeout(resolve, 1500));
       setStatus("success");
       setFormData({
-        name: "",
+        prenom: "",
+        nom: "",
         email: "",
         phone: "",
         subject: "",
+        withBaby: "",
+        courseDate: "",
         message: "",
       });
     } catch {
@@ -76,14 +80,29 @@ export default function ContactPage() {
           <form onSubmit={handleSubmit}>
             <div className="form-group">
               <label className="form-label">
-                Votre nom <span className="required">*</span>
+                Prénom <span className="required">*</span>
               </label>
               <input
                 type="text"
-                name="name"
+                name="prenom"
                 className="form-input"
-                placeholder="Prénom et nom"
-                value={formData.name}
+                placeholder="Votre prénom"
+                value={formData.prenom}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">
+                Nom <span className="required">*</span>
+              </label>
+              <input
+                type="text"
+                name="nom"
+                className="form-input"
+                placeholder="Votre nom"
+                value={formData.nom}
                 onChange={handleChange}
                 required
               />
@@ -128,9 +147,10 @@ export default function ContactPage() {
                 required
               >
                 <option value="">Sélectionnez un sujet</option>
-                <option value="Cours Core de Maman">Cours Core de Maman</option>
-                <option value="Cours Sculpt Pilates">Cours Sculpt Pilates</option>
-                <option value="Séances découverte">Séances découverte</option>
+                <option value="Séance d'essai gratuite Core de Maman">Séance d'essai gratuite Core de Maman</option>
+                <option value="Pack 6 séances Core de Maman">Pack 6 séances Core de Maman</option>
+                <option value="Cours privé à domicile">Cours privé à domicile</option>
+                <option value="Cours Sculpt Pilates">Cours Sculpt Pilates (bientôt disponible)</option>
                 <option value="Informations générales">Informations générales</option>
                 <option value="Autre">Autre</option>
               </select>
@@ -138,7 +158,40 @@ export default function ContactPage() {
 
             <div className="form-group">
               <label className="form-label">
-                Votre message <span className="required">*</span>
+                Je viens avec mon bébé <span className="required">*</span>
+              </label>
+              <select
+                name="withBaby"
+                className="form-select"
+                value={formData.withBaby}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Sélectionnez</option>
+                <option value="Oui">Oui</option>
+                <option value="Non">Non</option>
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">
+                Date du cours désiré
+              </label>
+              <input
+                type="date"
+                name="courseDate"
+                className="form-input"
+                value={formData.courseDate}
+                onChange={handleChange}
+              />
+              <small style={{ color: '#666', marginTop: '0.25rem', display: 'block' }}>
+                Core de Maman : Mercredi 09h30 - 10h30 (à partir du 14/01/2026)
+              </small>
+            </div>
+
+            <div className="form-group">
+              <label className="form-label">
+                Votre message
               </label>
               <textarea
                 name="message"
@@ -146,7 +199,6 @@ export default function ContactPage() {
                 placeholder="Parlez-moi de votre besoin, vos questions..."
                 value={formData.message}
                 onChange={handleChange}
-                required
               />
             </div>
 
@@ -170,10 +222,8 @@ export default function ContactPage() {
             <div className={styles.infoContent}>
               <h3>Adresse</h3>
               <p>
-                Domaine du Pré sur l&apos;Eau<br />
-                Rue de la Maltière 82H<br />
-                2904 Bressaucourt, Jura<br />
-                Suisse
+                Crossfit la Vouivre, Rue Pierre-Péquignat 7,<br />
+                1er étage, 2900 Porrentruy
               </p>
             </div>
           </div>
@@ -242,14 +292,13 @@ export default function ContactPage() {
       {/* Map Section */}
       <div className={styles.mapSection}>
         <div className={styles.mapCard}>
-          <h2>Où nous trouver</h2>
-          <p className={styles.subtitle}>Domaine du Pré sur l&apos;Eau, Bressaucourt</p>
+          <h2>Crossfit la Vouivre, Rue Pierre-Péquignat 7, 1er étage, 2900 Porrentruy</h2>
           <div className={styles.mapContainer}>
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2698.5!2d7.0!3d47.4!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDfCsDI0JzAwLjAiTiA3wrAwMCcwMC4wIkU!5e0!3m2!1sfr!2sch!4v1234567890"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="Localisation Core de Femme"
+              title="Localisation Core de Femme - Crossfit la Vouivre Porrentruy"
             />
           </div>
         </div>

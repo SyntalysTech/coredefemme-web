@@ -52,6 +52,12 @@
   text-align: center;
 }
 
+.logoContainer {
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+
 .badge {
   display: inline-block;
   background: rgba(169, 128, 106, 0.15);
@@ -83,7 +89,7 @@
 
 .dates {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 1.2rem;
   margin-bottom: 2.5rem;
 }

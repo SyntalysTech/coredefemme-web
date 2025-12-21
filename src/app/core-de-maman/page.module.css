@@ -309,6 +309,7 @@
   display: block;
   min-height: 400px;
   object-fit: cover;
+  object-position: center 20%;
 }
 
 /* Tarifs Section */
@@ -418,6 +419,7 @@
 
 .tarifCta:hover {
   background: var(--color-dark);
+  color: #fff;
   transform: translateY(-3px);
   box-shadow: 0 15px 40px rgba(169, 128, 106, 0.35);
 }

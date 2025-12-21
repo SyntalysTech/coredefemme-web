@@ -18,7 +18,7 @@ export default function Home() {
             alt="Pilates Core de Femme"
             fill
             priority
-            style={{ objectFit: "cover" }}
+            style={{ objectFit: "cover", objectPosition: "center 30%" }}
             quality={90}
           />
           <div className={styles.heroOverlay}></div>
@@ -27,7 +27,7 @@ export default function Home() {
         <div className={styles.heroContent}>
           <div className={styles.heroBadge}>
             <Sparkles size={16} />
-            3 séances découvertes offertes
+            1 séance découverte offerte
           </div>
 
           <h1 className={styles.heroTitle}>
@@ -35,13 +35,12 @@ export default function Home() {
           </h1>
 
           <p className={styles.heroSubtitle}>
-            Pilates pour les mamans et Sculpt Pilates<br />
-            dans le Jura, Suisse
+            Rééducation post-partum et sculpt Pilates
           </p>
 
           <div className={styles.heroCtaContainer}>
-            <Link href="/seances-decouvertes" className={`${styles.heroCta} ${styles.heroCtaPrimary}`}>
-              Réserver ma séance gratuite
+            <Link href="/contact" className={`${styles.heroCta} ${styles.heroCtaPrimary}`}>
+              Réserver ma séance d'essai gratuit
             </Link>
             <Link href="#cours" className={`${styles.heroCta} ${styles.heroCtaSecondary}`}>
               Découvrir les cours
@@ -83,7 +82,7 @@ export default function Home() {
             </div>
             <div className={styles.valueText}>
               <h3>Petits groupes</h3>
-              <p>Maximum 6 personnes par séance</p>
+              <p>Maximum 8 personnes par séances</p>
             </div>
           </div>
         </div>

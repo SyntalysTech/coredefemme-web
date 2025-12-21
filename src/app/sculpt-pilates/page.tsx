@@ -53,8 +53,8 @@ const faqItems = [
     answer: "Le cours est dynamique et tonifiant, mais toujours respectueux de ton corps. L'intensité est modulable selon ton niveau. Tu travailleras en profondeur, mais toujours avec conscience et contrôle, jamais dans la force brute.",
   },
   {
-    question: "Quel matériel faut-il apporter ?",
-    answer: "Apporte simplement ton tapis de yoga ou Pilates. Tout le reste du matériel (bandes élastiques, poids légers, cercles) est fourni sur place. Viens avec une tenue confortable dans laquelle tu peux bouger librement.",
+    question: "Quel materiel faut il apporter ?",
+    answer: "Tout le matériel (bandes élastiques, poids légers ect) est fourni sur place. Viens avec une tenue confortable dans laquelle tu peux bouger librement.",
   },
   {
     question: "Quelle différence avec du fitness ou de la musculation ?",
@@ -94,12 +94,12 @@ export default function SculptPilatesPage() {
           </p>
 
           <div className={styles.heroCtaContainer}>
-            <Link href="/seances-decouvertes" className={styles.heroCtaPrimary}>
+            <Link href="/contact" className={styles.heroCtaPrimary}>
               <Calendar size={20} />
               Réserver une séance découverte
             </Link>
             <Link href="#tarifs" className={styles.heroCtaSecondary}>
-              Voir les horaires
+              Horaire et tarifs
             </Link>
           </div>
         </div>
@@ -149,7 +149,7 @@ export default function SculptPilatesPage() {
 
       {/* Pour Qui Section */}
       <section className={styles.pourquiSection}>
-        <div className={styles.pourquiGrid}>
+        <div className={styles.pourquiGrid} style={{ maxWidth: "1000px", margin: "0 auto", alignItems: "center" }}>
           <div className={styles.pourquiContent}>
             <h2>Pour qui</h2>
             <ul className="check-list">
@@ -164,21 +164,21 @@ export default function SculptPilatesPage() {
               <li>Mélange Pilates + renforcement + cardio léger</li>
             </ul>
 
-            <h2 style={{ marginTop: "2.5rem" }}>Pratique / Infos pratiques</h2>
+            <h2 style={{ marginTop: "2.5rem" }}>Infos pratiques</h2>
             <ul className="check-list">
-              <li>Durée : 50 min</li>
-              <li>Équipement : tapis (à prendre avec sois) et éventuellement petit matériel (poids, bande élastique ect fournis sur place)</li>
+              <li>Durée : 60min</li>
+              <li>Tout est fourni sur place</li>
               <li>Une gourde et un petit linge recommandé</li>
             </ul>
           </div>
 
-          <div className={styles.pourquiImageWrapper}>
+          <div style={{ borderRadius: "24px", overflow: "hidden", boxShadow: "0 30px 80px rgba(169, 128, 106, 0.2)" }}>
             <Image
-              src="https://images.unsplash.com/photo-1603988363607-e1e4a66962c6?w=800&q=80"
+              src="/images/sculp-pilates-pour-qui.jpg"
               alt="Groupe Sculpt Pilates Jura"
               width={500}
-              height={600}
-              className={styles.pourquiImage}
+              height={350}
+              style={{ objectFit: "cover", display: "block", width: "100%", height: "auto" }}
             />
           </div>
         </div>
@@ -187,55 +187,26 @@ export default function SculptPilatesPage() {
       {/* Tarifs Section */}
       <section className={styles.tarifsSection} id="tarifs">
         <div className={styles.sectionHeader}>
-          <h2>Horaires & Formules</h2>
-          <p>Choisis la formule qui te convient. Les cours ont lieu chaque jeudi soir à Bressaucourt.</p>
+          <h2>Horaire et Tarifs</h2>
+          <p>Cours bientôt disponible</p>
         </div>
 
         <div className={styles.tarifsGrid}>
           <div className={styles.tarifCard}>
-            <div className={styles.tarifBadge}>Découverte Gratuite</div>
-            <h3>Séances Découverte</h3>
+            <h3>Cours bientôt disponible</h3>
             <p className={styles.tarifSchedule}>
-              <strong>Jeudi soir</strong><br />
-              18h00 - 19h00
+              Les cours Sculpt Pilates arrivent bientôt !
             </p>
-            <div className={styles.tarifPrice}>Gratuit</div>
-            <p className={styles.tarifPriceDetail}>3 séances offertes</p>
             <ul className={styles.tarifFeatures}>
-              <li><Check size={16} /> 13, 20 & 27 novembre 2025</li>
               <li><Check size={16} /> Découvrir la méthode</li>
               <li><Check size={16} /> Sans engagement</li>
               <li><Check size={16} /> Tous niveaux acceptés</li>
             </ul>
-            <Link href="/seances-decouvertes" className={styles.tarifCta}>
-              Réserver gratuitement
-            </Link>
-          </div>
-
-          <div className={styles.tarifCard}>
-            <div className={styles.tarifBadge}>Formule Régulière</div>
-            <h3>Cours Hebdomadaires</h3>
-            <p className={styles.tarifSchedule}>
-              <strong>Jeudi soir</strong><br />
-              18h00 - 19h00
-            </p>
-            <div className={styles.tarifPrice}>CHF XX</div>
-            <p className={styles.tarifPriceDetail}>Par séance ou forfait mensuel</p>
-            <ul className={styles.tarifFeatures}>
-              <li><Check size={16} /> Séances de 60 minutes</li>
-              <li><Check size={16} /> Suivi personnalisé</li>
-              <li><Check size={16} /> Groupe dynamique et bienveillant</li>
-              <li><Check size={16} /> Matériel fourni</li>
-            </ul>
             <Link href="/contact" className={styles.tarifCta}>
-              Nous contacter
+              Me contacter pour plus d'infos
             </Link>
           </div>
         </div>
-
-        <p className={styles.tarifsLocation}>
-          <strong>Domaine du Pré sur l&apos;Eau</strong> — Rue de la Maltière 82H, 2904 Bressaucourt
-        </p>
       </section>
 
       {/* FAQ Section */}
@@ -251,12 +222,12 @@ export default function SculptPilatesPage() {
       <section className={styles.ctaFinal}>
         <h2>Prête à sculpter ton corps en conscience ?</h2>
         <p>
-          Rejoins Sculpt Pilates et découvre comment mouvement fluide et intensité peuvent se rencontrer. Teste gratuitement pendant 3 semaines et révèle ta force intérieure.
+          Les cours arrivent bientôt
         </p>
         <div className={styles.ctaFinalButtons}>
-          <Link href="/seances-decouvertes" className={styles.heroCtaPrimary}>
+          <Link href="/contact" className={styles.heroCtaPrimary}>
             <Calendar size={20} />
-            Réserver mes séances gratuites
+            Me contacter
           </Link>
           <Link href="/contact" className={styles.heroCtaSecondary}>
             Poser une question

@@ -11,18 +11,17 @@ const coursesLinks = [
   {
     href: "/core-de-maman",
     title: "Core de Maman",
-    description: "Post-partum, respiration, périnée. Pour toutes les mamans.",
+    description: "Rééducation Post-partum. Pour toutes les mamans.",
   },
   {
     href: "/sculpt-pilates",
     title: "Sculpt Pilates",
-    description: "Renforcement, silhouette, énergie. Mouvement conscient et fluide.",
+    description: "Renforcement & Énergie. Cours à venir.",
   },
 ];
 
 const navLinks = [
   { href: "/", label: "Accueil" },
-  { href: "/seances-decouvertes", label: "Séances Découverte" },
   { href: "/a-propos", label: "À Propos" },
   { href: "/blog", label: "Blog" },
   { href: "/contact", label: "Contact" },
@@ -115,8 +114,8 @@ export default function Header() {
               ))}
             </ul>
 
-            <Link href="/seances-decouvertes" className={styles.ctaButton}>
-              Réserver Gratuitement
+            <Link href="/contact" className={styles.ctaButton}>
+              Réserver ma séance d'essai
             </Link>
           </nav>
 
@@ -180,11 +179,11 @@ export default function Header() {
           ))}
         </ul>
         <Link
-          href="/seances-decouvertes"
+          href="/contact"
           className={styles.ctaButton}
           onClick={closeMobileMenu}
         >
-          Réserver Gratuitement
+          Réserver ma séance d'essai
         </Link>
       </nav>
 

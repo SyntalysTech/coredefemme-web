@@ -331,6 +331,7 @@
 
 .contactBtnPrimary:hover {
   background: var(--color-dark);
+  color: #fff;
   transform: translateY(-3px);
   box-shadow: 0 15px 40px rgba(169, 128, 106, 0.4);
 }

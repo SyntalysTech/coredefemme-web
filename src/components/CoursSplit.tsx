@@ -10,8 +10,8 @@ const coursData = [
   {
     id: "maman",
     title: "Core de Maman",
-    subtitle: "Post-partum & Reconnexion",
-    schedule: "Mardi matin • 09h30 - 10h30",
+    subtitle: "Rééducation Post-partum",
+    schedule: "Mercredi matin • 09h30 - 10h30",
     description: "Un programme doux et progressif pour les mamans. Renforce ton core, ton plancher pelvien et retrouve ta force intérieure avec bienveillance.",
     features: [
       "Rééducation douce du périnée",
@@ -19,6 +19,7 @@ const coursData = [
       "Respiration consciente",
       "Posture et alignement",
       "Adapté à tous les niveaux",
+      "Exercice anti diastasis",
     ],
     image: "/images/pilates-post-partum.png",
     href: "/core-de-maman",
@@ -28,12 +29,12 @@ const coursData = [
     id: "sculpt",
     title: "Sculpt Pilates",
     subtitle: "Renforcement & Énergie",
-    schedule: "Jeudi soir • 18h00 - 19h00",
+    schedule: "Bientôt disponible",
     description: "Bouge, renforce ton corps et redécouvre ta puissance. Un cours dynamique et progressif pour tonifier, sculpter et gagner en énergie.",
     features: [
       "Renforcement musculaire global",
-      "Tonification et sculpture",
-      "Core strength",
+      "Tonification",
+      "Renforcement du core (centre)",
       "Posture et alignement",
       "Énergie et vitalité",
     ],
@@ -55,7 +56,7 @@ export default function CoursSplit() {
   return (
     <section className={styles.coursSection} id="cours">
       <div className={styles.coursHeader}>
-        <h2 className={styles.coursTitle}>Nos Cours</h2>
+        <h2 className={styles.coursTitle}>Mes Cours</h2>
         <p className={styles.coursSubtitle}>
           Deux approches, un même objectif : vous reconnecter à votre corps et retrouver votre force intérieure.
         </p>
@@ -105,14 +106,16 @@ export default function CoursSplit() {
                   <Link href={cours.href} className={styles.panelBtnPrimary}>
                     En savoir plus
                   </Link>
-                  <Link href="/seances-decouvertes" className={styles.panelBtnSecondary}>
-                    <Calendar size={18} />
-                    Réserver
-                  </Link>
+                  {cours.id === "maman" && (
+                    <Link href="/contact" className={styles.panelBtnSecondary}>
+                      <Calendar size={18} />
+                      Réserver
+                    </Link>
+                  )}
                 </div>
               </div>
 
-              <div className={styles.panelHint}>
+              <div className={styles.panelHint} style={{ fontWeight: 'bold', fontSize: '1.1em' }}>
                 Cliquez pour découvrir
               </div>
             </div>
@@ -142,10 +145,12 @@ export default function CoursSplit() {
                 <Link href={cours.href} className={styles.panelBtnPrimary}>
                   En savoir plus
                 </Link>
-                <Link href="/seances-decouvertes" className={styles.panelBtnSecondary}>
-                  <Calendar size={16} />
-                  Réserver
-                </Link>
+                {cours.id === "maman" && (
+                  <Link href="/contact" className={styles.panelBtnSecondary}>
+                    <Calendar size={16} />
+                    Réserver
+                  </Link>
+                )}
               </div>
             </div>
           </div>

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { X, Calendar } from "lucide-react";
 import styles from "./WelcomeModal.module.css";
 
@@ -9,22 +10,16 @@ export default function WelcomeModal() {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
-    // Verificar si ya visitó
-    const hasVisited = localStorage.getItem("coredefemme_visited");
+    // Mostrar modal siempre al cargar la página después de 500ms
+    const timer = setTimeout(() => {
+      setIsOpen(true);
+    }, 500);
 
-    if (!hasVisited) {
-      // Mostrar modal después de 800ms
-      const timer = setTimeout(() => {
-        setIsOpen(true);
-      }, 800);
-
-      return () => clearTimeout(timer);
-    }
+    return () => clearTimeout(timer);
   }, []);
 
   const closeModal = () => {
     setIsOpen(false);
-    localStorage.setItem("coredefemme_visited", "true");
   };
 
   const handleOverlayClick = (e: React.MouseEvent) => {
@@ -65,34 +60,40 @@ export default function WelcomeModal() {
         </button>
 
         <div className={styles.content}>
+          <div className={styles.logoContainer}>
+            <Image
+              src="/logos/logo-core-de-femme-no-bg.png"
+              alt="Core de Femme"
+              width={180}
+              height={60}
+              priority
+            />
+          </div>
+
           <div className={styles.badge}>Bienvenue chez Core de Femme</div>
 
           <h2 className={styles.title}>
-            3 Semaines Gratuites pour Découvrir nos Cours
+            1 séance decouverte gratuite
           </h2>
 
           <p className={styles.description}>
-            Testez Core de Maman ou Sculpt Pilates sans engagement. Reconnectez-vous à votre corps et retrouvez votre force intérieure.
+            Testez Core de Maman sans engagement. Reconnectez-vous à votre corps et retrouvez votre force intérieure.
           </p>
 
           <div className={styles.dates}>
             <div className={styles.dateItem}>
-              <strong>Core de Maman</strong>
-              <span>Mardi 09h30 - 11, 18, 25 nov</span>
-            </div>
-            <div className={styles.dateItem}>
-              <strong>Sculpt Pilates</strong>
-              <span>Jeudi 18h00 - 13, 20, 27 nov</span>
+              <strong>Core de Maman Mercredi 09h30 – 10h30</strong>
+              <span>A partir du mercredi 14/01/2026</span>
             </div>
           </div>
 
           <Link
-            href="/seances-decouvertes"
+            href="/contact"
             className={styles.ctaBtn}
             onClick={closeModal}
           >
             <Calendar size={20} />
-            Réserver ma place gratuite
+            Réservé ma séance d'essai gratuite
           </Link>
 
           <p className={styles.skip} onClick={closeModal}>

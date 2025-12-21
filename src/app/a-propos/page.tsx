@@ -66,7 +66,7 @@ export default function APropos() {
             </p>
 
             <p>
-              Après ma formation comme coach sportive, je me suis spécialisée dans la <strong>méthode APOR</strong> et le <strong>Pilates De Gasquet</strong>, des approches centrées sur la respiration, la posture et le respect du corps.
+              Après ma formation comme coach sportive, je me suis spécialisée dans la <strong>méthode APOR</strong> et <strong>Pilates De Gasquet</strong>, des approches centrées sur la respiration, la posture et le respect du corps.
             </p>
 
             <p>
@@ -118,7 +118,7 @@ export default function APropos() {
               </div>
               <div className={styles.formationText}>
                 <h3>Méthode APOR</h3>
-                <p>Abdominaux et Périnée - Approche De Gasquet pour la rééducation post-partum</p>
+                <p>Approche Posturale Ortho-Respiratoire – cette approche est centrée sur le : périnée, le transverse, le dos et le bassin et la respiration.</p>
               </div>
             </div>
 
@@ -209,7 +209,7 @@ export default function APropos() {
         </div>
         <div className={styles.quoteContent}>
           <blockquote>
-            &ldquo;Le Pilates n&apos;est pas qu&apos;une pratique physique. C&apos;est un moment pour soi, une reconnexion au corps et à l&apos;esprit. Chaque séance est une occasion de se recentrer, de respirer et de retrouver sa force intérieure.&rdquo;
+            &ldquo;Redécouvrez votre corps après la grossesse : séances post-partum, Pilates et mouvement fonctionnel pour retrouver force, stabilité et confiance en soi.&rdquo;
           </blockquote>
           <cite>— Chloé Manzambi</cite>
         </div>
@@ -223,7 +223,7 @@ export default function APropos() {
             Rejoignez-moi pour une séance découverte gratuite et découvrez les bienfaits du Pilates adapté aux femmes.
           </p>
           <div className={styles.ctaButtons}>
-            <Link href="/seances-decouvertes" className={styles.ctaBtnPrimary}>
+            <Link href="/contact" className={styles.ctaBtnPrimary}>
               Réserver une séance découverte
             </Link>
             <Link href="/contact" className={styles.ctaBtnSecondary}>

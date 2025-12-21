@@ -10,7 +10,6 @@ const navigationLinks = [
   { href: "/", label: "Accueil" },
   { href: "/core-de-maman", label: "Core de Maman" },
   { href: "/sculpt-pilates", label: "Sculpt Pilates" },
-  { href: "/seances-decouvertes", label: "Séances Découverte" },
   { href: "/a-propos", label: "À Propos" },
   { href: "/blog", label: "Blog" },
 ];
@@ -119,9 +118,9 @@ export default function Footer() {
                 <li>
                   <MapPin size={18} />
                   <span>
-                    Domaine du Pré sur l&apos;Eau<br />
-                    Rue de la Maltière 82H<br />
-                    2904 Bressaucourt, Jura
+                    Crossfit la Vouivre<br />
+                    Rue Pierre-Péquignat 7, 1er étage<br />
+                    2900 Porrentruy, Suisse
                   </span>
                 </li>
                 <li>
@@ -140,16 +139,16 @@ export default function Footer() {
           <div className={styles.footerBottom}>
             <div className={styles.footerBottomContent}>
               <p className={styles.footerCopyright}>
-                © {currentYear} Core de Femme - Tous droits réservés | Chloé Manzambi, Bressaucourt
+                © {currentYear} Core de Femme - Tous droits réservés
               </p>
               <p className={styles.footerCredits}>
                 Site créé par{" "}
                 <a
-                  href="https://sintalis.com"
+                  href="https://syntalys.ch"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Sintalis
+                  SYNTALYS TECH
                 </a>
               </p>
             </div>
