@@ -53,8 +53,8 @@ const faqItems = [
     answer: "Le cours est dynamique et tonifiant, mais toujours respectueux de ton corps. L'intensité est modulable selon ton niveau. Tu travailleras en profondeur, mais toujours avec conscience et contrôle, jamais dans la force brute.",
   },
   {
-    question: "Quel materiel faut il apporter ?",
-    answer: "Tout le matériel (bandes élastiques, poids légers ect) est fourni sur place. Viens avec une tenue confortable dans laquelle tu peux bouger librement.",
+    question: "Quel matériel faut-il apporter ?",
+    answer: "Tout le matériel (bandes élastiques, poids légers, etc.) est fourni sur place. Viens avec une tenue confortable dans laquelle tu peux bouger librement.",
   },
   {
     question: "Quelle différence avec du fitness ou de la musculation ?",
@@ -168,7 +168,7 @@ export default function SculptPilatesPage() {
             <ul className="check-list">
               <li>Durée : 60min</li>
               <li>Tout est fourni sur place</li>
-              <li>Une gourde et un petit linge recommandé</li>
+              <li>Une gourde et un petit linge recommandés</li>
             </ul>
           </div>
 

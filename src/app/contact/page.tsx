@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { MapPin, Mail, Phone, Instagram, Facebook, MessageCircle, Send } from "lucide-react";
+import { MapPin, Mail, Instagram, Send } from "lucide-react";
+import { BsWhatsapp } from "react-icons/bs";
 import styles from "./page.module.css";
 
 export default function ContactPage() {
@@ -242,13 +243,13 @@ export default function ContactPage() {
 
           <div className={styles.infoItem}>
             <div className={styles.infoIcon}>
-              <Phone size={28} />
+              <BsWhatsapp size={28} />
             </div>
             <div className={styles.infoContent}>
-              <h3>Téléphone</h3>
+              <h3>WhatsApp</h3>
               <p>
-                <a href="tel:+41000000000">+41 XX XXX XX XX</a><br />
-                <small>Lundi - Samedi: 9h - 19h</small>
+                <a href="https://wa.me/41767059777" target="_blank" rel="noopener noreferrer">+41 76 705 97 77</a><br />
+                <small>Lundi - Samedi : 9h - 19h</small>
               </p>
             </div>
           </div>
@@ -267,22 +268,13 @@ export default function ContactPage() {
                 <Instagram size={24} />
               </a>
               <a
-                href="#"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.socialBtn}
-                title="Facebook"
-              >
-                <Facebook size={24} />
-              </a>
-              <a
-                href="#"
+                href="https://wa.me/41767059777"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.socialBtn}
                 title="WhatsApp"
               >
-                <MessageCircle size={24} />
+                <BsWhatsapp size={22} />
               </a>
             </div>
           </div>

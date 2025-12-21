@@ -53,8 +53,8 @@ const faqItems = [
     answer: "Oui ! Core de Maman accueille tous les niveaux. Aucune expérience préalable en Pilates n'est nécessaire. Les cours sont conçus pour être accessibles et bienveillants, avec un accompagnement personnalisé pour chaque participante.",
   },
   {
-    question: "Faut-il du materiel ?",
-    answer: "Non tout le matériel est fourni sur place. Il suffit de prendre une gourde et un petit linge",
+    question: "Faut-il du matériel ?",
+    answer: "Non, tout le matériel est fourni sur place. Il suffit de prendre une gourde et un petit linge.",
   },
   {
     question: "J'ai eu une césarienne, puis-je suivre ce cours ?",
@@ -62,7 +62,7 @@ const faqItems = [
   },
   {
     question: "Puis-je venir avec mon bébé ?",
-    answer: "Oui bébé, jusqu'à 12 mois, est le bienvenu",
+    answer: "Oui, bébé jusqu'à 12 mois est le bienvenu.",
   },
   {
     question: "Combien de temps après l'accouchement puis-je commencer ?",

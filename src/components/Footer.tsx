@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { MapPin, Mail, Phone, Instagram, Facebook, MessageCircle, ArrowUp } from "lucide-react";
+import { MapPin, Mail, Instagram, ArrowUp } from "lucide-react";
+import { BsWhatsapp } from "react-icons/bs";
 import styles from "./Footer.module.css";
 
 const navigationLinks = [
@@ -69,20 +70,12 @@ export default function Footer() {
                   <Instagram size={22} />
                 </a>
                 <a
-                  href="#"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="Facebook Core de Femme"
-                >
-                  <Facebook size={22} />
-                </a>
-                <a
                   href="https://wa.me/41767059777"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="WhatsApp Core de Femme"
                 >
-                  <MessageCircle size={22} />
+                  <BsWhatsapp size={20} />
                 </a>
               </div>
             </div>
@@ -128,8 +121,8 @@ export default function Footer() {
                   <a href="mailto:contact@coredefemme.ch">contact@coredefemme.ch</a>
                 </li>
                 <li>
-                  <Phone size={18} />
-                  <a href="tel:+41767059777">+41 76 705 97 77</a>
+                  <BsWhatsapp size={18} />
+                  <a href="https://wa.me/41767059777" target="_blank" rel="noopener noreferrer">+41 76 705 97 77</a>
                 </li>
               </ul>
             </div>

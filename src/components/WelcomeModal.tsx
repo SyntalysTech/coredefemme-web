@@ -73,7 +73,7 @@ export default function WelcomeModal() {
           <div className={styles.badge}>Bienvenue chez Core de Femme</div>
 
           <h2 className={styles.title}>
-            1 séance decouverte gratuite
+            1 séance découverte gratuite
           </h2>
 
           <p className={styles.description}>
@@ -83,7 +83,7 @@ export default function WelcomeModal() {
           <div className={styles.dates}>
             <div className={styles.dateItem}>
               <strong>Core de Maman Mercredi 09h30 – 10h30</strong>
-              <span>A partir du mercredi 14/01/2026</span>
+              <span>À partir du mercredi 14/01/2026</span>
             </div>
           </div>
 
@@ -93,7 +93,7 @@ export default function WelcomeModal() {
             onClick={closeModal}
           >
             <Calendar size={20} />
-            Réservé ma séance d'essai gratuite
+            Réserver ma séance d'essai gratuite
           </Link>
 
           <p className={styles.skip} onClick={closeModal}>
