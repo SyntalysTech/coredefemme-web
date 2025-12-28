@@ -75,6 +75,7 @@ export default function ReserverPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState<AuthUser | null>(null);
   const [queueInfo, setQueueInfo] = useState<QueueInfo[]>([]);
+  const [authChecked, setAuthChecked] = useState(false);
 
   // Mostrar 4 miércoles por página
   const WEDNESDAYS_PER_PAGE = 4;
@@ -90,18 +91,36 @@ export default function ReserverPage() {
 
   async function checkAuth() {
     const { data: { session } } = await supabase.auth.getSession();
+
     if (session?.user) {
-      setCurrentUser({
-        id: session.user.id,
-        email: session.user.email!,
-        full_name: session.user.user_metadata?.full_name,
-      });
+      // Verificar que tenga customer_profile (no solo admin)
+      const { data: profile } = await supabase
+        .from("customer_profiles")
+        .select("id")
+        .eq("id", session.user.id)
+        .single();
+
+      if (profile) {
+        setCurrentUser({
+          id: session.user.id,
+          email: session.user.email!,
+          full_name: session.user.user_metadata?.full_name,
+        });
+      } else {
+        setCurrentUser(null);
+      }
+    } else {
+      setCurrentUser(null);
     }
+    setAuthChecked(true);
   }
 
+  // Cargar sesiones solo después de verificar auth
   useEffect(() => {
-    fetchSessions();
-  }, [currentPage, selectedService]);
+    if (authChecked) {
+      fetchSessions();
+    }
+  }, [currentPage, selectedService, authChecked]);
 
   async function fetchServices() {
     try {
