@@ -46,8 +46,8 @@ export const metadata: Metadata = {
     description: "Cours de Pilates et renforcement pour femmes à Bressaucourt, Jura suisse",
   },
   icons: {
-    icon: "/logos/logo-core-de-femme-icon-app.png",
-    apple: "/logos/logo-core-de-femme-icon-app.png",
+    icon: "/images/favicon.png",
+    apple: "/images/favicon.png",
   },
   robots: {
     index: true,
