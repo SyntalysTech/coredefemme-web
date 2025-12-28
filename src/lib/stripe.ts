@@ -69,7 +69,8 @@ export interface CreateCheckoutParams {
 export function isProductFree(serviceSlug: string, isPack: boolean): boolean {
   const productKey = `${serviceSlug}-${isPack ? 'pack' : 'single'}` as keyof typeof STRIPE_PRODUCTS;
   const product = STRIPE_PRODUCTS[productKey];
-  return product?.isFree === true || product?.priceId === 'free';
+  if (!product) return false;
+  return 'isFree' in product && product.isFree === true || product.priceId === 'free';
 }
 
 // Crear sesión de checkout
@@ -91,7 +92,7 @@ export async function createCheckoutSession({
   }
 
   // Si es gratuito, no necesitamos Stripe
-  if (product.isFree || product.priceId === 'free') {
+  if (('isFree' in product && product.isFree) || product.priceId === 'free') {
     throw new Error('FREE_PRODUCT'); // Manejar en el cliente
   }
 
