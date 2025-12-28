@@ -3,7 +3,7 @@
 ==================================== */
 .header {
   position: fixed;
-  top: 0;
+  top: var(--promo-banner-height);
   left: 0;
   width: 100%;
   background: rgba(255, 241, 231, 0.96);

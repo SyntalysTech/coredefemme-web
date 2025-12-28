@@ -24,7 +24,9 @@
   --transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 
   /* Layout */
+  --promo-banner-height: 36px;
   --header-height: 90px;
+  --total-header-height: calc(var(--promo-banner-height) + var(--header-height));
 
   /* Bordes */
   --color-border: rgba(169, 128, 106, 0.2);
@@ -53,7 +55,7 @@ body {
   color: var(--color-dark);
   line-height: 1.6;
   overflow-x: hidden;
-  padding-top: var(--header-height);
+  padding-top: var(--total-header-height);
 }
 
 /* ====================================

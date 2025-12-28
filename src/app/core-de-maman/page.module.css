@@ -10,8 +10,8 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  margin-top: calc(-1 * var(--header-height));
-  padding-top: var(--header-height);
+  margin-top: calc(-1 * var(--total-header-height));
+  padding-top: var(--total-header-height);
 }
 
 .heroBg {
@@ -312,6 +312,55 @@
   object-position: center 20%;
 }
 
+/* Cours à domicile Section */
+.domicileSection {
+  padding: 6rem 2.5rem;
+  background: #fff;
+}
+
+.domicileContent {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.domicileLead {
+  font-size: 1.2rem;
+  color: var(--color-dark);
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+}
+
+.domicileContent p {
+  font-size: 1.05rem;
+  color: var(--color-dark);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+  opacity: 0.85;
+}
+
+.domicileList {
+  list-style: none;
+  padding: 0;
+  margin: 2rem auto;
+  max-width: 500px;
+  text-align: left;
+}
+
+.domicileList li {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.8rem 0;
+  font-size: 1.05rem;
+  color: var(--color-dark);
+}
+
+.domicileList li svg {
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
 /* Tarifs Section */
 .tarifsSection {
   padding: 7rem 2.5rem;
@@ -320,9 +369,9 @@
 
 .tarifsGrid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto 3rem;
 }
 
@@ -368,11 +417,26 @@
   line-height: 1.5;
 }
 
+.tarifCardHighlight {
+  border: 2px solid var(--color-primary);
+  position: relative;
+}
+
 .tarifPrice {
   font-size: 2.5rem;
   color: var(--color-primary);
   font-weight: 700;
   margin-bottom: 0.3rem;
+}
+
+.tarifPriceOld {
+  font-size: 1.2rem;
+  color: var(--color-dark);
+  opacity: 0.5;
+  text-decoration: line-through;
+  display: block;
+  margin-bottom: 0.3rem;
+  font-weight: 400;
 }
 
 .tarifPriceDetail {
