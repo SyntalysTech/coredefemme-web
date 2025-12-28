@@ -77,6 +77,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
     service_slug,
     is_pack,
     session_id,
+    user_id,
   } = metadata;
 
   const isPack = is_pack === 'true';
@@ -89,6 +90,7 @@ async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
       serviceSlug: service_slug,
       paymentIntentId: session.payment_intent as string,
       amountPaid: (session.amount_total || 0) / 100,
+      userId: user_id,
     });
   } else if (session_id) {
     // Pago de sesión individual
@@ -108,12 +110,14 @@ async function handlePackPurchase({
   serviceSlug,
   paymentIntentId,
   amountPaid,
+  userId,
 }: {
   customerName: string;
   customerEmail: string;
   serviceSlug: string;
   paymentIntentId: string;
   amountPaid: number;
+  userId?: string;
 }) {
   // Obtener servicio
   const { data: service } = await supabase
@@ -123,6 +127,17 @@ async function handlePackPurchase({
     .single();
 
   if (!service) return;
+
+  // Buscar user_id por email si no viene
+  let resolvedUserId = userId;
+  if (!resolvedUserId) {
+    const { data: profile } = await supabase
+      .from('customer_profiles')
+      .select('id')
+      .eq('email', customerEmail)
+      .single();
+    resolvedUserId = profile?.id;
+  }
 
   // Calcular fecha de expiración (6 meses)
   const expiresAt = new Date();
@@ -140,9 +155,32 @@ async function handlePackPurchase({
       payment_intent_id: paymentIntentId,
       status: 'active',
       expires_at: expiresAt.toISOString(),
+      user_id: resolvedUserId || null,
     })
     .select()
     .single();
+
+  // Guardar en historial de pagos
+  if (resolvedUserId && pack) {
+    await supabase.from('payment_history').insert({
+      user_id: resolvedUserId,
+      pack_id: pack.id,
+      amount: amountPaid,
+      currency: 'CHF',
+      status: 'succeeded',
+      stripe_payment_intent_id: paymentIntentId,
+      description: `Pack ${service.pack_sessions || 6} séances - ${service.name}`,
+    });
+
+    // Crear notificación
+    await supabase.from('user_notifications').insert({
+      user_id: resolvedUserId,
+      type: 'pack_activated',
+      title: 'Pack activé !',
+      message: `Votre pack de ${service.pack_sessions || 6} séances ${service.name} est maintenant actif.`,
+      related_id: pack.id,
+    });
+  }
 
   // Enviar email de confirmación
   await sendEmail({

@@ -76,6 +76,7 @@ export async function POST(request: NextRequest) {
       customer_message,
       reservation_type = 'single',
       pack_id,
+      user_id, // ID del usuario autenticado (opcional)
     } = body;
 
     // Validaciones
@@ -160,6 +161,7 @@ export async function POST(request: NextRequest) {
         queue_position: queuePosition,
         reservation_type,
         pack_id,
+        user_id: user_id || null, // Vincular con usuario autenticado si existe
         source: 'website',
       })
       .select()

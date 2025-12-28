@@ -11,6 +11,7 @@ export async function POST(request: NextRequest) {
       customer_email,
       customer_name,
       session_id,
+      user_id,
     } = body;
 
     // Validaciones
@@ -43,6 +44,7 @@ export async function POST(request: NextRequest) {
       sessionId: session_id,
       successUrl,
       cancelUrl,
+      metadata: user_id ? { user_id } : undefined,
     });
 
     return NextResponse.json({

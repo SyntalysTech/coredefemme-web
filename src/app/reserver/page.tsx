@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Calendar, Clock, Users, ChevronLeft, ChevronRight, Check, MapPin } from "lucide-react";
+import { Calendar, Clock, Users, ChevronLeft, ChevronRight, Check, MapPin, User, LogIn } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import ReservationModal from "@/components/ReservationModal";
 import styles from "./page.module.css";
@@ -32,6 +32,18 @@ interface Session {
   service?: Service;
 }
 
+interface QueueInfo {
+  session_id: string;
+  queue_count: number;
+  user_position?: number;
+}
+
+interface AuthUser {
+  id: string;
+  email: string;
+  full_name?: string;
+}
+
 export default function ReserverPage() {
   const [services, setServices] = useState<Service[]>([]);
   const [sessions, setSessions] = useState<Session[]>([]);
@@ -45,10 +57,24 @@ export default function ReserverPage() {
     return new Date(today.setDate(diff));
   });
   const [isLoading, setIsLoading] = useState(true);
+  const [currentUser, setCurrentUser] = useState<AuthUser | null>(null);
+  const [queueInfo, setQueueInfo] = useState<QueueInfo[]>([]);
 
   useEffect(() => {
+    checkAuth();
     fetchServices();
   }, []);
+
+  async function checkAuth() {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session?.user) {
+      setCurrentUser({
+        id: session.user.id,
+        email: session.user.email!,
+        full_name: session.user.user_metadata?.full_name,
+      });
+    }
+  }
 
   useEffect(() => {
     fetchSessions();
@@ -92,12 +118,64 @@ export default function ReserverPage() {
       }
 
       const { data } = await query;
-      setSessions(data || []);
+      const sessionsData = (data || []) as Session[];
+      setSessions(sessionsData);
+
+      // Si el usuario está autenticado, obtener info de cola
+      if (currentUser && sessionsData.length > 0) {
+        await fetchQueueInfo(sessionsData.map(s => s.id));
+      }
     } catch (error) {
       console.error("Error fetching sessions:", error);
     } finally {
       setIsLoading(false);
     }
+  }
+
+  async function fetchQueueInfo(sessionIds: string[]) {
+    if (!currentUser || sessionIds.length === 0) return;
+
+    try {
+      // Obtener conteo de cola por sesión
+      const { data: queueData } = await supabase
+        .from("reservations")
+        .select("session_id, queue_position, customer_email")
+        .in("session_id", sessionIds)
+        .not("queue_position", "is", null)
+        .eq("status", "pending");
+
+      if (queueData) {
+        const queueMap: Record<string, QueueInfo> = {};
+        const typedQueueData = queueData as Array<{
+          session_id: string;
+          queue_position: number;
+          customer_email: string;
+        }>;
+
+        typedQueueData.forEach((r) => {
+          if (!queueMap[r.session_id]) {
+            queueMap[r.session_id] = {
+              session_id: r.session_id,
+              queue_count: 0,
+            };
+          }
+          queueMap[r.session_id].queue_count++;
+
+          // Si es el usuario actual, guardar su posición
+          if (r.customer_email === currentUser.email) {
+            queueMap[r.session_id].user_position = r.queue_position;
+          }
+        });
+
+        setQueueInfo(Object.values(queueMap));
+      }
+    } catch (error) {
+      console.error("Error fetching queue info:", error);
+    }
+  }
+
+  function getQueueInfoForSession(sessionId: string): QueueInfo | undefined {
+    return queueInfo.find(q => q.session_id === sessionId);
   }
 
   function navigateWeek(direction: "prev" | "next") {
@@ -135,6 +213,28 @@ export default function ReserverPage() {
       <section className={styles.hero}>
         <h1>Réserver une séance</h1>
         <p>Choisissez votre cours et réservez votre place en quelques clics</p>
+
+        {/* Auth Banner */}
+        <div className={styles.authBanner}>
+          {currentUser ? (
+            <Link href="/mon-compte" className={styles.accountLink}>
+              <User size={18} />
+              {currentUser.full_name || currentUser.email}
+            </Link>
+          ) : (
+            <div className={styles.authLinks}>
+              <span>Pour voir la liste d&apos;attente et gérer vos réservations</span>
+              <Link href="/connexion" className={styles.loginLink}>
+                <LogIn size={16} />
+                Se connecter
+              </Link>
+              <span className={styles.separator}>ou</span>
+              <Link href="/inscription" className={styles.signupLink}>
+                S&apos;inscrire
+              </Link>
+            </div>
+          )}
+        </div>
       </section>
 
       <div className={styles.container}>
@@ -221,6 +321,7 @@ export default function ReserverPage() {
                     daySessions.map((session) => {
                       const availableSpots = session.max_participants - session.current_participants;
                       const isFull = availableSpots <= 0;
+                      const sessionQueueInfo = getQueueInfoForSession(session.id);
 
                       return (
                         <button
@@ -240,6 +341,14 @@ export default function ReserverPage() {
                             <Users size={14} />
                             {isFull ? "Complet" : `${availableSpots} place${availableSpots > 1 ? "s" : ""}`}
                           </span>
+                          {/* Queue info - solo para usuarios autenticados */}
+                          {currentUser && isFull && sessionQueueInfo && (
+                            <span className={styles.queueInfo}>
+                              {sessionQueueInfo.user_position
+                                ? `Vous êtes ${sessionQueueInfo.user_position}${sessionQueueInfo.user_position === 1 ? "er" : "ème"} en liste`
+                                : `${sessionQueueInfo.queue_count} en attente`}
+                            </span>
+                          )}
                         </button>
                       );
                     })
@@ -334,6 +443,13 @@ export default function ReserverPage() {
           fetchSessions(); // Refresh after reservation
         }}
         session={selectedSession || undefined}
+        currentUser={currentUser ? {
+          id: currentUser.id,
+          email: currentUser.email,
+          user_metadata: {
+            full_name: currentUser.full_name,
+          }
+        } : null}
       />
     </>
   );

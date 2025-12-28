@@ -22,12 +22,22 @@ interface Session {
   };
 }
 
+interface User {
+  id: string;
+  email?: string;
+  user_metadata?: {
+    full_name?: string;
+    phone?: string;
+  };
+}
+
 interface ReservationModalProps {
   isOpen: boolean;
   onClose: () => void;
   session?: Session;
   serviceSlug?: string;
   serviceName?: string;
+  currentUser?: User | null;
 }
 
 export default function ReservationModal({
@@ -36,6 +46,7 @@ export default function ReservationModal({
   session,
   serviceSlug,
   serviceName,
+  currentUser,
 }: ReservationModalProps) {
   const [step, setStep] = useState<"form" | "payment" | "success">("form");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -53,15 +64,20 @@ export default function ReservationModal({
   } | null>(null);
   const [error, setError] = useState("");
 
-  // Reset on open
+  // Reset on open and prefill user data if authenticated
   useEffect(() => {
     if (isOpen) {
       setStep("form");
-      setFormData({ name: "", email: "", phone: "", message: "" });
+      setFormData({
+        name: currentUser?.user_metadata?.full_name || "",
+        email: currentUser?.email || "",
+        phone: currentUser?.user_metadata?.phone || "",
+        message: "",
+      });
       setResult(null);
       setError("");
     }
-  }, [isOpen]);
+  }, [isOpen, currentUser]);
 
   if (!isOpen) return null;
 
@@ -82,6 +98,7 @@ export default function ReservationModal({
             customer_email: formData.email,
             customer_name: formData.name,
             session_id: session?.id,
+            user_id: currentUser?.id || null,
           }),
         });
 
@@ -112,6 +129,7 @@ export default function ReservationModal({
           customer_phone: formData.phone,
           customer_message: formData.message,
           reservation_type: reservationType,
+          user_id: currentUser?.id || null,
         }),
       });
 
