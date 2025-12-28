@@ -63,6 +63,17 @@
   margin: 0;
 }
 
+.faqAnswer a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  font-weight: 500;
+  transition: var(--transition);
+}
+
+.faqAnswer a:hover {
+  opacity: 0.8;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .faqQuestion {

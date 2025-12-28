@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { Calendar, Check, Clock, MapPin, Heart } from "lucide-react";
+import { Calendar, Check, Clock, MapPin } from "lucide-react";
 import FAQ from "@/components/FAQ";
 import Countdown from "@/components/Countdown";
 import styles from "./page.module.css";
@@ -47,7 +47,7 @@ const avantages = [
 const faqItems = [
   {
     question: "Où intervenez-vous pour les cours à domicile ?",
-    answer: "J'interviens dans le Jura suisse et les environs. Contactez-moi pour vérifier si votre localité est dans ma zone d'intervention.",
+    answer: "J'interviens dans le Jura, Suisse. Contactez-moi pour vérifier si votre localité est dans ma zone d'intervention.",
   },
   {
     question: "Quel matériel dois-je préparer ?",
@@ -67,7 +67,7 @@ const faqItems = [
   },
   {
     question: "Comment réserver une séance ?",
-    answer: "Contactez-moi par téléphone, WhatsApp ou via le formulaire de contact. Nous conviendrons ensemble d'un créneau qui vous convient.",
+    answer: <>Contactez-moi par WhatsApp ou via la <Link href="/contact">page contact</Link>. Nous conviendrons ensemble d&apos;un créneau qui vous convient.</>,
   },
 ];
 
@@ -205,15 +205,11 @@ export default function CoursADomicilePage() {
             <ul className={styles.pourquiList}>
               <li>
                 <MapPin size={20} />
-                <span>Jura suisse et environs</span>
+                <span>Jura, Suisse</span>
               </li>
               <li>
                 <Clock size={20} />
                 <span>Horaires flexibles, sur rendez-vous</span>
-              </li>
-              <li>
-                <Heart size={20} />
-                <span>Bébés bienvenus pendant la séance</span>
               </li>
             </ul>
           </div>
@@ -281,7 +277,7 @@ export default function CoursADomicilePage() {
         </div>
 
         <div className={styles.tarifsNote}>
-          <p>Frais de déplacement inclus dans la zone du Jura suisse.</p>
+          <p>Frais de déplacement inclus dans la zone du Jura, Suisse.</p>
         </div>
       </section>
 

@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, ReactNode } from "react";
 import { ChevronDown } from "lucide-react";
 import styles from "./FAQ.module.css";
 
 interface FAQItem {
   question: string;
-  answer: string;
+  answer: string | ReactNode;
 }
 
 interface FAQProps {
