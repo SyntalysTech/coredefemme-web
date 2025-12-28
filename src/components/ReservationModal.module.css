@@ -183,6 +183,12 @@
   border-radius: 10px;
 }
 
+.priceAfter {
+  font-size: 0.75rem !important;
+  opacity: 0.5 !important;
+  text-decoration: line-through;
+}
+
 /* Form Groups */
 .formGroup {
   display: flex;

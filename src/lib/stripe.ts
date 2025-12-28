@@ -6,42 +6,46 @@ export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   typescript: true,
 });
 
-// Productos de Stripe (estos IDs se actualizarán cuando creen la cuenta)
+// Productos de Stripe
+// Precios: Sesión prueba GRATIS, Pack 6 sesiones: 99 CHF (oferta) / 120 CHF (después)
 export const STRIPE_PRODUCTS = {
-  // Sesiones individuales
+  // Sesiones individuales (GRATIS - séance d'essai)
   'core-de-maman-single': {
     priceId: 'price_placeholder_core_maman_single',
-    name: 'Core de Maman - Séance',
-    amount: 2000, // 20 CHF en centimes
+    name: 'Core de Maman - Séance d\'essai',
+    amount: 0, // GRATIS
+    isFree: true,
   },
   'sculpt-pilates-single': {
     priceId: 'price_placeholder_sculpt_single',
-    name: 'Sculpt Pilates - Séance',
-    amount: 2000,
+    name: 'Sculpt Pilates - Séance d\'essai',
+    amount: 0, // GRATIS
+    isFree: true,
   },
   'cours-domicile-single': {
     priceId: 'price_placeholder_domicile_single',
-    name: 'Cours à domicile - Séance',
-    amount: 4000, // 40 CHF
+    name: 'Cours à domicile - Séance d\'essai',
+    amount: 0, // GRATIS
+    isFree: true,
   },
   // Packs de 6 sesiones (oferta de lanzamiento)
   'core-de-maman-pack': {
     priceId: 'price_placeholder_core_maman_pack',
     name: 'Core de Maman - Pack 6 séances',
-    amount: 9000, // 90 CHF (oferta lanzamiento)
-    amountAfterOffer: 10800, // 108 CHF después
+    amount: 9900, // 99 CHF (oferta lanzamiento)
+    amountAfterOffer: 12000, // 120 CHF después
   },
   'sculpt-pilates-pack': {
     priceId: 'price_placeholder_sculpt_pack',
     name: 'Sculpt Pilates - Pack 6 séances',
-    amount: 9000,
-    amountAfterOffer: 10800,
+    amount: 9900, // 99 CHF (oferta lanzamiento)
+    amountAfterOffer: 12000, // 120 CHF después
   },
   'cours-domicile-pack': {
     priceId: 'price_placeholder_domicile_pack',
     name: 'Cours à domicile - Pack 6 séances',
-    amount: 18000, // 180 CHF (oferta)
-    amountAfterOffer: 22000, // 220 CHF después
+    amount: 19900, // 199 CHF (oferta)
+    amountAfterOffer: 24000, // 240 CHF después
   },
 };
 

@@ -198,21 +198,21 @@ export default function ReservationModal({
                   className={`${styles.typeBtn} ${reservationType === "single" ? styles.active : ""}`}
                   onClick={() => setReservationType("single")}
                 >
-                  <span className={styles.typePrice}>
-                    CHF {session?.service?.price || 20}.-
-                  </span>
-                  <span>Séance unique</span>
+                  <span className={styles.typeBadge}>1ère séance</span>
+                  <span className={styles.typePrice}>GRATUIT</span>
+                  <span>Séance d&apos;essai</span>
                 </button>
                 <button
                   type="button"
                   className={`${styles.typeBtn} ${reservationType === "pack" ? styles.active : ""}`}
                   onClick={() => setReservationType("pack")}
                 >
-                  <span className={styles.typeBadge}>Économisez !</span>
+                  <span className={styles.typeBadge}>Offre lancement</span>
                   <span className={styles.typePrice}>
-                    CHF {session?.service?.price_pack || 90}.-
+                    CHF {session?.service?.price_pack || 99}.-
                   </span>
                   <span>Pack 6 séances</span>
+                  <span className={styles.priceAfter}>Ensuite CHF 120.-</span>
                 </button>
               </div>
 
@@ -282,12 +282,12 @@ export default function ReservationModal({
                 ) : reservationType === "pack" ? (
                   <>
                     <CreditCard size={18} />
-                    Payer CHF {session?.service?.price_pack || 90}.-
+                    Payer CHF {session?.service?.price_pack || 99}.-
                   </>
                 ) : (
                   <>
                     <Check size={18} />
-                    Confirmer la réservation
+                    Réserver ma séance gratuite
                   </>
                 )}
               </button>
