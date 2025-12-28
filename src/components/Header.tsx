@@ -9,14 +9,29 @@ import styles from "./Header.module.css";
 
 const coursesLinks = [
   {
-    href: "/core-de-maman",
-    title: "Core de Maman",
-    description: "Rééducation Post-partum. Pour toutes les mamans.",
+    category: "En salle",
+    courses: [
+      {
+        href: "/core-de-maman",
+        title: "Core de Maman",
+        description: "Rééducation Post-partum",
+      },
+      {
+        href: "/sculpt-pilates",
+        title: "Sculpt Pilates",
+        description: "Renforcement & Énergie",
+      },
+    ],
   },
   {
-    href: "/sculpt-pilates",
-    title: "Sculpt Pilates",
-    description: "Renforcement & Énergie. Cours à venir.",
+    category: "A domicile",
+    courses: [
+      {
+        href: "/cours-a-domicile",
+        title: "Cours a domicile",
+        description: "Séances privées chez vous",
+      },
+    ],
   },
 ];
 
@@ -42,7 +57,7 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const isCoursPage = pathname === "/core-de-maman" || pathname === "/sculpt-pilates";
+  const isCoursPage = pathname === "/core-de-maman" || pathname === "/sculpt-pilates" || pathname === "/cours-a-domicile";
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -89,15 +104,20 @@ export default function Header() {
                   Cours <ChevronDown size={14} />
                 </button>
                 <div className={styles.megaMenu}>
-                  {coursesLinks.map((course) => (
-                    <Link
-                      key={course.href}
-                      href={course.href}
-                      className={`${styles.megaMenuItem} ${pathname === course.href ? styles.active : ""}`}
-                    >
-                      <span className={styles.megaMenuTitle}>{course.title}</span>
-                      <p className={styles.megaMenuDesc}>{course.description}</p>
-                    </Link>
+                  {coursesLinks.map((category) => (
+                    <div key={category.category} className={styles.megaMenuCategory}>
+                      <span className={styles.megaMenuCategoryTitle}>{category.category}</span>
+                      {category.courses.map((course) => (
+                        <Link
+                          key={course.href}
+                          href={course.href}
+                          className={`${styles.megaMenuItem} ${pathname === course.href ? styles.active : ""}`}
+                        >
+                          <span className={styles.megaMenuTitle}>{course.title}</span>
+                          <p className={styles.megaMenuDesc}>{course.description}</p>
+                        </Link>
+                      ))}
+                    </div>
                   ))}
                 </div>
               </li>
@@ -154,15 +174,20 @@ export default function Header() {
               />
             </button>
             <div className={`${styles.mobileDropdown} ${isCoursDropdownOpen ? styles.active : ""}`}>
-              {coursesLinks.map((course) => (
-                <Link
-                  key={course.href}
-                  href={course.href}
-                  className={pathname === course.href ? styles.active : ""}
-                  onClick={closeMobileMenu}
-                >
-                  {course.title}
-                </Link>
+              {coursesLinks.map((category) => (
+                <div key={category.category} className={styles.mobileDropdownCategory}>
+                  <span className={styles.mobileDropdownCategoryTitle}>{category.category}</span>
+                  {category.courses.map((course) => (
+                    <Link
+                      key={course.href}
+                      href={course.href}
+                      className={pathname === course.href ? styles.active : ""}
+                      onClick={closeMobileMenu}
+                    >
+                      {course.title}
+                    </Link>
+                  ))}
+                </div>
               ))}
             </div>
           </li>

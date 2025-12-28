@@ -191,20 +191,24 @@ export default function SculptPilatesPage() {
           <p>Cours bientôt disponible</p>
         </div>
 
-        <div className={styles.tarifsGrid}>
-          <div className={styles.tarifCard}>
-            <h3>Cours bientôt disponible</h3>
-            <p className={styles.tarifSchedule}>
-              Les cours Sculpt Pilates arrivent bientôt !
-            </p>
-            <ul className={styles.tarifFeatures}>
-              <li><Check size={16} /> Découvrir la méthode</li>
-              <li><Check size={16} /> Sans engagement</li>
-              <li><Check size={16} /> Tous niveaux acceptés</li>
-            </ul>
-            <Link href="/contact" className={styles.tarifCta}>
-              Me contacter pour plus d'infos
-            </Link>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <div className={styles.tarifCard} style={{ maxWidth: "600px", display: "flex", flexDirection: "row", alignItems: "center", gap: "2rem", textAlign: "left" }}>
+            <div style={{ flex: 1 }}>
+              <h3>Bientôt disponible</h3>
+              <p className={styles.tarifSchedule}>
+                Les cours Sculpt Pilates arrivent bientôt
+              </p>
+              <ul className={styles.tarifFeatures} style={{ marginBottom: 0 }}>
+                <li><Check size={16} /> Découvrir la méthode</li>
+                <li><Check size={16} /> Sans engagement</li>
+                <li><Check size={16} /> Tous niveaux acceptés</li>
+              </ul>
+            </div>
+            <div style={{ flexShrink: 0 }}>
+              <Link href="/contact" className={styles.tarifCta} style={{ whiteSpace: "nowrap" }}>
+                Me contacter
+              </Link>
+            </div>
           </div>
         </div>
       </section>

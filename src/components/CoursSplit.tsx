@@ -40,7 +40,7 @@ const coursData = [
       "Horaires flexibles",
     ],
     image: "/images/madre-con-su-hija-practicar-yoga-en-casa.jpg",
-    href: "/contact",
+    href: "/cours-a-domicile",
     color: "domicile",
     showReserve: true,
   },
@@ -124,7 +124,7 @@ export default function CoursSplit() {
 
                 <div className={styles.panelButtons}>
                   <Link href={cours.href} className={styles.panelBtnPrimary}>
-                    {cours.id === "domicile" ? "Me contacter" : "En savoir plus"}
+                    En savoir plus
                   </Link>
                   {cours.showReserve && (
                     <Link href="/contact" className={styles.panelBtnSecondary}>
@@ -163,7 +163,7 @@ export default function CoursSplit() {
               <p className={styles.mobileCardDesc}>{cours.description}</p>
               <div className={styles.mobileCardButtons}>
                 <Link href={cours.href} className={styles.panelBtnPrimary}>
-                  {cours.id === "domicile" ? "Me contacter" : "En savoir plus"}
+                  En savoir plus
                 </Link>
                 {cours.showReserve && (
                   <Link href="/contact" className={styles.panelBtnSecondary}>

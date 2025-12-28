@@ -1,5 +1,5 @@
 /* ====================================
-   COURS PAGE STYLES
+   COURS A DOMICILE PAGE STYLES
 ==================================== */
 
 /* Hero Section - Full bleed avec image */
@@ -23,6 +23,10 @@
   z-index: 0;
 }
 
+.heroBg img {
+  object-position: center 15%;
+}
+
 .heroOverlay {
   position: absolute;
   top: 0;
@@ -31,8 +35,8 @@
   height: 100%;
   background: linear-gradient(
     135deg,
-    rgba(169, 128, 106, 0.88) 0%,
-    rgba(118, 92, 74, 0.92) 100%
+    rgba(118, 92, 74, 0.85) 0%,
+    rgba(90, 70, 56, 0.9) 100%
   );
   z-index: 1;
 }
@@ -283,7 +287,7 @@
 /* Pour Qui Section */
 .pourquiSection {
   padding: 7rem 2.5rem;
-  background: var(--color-bg-extra-light);
+  background: #fff;
 }
 
 .pourquiGrid {
@@ -344,55 +348,6 @@
   object-position: center 30%;
 }
 
-/* Cours à domicile Section */
-.domicileSection {
-  padding: 6rem 2.5rem;
-  background: #fff;
-}
-
-.domicileContent {
-  max-width: 800px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-.domicileLead {
-  font-size: 1.2rem;
-  color: var(--color-dark);
-  line-height: 1.8;
-  margin-bottom: 1.5rem;
-}
-
-.domicileContent p {
-  font-size: 1.05rem;
-  color: var(--color-dark);
-  line-height: 1.7;
-  margin-bottom: 1.5rem;
-  opacity: 0.85;
-}
-
-.domicileList {
-  list-style: none;
-  padding: 0;
-  margin: 2rem auto;
-  max-width: 500px;
-  text-align: left;
-}
-
-.domicileList li {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.8rem 0;
-  font-size: 1.05rem;
-  color: var(--color-dark);
-}
-
-.domicileList li svg {
-  color: var(--color-primary);
-  flex-shrink: 0;
-}
-
 /* Tarifs Section */
 .tarifsSection {
   padding: 7rem 2.5rem;
@@ -404,7 +359,7 @@
   grid-template-columns: repeat(2, 1fr);
   gap: 2rem;
   max-width: 900px;
-  margin: 0 auto 3rem;
+  margin: 0 auto 2rem;
 }
 
 .tarifCard {
@@ -523,11 +478,12 @@
   box-shadow: 0 15px 40px rgba(169, 128, 106, 0.35);
 }
 
-.tarifsLocation {
+.tarifsNote {
   text-align: center;
   color: var(--color-dark);
-  font-size: 1rem;
+  font-size: 0.95rem;
   opacity: 0.8;
+  margin-top: 1rem;
 }
 
 /* FAQ Section */

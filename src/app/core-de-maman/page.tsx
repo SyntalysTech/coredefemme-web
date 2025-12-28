@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Calendar, Check, Clock, Dumbbell, Droplets } from "lucide-react";
 import FAQ from "@/components/FAQ";
+import Countdown from "@/components/Countdown";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
@@ -129,6 +130,19 @@ export default function CoreDeMamanPage() {
         </div>
       </section>
 
+      {/* Pourquoi Section */}
+      <section className={styles.pourquoiSection}>
+        <div className={styles.pourquoiContent}>
+          <h2>Pourquoi Core de Maman ?</h2>
+          <p>
+            Après un accouchement, le corps est immédiatement sollicité : porter bébé, gérer le quotidien, soulever les courses ou un aîné. Pourtant, le périnée vient de vivre un événement intense et les muscles abdominaux ont été étirés. Toutes les femmes présentent un diastasis plus ou moins marqué après une grossesse
+          </p>
+          <p>
+            <strong>Core de Maman a été pensé pour cela :</strong> recommencer en douceur, protéger le périnée, réactiver les muscles profonds et retrouver confiance en son corps, sans pression ni performance.
+          </p>
+        </div>
+      </section>
+
       {/* Bénéfices Section */}
       <section className={styles.beneficesSection}>
         <div className={styles.sectionHeader}>
@@ -205,8 +219,7 @@ export default function CoreDeMamanPage() {
             <Image
               src="/images/pilates-post-partum.png"
               alt="Groupe Core de Maman Jura"
-              width={500}
-              height={600}
+              fill
               className={styles.pourquiImage}
             />
           </div>
@@ -250,7 +263,8 @@ export default function CoreDeMamanPage() {
               <span className={styles.tarifPriceOld}>CHF 120.-</span>
               CHF 99.-
             </div>
-            <p className={styles.tarifPriceDetail}>Offre valable jusqu&apos;a debut mars</p>
+            <p className={styles.tarifPriceDetail}>Après le 1er mars : CHF 120.-</p>
+            <Countdown targetDate={new Date("2026-03-01T00:00:00")} />
             <ul className={styles.tarifFeatures}>
               <li><Check size={16} /> Séances de 60 minutes</li>
               <li><Check size={16} /> Suivi personnalisé</li>

@@ -1,0 +1,16 @@
+.countdown {
+  margin: 0.5rem 0 1rem;
+  font-size: 0.85rem;
+  color: var(--color-primary);
+  opacity: 0.75;
+  letter-spacing: 0.3px;
+}
+
+.countdownNumber {
+  font-weight: 600;
+  margin: 0 1px;
+}
+
+.countdownUnit {
+  margin-right: 6px;
+}

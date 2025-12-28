@@ -157,15 +157,32 @@
   background: var(--color-bg-extra-light);
   border-radius: 18px;
   box-shadow: 0 15px 50px rgba(169, 128, 106, 0.2);
-  padding: 2.5rem;
-  min-width: 550px;
+  padding: 2rem;
+  min-width: 400px;
   opacity: 0;
   visibility: hidden;
   margin-top: 1.5rem;
   transition: var(--transition);
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.megaMenuCategory {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.megaMenuCategoryTitle {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--color-primary);
+  opacity: 0.7;
+  padding: 0 1rem;
+  margin-bottom: 0.3rem;
 }
 
 .megaMenuItem {
@@ -327,18 +344,46 @@
 }
 
 .mobileDropdown {
-  padding-left: 1.5rem;
+  padding-left: 1rem;
   margin-top: 0.5rem;
   display: none;
 }
 
 .mobileDropdown.active {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.mobileDropdownCategory {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.mobileDropdownCategoryTitle {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--color-primary);
+  opacity: 0.6;
+  padding: 0.5rem 1rem;
 }
 
 .mobileDropdown a {
   font-size: 0.92rem;
-  padding: 1rem 1.2rem;
+  padding: 0.9rem 1.2rem;
+  display: block;
+  color: var(--color-dark);
+  text-decoration: none;
+  border-radius: 10px;
+  transition: var(--transition);
+}
+
+.mobileDropdown a:hover {
+  background: rgba(169, 128, 106, 0.08);
+  color: var(--color-primary);
 }
 
 .mobileDropdown a.active {
