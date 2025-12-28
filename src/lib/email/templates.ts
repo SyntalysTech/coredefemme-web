@@ -78,8 +78,8 @@ const baseTemplate = (content: string, preheader: string = '') => `
 
           <!-- Header con Logo -->
           <tr>
-            <td style="background: linear-gradient(135deg, ${BRAND_COLORS.primary} 0%, ${BRAND_COLORS.dark} 100%); padding: 30px; text-align: center;">
-              <img src="${LOGO_URL}" alt="Core de Femme" width="150" style="max-width: 150px; height: auto; display: inline-block;" />
+            <td style="background: ${BRAND_COLORS.light}; padding: 30px; text-align: center; border-bottom: 3px solid ${BRAND_COLORS.primary};">
+              <img src="${LOGO_URL}" alt="Core de Femme" width="180" style="max-width: 180px; height: auto; display: inline-block;" />
             </td>
           </tr>
 
