@@ -39,7 +39,7 @@ const coursData = [
       "Matériel fourni",
       "Horaires flexibles",
     ],
-    image: "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&q=80",
+    image: "/images/madre-con-su-hija-practicar-yoga-en-casa.jpg",
     href: "/contact",
     color: "domicile",
     showReserve: true,
