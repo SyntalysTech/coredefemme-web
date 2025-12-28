@@ -276,7 +276,7 @@
   height: 100vh;
   background: var(--color-bg-extra-light);
   box-shadow: -8px 0 40px rgba(169, 128, 106, 0.25);
-  padding: 7rem 2.5rem 2.5rem;
+  padding: calc(var(--total-header-height) + 1.5rem) 2.5rem 2.5rem;
   transition: var(--transition);
   overflow-y: auto;
   z-index: 999;
@@ -472,6 +472,6 @@
 
   .navMobile {
     max-width: 100%;
-    padding: 6rem 2rem 2rem;
+    padding: calc(var(--total-header-height) + 1rem) 1.5rem 2rem;
   }
 }
