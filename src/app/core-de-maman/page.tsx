@@ -213,29 +213,6 @@ export default function CoreDeMamanPage() {
         </div>
       </section>
 
-      {/* Cours à domicile Section */}
-      <section className={styles.domicileSection}>
-        <div className={styles.sectionHeader}>
-          <h2>Core de Maman - Cours a domicile</h2>
-        </div>
-        <div className={styles.domicileContent}>
-          <p className={styles.domicileLead}>
-            Parce que reprendre confiance en son corps apres un bébé demande du temps et de la douceur, je viens directement chez vous pour des séances privées adaptées a votre rythme et a vos besoins.
-          </p>
-          <p>
-            Vous restez dans le confort de votre maison, votre bébé est a coté, et nous prenons le temps nécessaire pour :
-          </p>
-          <ul className={styles.domicileList}>
-            <li><Check size={20} /> Renforcer votre périnée et vos abdos en toute sécurité</li>
-            <li><Check size={20} /> Retrouver une posture stable et confortable</li>
-            <li><Check size={20} /> Reconnecter avec votre corps sans pression</li>
-          </ul>
-          <p>
-            Chaque séance est personnalisée, bienveillante et progressive. Vous n&apos;avez rien a préparer, je m&apos;occupe de tout : tapis, guidance et ajustements.
-          </p>
-        </div>
-      </section>
-
       {/* Tarifs Section */}
       <section className={styles.tarifsSection} id="tarifs">
         <div className={styles.sectionHeader}>
@@ -285,28 +262,6 @@ export default function CoreDeMamanPage() {
             </Link>
           </div>
 
-          <div className={`${styles.tarifCard} ${styles.tarifCardHighlight}`}>
-            <div className={styles.tarifBadge}>Offre de lancement</div>
-            <h3>Pack 6 séances a domicile</h3>
-            <p className={styles.tarifSchedule}>
-              <strong>Séance post-partum a domicile</strong><br />
-              Je viens a vous !
-            </p>
-            <div className={styles.tarifPrice}>
-              <span className={styles.tarifPriceOld}>CHF 200.-</span>
-              CHF 180.-
-            </div>
-            <p className={styles.tarifPriceDetail}>Offre valable jusqu&apos;a debut mars</p>
-            <ul className={styles.tarifFeatures}>
-              <li><Check size={16} /> 6 séances individuelles</li>
-              <li><Check size={16} /> A domicile</li>
-              <li><Check size={16} /> Programme personnalisé</li>
-              <li><Check size={16} /> Matériel fourni</li>
-            </ul>
-            <Link href="/contact" className={styles.tarifCta}>
-              Me contacter
-            </Link>
-          </div>
         </div>
 
         <div className={styles.tarifsLocation}>

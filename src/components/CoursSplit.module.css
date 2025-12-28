@@ -250,6 +250,25 @@
   opacity: 0;
 }
 
+/* Color variants */
+.domicile .panelOverlay {
+  background: linear-gradient(
+    180deg,
+    rgba(169, 128, 106, 0.3) 0%,
+    rgba(169, 128, 106, 0.6) 50%,
+    rgba(169, 128, 106, 0.95) 100%
+  );
+}
+
+.domicile:hover .panelOverlay {
+  background: linear-gradient(
+    180deg,
+    rgba(169, 128, 106, 0.35) 0%,
+    rgba(169, 128, 106, 0.65) 50%,
+    rgba(169, 128, 106, 0.97) 100%
+  );
+}
+
 /* ====================================
    MOBILE CARDS (hidden on desktop)
 ==================================== */

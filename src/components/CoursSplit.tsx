@@ -11,25 +11,44 @@ const coursData = [
     id: "maman",
     title: "Core de Maman",
     subtitle: "Rééducation Post-partum",
-    schedule: "Mercredi matin • 09h30 - 10h30",
+    schedule: "Mercredi matin - 09h30 - 10h30",
     description: "Un programme doux et progressif pour les mamans. Renforce ton core, ton plancher pelvien et retrouve ta force intérieure avec bienveillance.",
     features: [
       "Rééducation douce du périnée",
       "Renforcement du transverse",
       "Respiration consciente",
       "Posture et alignement",
-      "Adapté à tous les niveaux",
+      "Adapté a tous les niveaux",
       "Exercice anti diastasis",
     ],
     image: "/images/pilates-post-partum.png",
     href: "/core-de-maman",
     color: "maman",
+    showReserve: true,
+  },
+  {
+    id: "domicile",
+    title: "Cours a domicile",
+    subtitle: "Séances privées chez vous",
+    schedule: "Sur rendez-vous",
+    description: "Je viens directement chez vous pour des séances privées adaptées a votre rythme. Votre bébé est a coté, et nous prenons le temps nécessaire.",
+    features: [
+      "Séances personnalisées",
+      "Dans le confort de votre maison",
+      "Bébé a coté de vous",
+      "Matériel fourni",
+      "Horaires flexibles",
+    ],
+    image: "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&q=80",
+    href: "/contact",
+    color: "domicile",
+    showReserve: true,
   },
   {
     id: "sculpt",
     title: "Sculpt Pilates",
-    subtitle: "Renforcement & Énergie",
-    schedule: "Bientôt disponible",
+    subtitle: "Renforcement et Énergie",
+    schedule: "Bientot disponible",
     description: "Bouge, renforce ton corps et redécouvre ta puissance. Un cours dynamique et progressif pour tonifier, sculpter et gagner en énergie.",
     features: [
       "Renforcement musculaire global",
@@ -41,6 +60,7 @@ const coursData = [
     image: "/images/pilates-matwork.png",
     href: "/sculpt-pilates",
     color: "sculpt",
+    showReserve: false,
   },
 ];
 
@@ -58,7 +78,7 @@ export default function CoursSplit() {
       <div className={styles.coursHeader}>
         <h2 className={styles.coursTitle}>Mes Cours</h2>
         <p className={styles.coursSubtitle}>
-          Deux approches, un même objectif : vous reconnecter à votre corps et retrouver votre force intérieure.
+          Trois approches, un meme objectif : vous reconnecter a votre corps et retrouver votre force intérieure.
         </p>
       </div>
 
@@ -104,9 +124,9 @@ export default function CoursSplit() {
 
                 <div className={styles.panelButtons}>
                   <Link href={cours.href} className={styles.panelBtnPrimary}>
-                    En savoir plus
+                    {cours.id === "domicile" ? "Me contacter" : "En savoir plus"}
                   </Link>
-                  {cours.id === "maman" && (
+                  {cours.showReserve && (
                     <Link href="/contact" className={styles.panelBtnSecondary}>
                       <Calendar size={18} />
                       Réserver
@@ -143,9 +163,9 @@ export default function CoursSplit() {
               <p className={styles.mobileCardDesc}>{cours.description}</p>
               <div className={styles.mobileCardButtons}>
                 <Link href={cours.href} className={styles.panelBtnPrimary}>
-                  En savoir plus
+                  {cours.id === "domicile" ? "Me contacter" : "En savoir plus"}
                 </Link>
-                {cours.id === "maman" && (
+                {cours.showReserve && (
                   <Link href="/contact" className={styles.panelBtnSecondary}>
                     <Calendar size={16} />
                     Réserver
