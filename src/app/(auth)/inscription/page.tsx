@@ -1,15 +1,18 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { Mail, Lock, Eye, EyeOff, AlertCircle, User, Phone, Check } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import styles from "../auth.module.css";
 
-export default function InscriptionPage() {
+function InscriptionContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectUrl = searchParams.get("redirect") || "/mon-compte";
+
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
@@ -53,7 +56,7 @@ export default function InscriptionPage() {
             full_name: formData.fullName,
             phone: formData.phone,
           },
-          emailRedirectTo: `${window.location.origin}/mon-compte`,
+          emailRedirectTo: `${window.location.origin}${redirectUrl}`,
         },
       });
 
@@ -88,7 +91,7 @@ export default function InscriptionPage() {
               <br />
               Veuillez cliquer sur le lien pour activer votre compte.
             </p>
-            <Link href="/connexion" className={styles.submitBtn}>
+            <Link href={`/connexion${redirectUrl !== "/mon-compte" ? `?redirect=${redirectUrl}` : ""}`} className={styles.submitBtn}>
               Aller à la connexion
             </Link>
           </div>
@@ -101,13 +104,12 @@ export default function InscriptionPage() {
     <div className={styles.authPage}>
       <div className={styles.authCard}>
         <div className={styles.authHeader}>
-          <Link href="/">
+          <Link href="/" className={styles.logo}>
             <Image
               src="/logos/logo-core-de-femme-no-bg.png"
               alt="Core de Femme"
               width={160}
               height={60}
-              className={styles.logo}
             />
           </Link>
           <h1>Créer un compte</h1>
@@ -230,7 +232,7 @@ export default function InscriptionPage() {
         <div className={styles.authFooter}>
           <p>
             Déjà un compte ?{" "}
-            <Link href="/connexion" className={styles.authLink}>
+            <Link href={`/connexion${redirectUrl !== "/mon-compte" ? `?redirect=${redirectUrl}` : ""}`} className={styles.authLink}>
               Se connecter
             </Link>
           </p>
@@ -240,5 +242,21 @@ export default function InscriptionPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function InscriptionPage() {
+  return (
+    <Suspense fallback={
+      <div className={styles.authPage}>
+        <div className={styles.authCard}>
+          <div style={{ textAlign: "center", padding: "2rem" }}>
+            <div className={styles.btnSpinner} style={{ margin: "0 auto" }}></div>
+          </div>
+        </div>
+      </div>
+    }>
+      <InscriptionContent />
+    </Suspense>
   );
 }

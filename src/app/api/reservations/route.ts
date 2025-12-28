@@ -147,6 +147,34 @@ export async function POST(request: NextRequest) {
       queuePosition = (lastInQueue?.queue_position || 0) + 1;
     }
 
+    // Si usa pack, validar que tenga sesiones disponibles
+    let validatedPackId = pack_id;
+    if (pack_id && reservation_type === 'pack') {
+      const { data: pack, error: packError } = await supabase
+        .from('customer_packs')
+        .select('*')
+        .eq('id', pack_id)
+        .eq('status', 'active')
+        .single();
+
+      if (packError || !pack || pack.remaining_sessions <= 0) {
+        return NextResponse.json(
+          { error: 'Pack invalide ou épuisé' },
+          { status: 400 }
+        );
+      }
+
+      // Verificar que el pack pertenece al usuario/email
+      if (pack.customer_email !== customer_email && pack.user_id !== user_id) {
+        return NextResponse.json(
+          { error: 'Ce pack ne vous appartient pas' },
+          { status: 403 }
+        );
+      }
+    } else {
+      validatedPackId = null;
+    }
+
     // Crear la reservación
     const { data: reservation, error: reservationError } = await supabase
       .from('reservations')
@@ -157,10 +185,11 @@ export async function POST(request: NextRequest) {
         customer_email,
         customer_phone,
         customer_message,
-        status: 'pending',
+        status: validatedPackId ? 'confirmed' : 'pending', // Si usa pack, se confirma directamente
+        payment_status: validatedPackId ? 'paid' : 'pending', // Si usa pack, ya está pagado
         queue_position: queuePosition,
-        reservation_type,
-        pack_id,
+        reservation_type: validatedPackId ? 'pack' : reservation_type,
+        pack_id: validatedPackId,
         user_id: user_id || null, // Vincular con usuario autenticado si existe
         source: 'website',
       })
@@ -168,6 +197,30 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (reservationError) throw reservationError;
+
+    // Si usó pack, incrementar used_sessions
+    if (validatedPackId) {
+      // Obtener el pack actual
+      const { data: currentPack } = await supabase
+        .from('customer_packs')
+        .select('used_sessions, total_sessions')
+        .eq('id', validatedPackId)
+        .single();
+
+      if (currentPack) {
+        const newUsedSessions = (currentPack.used_sessions || 0) + 1;
+        const newStatus = newUsedSessions >= currentPack.total_sessions ? 'exhausted' : 'active';
+
+        await supabase
+          .from('customer_packs')
+          .update({
+            used_sessions: newUsedSessions,
+            status: newStatus,
+            updated_at: new Date().toISOString(),
+          })
+          .eq('id', validatedPackId);
+      }
+    }
 
     // Formatear fecha para emails
     const sessionDate = new Date(session.session_date).toLocaleDateString('fr-CH', {

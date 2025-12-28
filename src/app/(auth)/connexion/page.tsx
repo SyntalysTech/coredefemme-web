@@ -1,15 +1,18 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { Mail, Lock, Eye, EyeOff, AlertCircle } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import styles from "../auth.module.css";
 
-export default function ConnexionPage() {
+function ConnexionContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectUrl = searchParams.get("redirect") || "/mon-compte";
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -38,8 +41,8 @@ export default function ConnexionPage() {
         return;
       }
 
-      // Redirigir al dashboard del cliente
-      router.push("/mon-compte");
+      // Redirigir a la URL especificada o al dashboard
+      router.push(redirectUrl);
       router.refresh();
     } catch {
       setError("Une erreur est survenue. Veuillez réessayer.");
@@ -52,13 +55,12 @@ export default function ConnexionPage() {
     <div className={styles.authPage}>
       <div className={styles.authCard}>
         <div className={styles.authHeader}>
-          <Link href="/">
+          <Link href="/" className={styles.logo}>
             <Image
               src="/logos/logo-core-de-femme-no-bg.png"
               alt="Core de Femme"
               width={160}
               height={60}
-              className={styles.logo}
             />
           </Link>
           <h1>Connexion</h1>
@@ -135,7 +137,7 @@ export default function ConnexionPage() {
         <div className={styles.authFooter}>
           <p>
             Pas encore de compte ?{" "}
-            <Link href="/inscription" className={styles.authLink}>
+            <Link href={`/inscription${redirectUrl !== "/mon-compte" ? `?redirect=${redirectUrl}` : ""}`} className={styles.authLink}>
               S&apos;inscrire
             </Link>
           </p>
@@ -145,5 +147,21 @@ export default function ConnexionPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ConnexionPage() {
+  return (
+    <Suspense fallback={
+      <div className={styles.authPage}>
+        <div className={styles.authCard}>
+          <div style={{ textAlign: "center", padding: "2rem" }}>
+            <div className={styles.btnSpinner} style={{ margin: "0 auto" }}></div>
+          </div>
+        </div>
+      </div>
+    }>
+      <ConnexionContent />
+    </Suspense>
   );
 }

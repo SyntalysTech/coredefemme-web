@@ -136,6 +136,17 @@
   margin-bottom: 0.5rem;
 }
 
+/* When 3 options (has pack), use 3 columns or stack on mobile */
+.typeSelector:has(.packBtn) {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 520px) {
+  .typeSelector:has(.packBtn) {
+    grid-template-columns: 1fr;
+  }
+}
+
 .typeBtn {
   padding: 1rem;
   border: 2px solid rgba(169, 128, 106, 0.2);
@@ -157,6 +168,32 @@
 .typeBtn.active {
   border-color: var(--color-primary);
   background: rgba(169, 128, 106, 0.05);
+}
+
+/* Pack button special style */
+.typeBtn.packBtn {
+  border-color: rgba(34, 197, 94, 0.4);
+  background: rgba(34, 197, 94, 0.05);
+}
+
+.typeBtn.packBtn:hover {
+  border-color: #22c55e;
+}
+
+.typeBtn.packBtn.active {
+  border-color: #22c55e;
+  background: rgba(34, 197, 94, 0.12);
+}
+
+.typeBtn.packBtn .typeBadge {
+  background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+}
+
+.typeBtn.packBtn .typePrice {
+  color: #16a34a;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
 }
 
 .typePrice {

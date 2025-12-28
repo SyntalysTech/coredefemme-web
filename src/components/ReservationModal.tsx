@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { X, Calendar, Clock, User, Mail, Phone, MessageSquare, Check, CreditCard } from "lucide-react";
+import { X, Calendar, Clock, User, Mail, Phone, MessageSquare, Check, CreditCard, Package } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 import styles from "./ReservationModal.module.css";
 
 interface Session {
@@ -31,6 +32,18 @@ interface User {
   };
 }
 
+interface CustomerPack {
+  id: string;
+  service_id: string;
+  total_sessions: number;
+  remaining_sessions: number;
+  status: string;
+  service?: {
+    name: string;
+    slug: string;
+  };
+}
+
 interface ReservationModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -50,7 +63,9 @@ export default function ReservationModal({
 }: ReservationModalProps) {
   const [step, setStep] = useState<"form" | "payment" | "success">("form");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [reservationType, setReservationType] = useState<"single" | "pack">("single");
+  const [reservationType, setReservationType] = useState<"single" | "pack" | "use_pack">("single");
+  const [selectedPackId, setSelectedPackId] = useState<string | null>(null);
+  const [userPacks, setUserPacks] = useState<CustomerPack[]>([]);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -64,6 +79,44 @@ export default function ReservationModal({
   } | null>(null);
   const [error, setError] = useState("");
 
+  // Load user's packs if authenticated
+  useEffect(() => {
+    async function loadUserPacks() {
+      if (!currentUser?.id || !currentUser?.email) {
+        setUserPacks([]);
+        return;
+      }
+
+      const { data } = await supabase
+        .from("customer_packs")
+        .select(`
+          id,
+          service_id,
+          total_sessions,
+          remaining_sessions,
+          status,
+          service:services (
+            name,
+            slug
+          )
+        `)
+        .or(`user_id.eq.${currentUser.id},customer_email.eq.${currentUser.email}`)
+        .eq("status", "active")
+        .gt("remaining_sessions", 0);
+
+      setUserPacks(data || []);
+    }
+
+    if (isOpen && currentUser) {
+      loadUserPacks();
+    }
+  }, [isOpen, currentUser]);
+
+  // Check if user has a pack for this service
+  const availablePack = userPacks.find(
+    (pack) => pack.service_id === session?.service?.id
+  );
+
   // Reset on open and prefill user data if authenticated
   useEffect(() => {
     if (isOpen) {
@@ -76,8 +129,16 @@ export default function ReservationModal({
       });
       setResult(null);
       setError("");
+      // If user has a pack for this service, default to using it
+      if (availablePack) {
+        setReservationType("use_pack");
+        setSelectedPackId(availablePack.id);
+      } else {
+        setReservationType("single");
+        setSelectedPackId(null);
+      }
     }
-  }, [isOpen, currentUser]);
+  }, [isOpen, currentUser, availablePack]);
 
   if (!isOpen) return null;
 
@@ -87,7 +148,7 @@ export default function ReservationModal({
     setIsSubmitting(true);
 
     try {
-      // Si es pack, intentar pago con Stripe
+      // Si compra pack nuevo, redirigir a Stripe
       if (reservationType === "pack") {
         const response = await fetch("/api/stripe/checkout", {
           method: "POST",
@@ -118,7 +179,7 @@ export default function ReservationModal({
         throw new Error("Error al crear sesión de pago");
       }
 
-      // Reservación normal (sin pago inmediato)
+      // Reservación usando pack existente o sesión gratuita
       const response = await fetch("/api/reservations", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -128,7 +189,8 @@ export default function ReservationModal({
           customer_email: formData.email,
           customer_phone: formData.phone,
           customer_message: formData.message,
-          reservation_type: reservationType,
+          reservation_type: reservationType === "use_pack" ? "pack" : reservationType,
+          pack_id: reservationType === "use_pack" ? selectedPackId : null,
           user_id: currentUser?.id || null,
         }),
       });
@@ -142,7 +204,9 @@ export default function ReservationModal({
       setResult({
         reservation_number: data.reservation?.reservation_number,
         isQueued: data.isQueued,
-        message: data.message,
+        message: reservationType === "use_pack"
+          ? `Réservation confirmée ! Il vous reste ${(availablePack?.remaining_sessions || 1) - 1} séance(s) dans votre pack.`
+          : data.message,
       });
       setStep("success");
     } catch (err) {
@@ -217,10 +281,31 @@ export default function ReservationModal({
             <form onSubmit={handleSubmit} className={styles.form}>
               {/* Type de réservation */}
               <div className={styles.typeSelector}>
+                {/* Option: Utiliser pack existant */}
+                {availablePack && (
+                  <button
+                    type="button"
+                    className={`${styles.typeBtn} ${styles.packBtn} ${reservationType === "use_pack" ? styles.active : ""}`}
+                    onClick={() => {
+                      setReservationType("use_pack");
+                      setSelectedPackId(availablePack.id);
+                    }}
+                  >
+                    <span className={styles.typeBadge}>Mon Pack</span>
+                    <span className={styles.typePrice}>
+                      <Package size={18} />
+                      {availablePack.remaining_sessions} séance{availablePack.remaining_sessions > 1 ? "s" : ""}
+                    </span>
+                    <span>Utiliser mon pack</span>
+                  </button>
+                )}
                 <button
                   type="button"
                   className={`${styles.typeBtn} ${reservationType === "single" ? styles.active : ""}`}
-                  onClick={() => setReservationType("single")}
+                  onClick={() => {
+                    setReservationType("single");
+                    setSelectedPackId(null);
+                  }}
                 >
                   <span className={styles.typeBadge}>1ère séance</span>
                   <span className={styles.typePrice}>
@@ -231,7 +316,10 @@ export default function ReservationModal({
                 <button
                   type="button"
                   className={`${styles.typeBtn} ${reservationType === "pack" ? styles.active : ""}`}
-                  onClick={() => setReservationType("pack")}
+                  onClick={() => {
+                    setReservationType("pack");
+                    setSelectedPackId(null);
+                  }}
                 >
                   <span className={styles.typeBadge}>Offre lancement</span>
                   <span className={styles.typePrice}>
@@ -311,6 +399,11 @@ export default function ReservationModal({
                   <>
                     <CreditCard size={18} />
                     Payer CHF {session?.service?.price_pack || 99}.-
+                  </>
+                ) : reservationType === "use_pack" ? (
+                  <>
+                    <Package size={18} />
+                    Utiliser 1 séance de mon pack
                   </>
                 ) : (
                   <>

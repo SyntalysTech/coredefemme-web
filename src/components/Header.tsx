@@ -4,7 +4,9 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown, User, LogOut } from "lucide-react";
+import { supabase } from "@/lib/supabase";
+import type { User as SupabaseUser } from "@supabase/supabase-js";
 import styles from "./Header.module.css";
 
 const coursesLinks = [
@@ -46,6 +48,8 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCoursDropdownOpen, setIsCoursDropdownOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState<SupabaseUser | null>(null);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -56,6 +60,68 @@ export default function Header() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Auth state - only show for customer accounts, not admin
+  useEffect(() => {
+    async function checkCustomerAuth() {
+      const { data: { session } } = await supabase.auth.getSession();
+
+      if (session?.user) {
+        // Check if user has a customer profile (not just admin)
+        const { data: profile } = await supabase
+          .from("customer_profiles")
+          .select("id")
+          .eq("id", session.user.id)
+          .single();
+
+        // Only set as logged in if they have a customer profile
+        if (profile) {
+          setCurrentUser(session.user);
+        } else {
+          setCurrentUser(null);
+        }
+      } else {
+        setCurrentUser(null);
+      }
+    }
+
+    checkCustomerAuth();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+      if (session?.user) {
+        // Check if user has a customer profile
+        const { data: profile } = await supabase
+          .from("customer_profiles")
+          .select("id")
+          .eq("id", session.user.id)
+          .single();
+
+        if (profile) {
+          setCurrentUser(session.user);
+        } else {
+          setCurrentUser(null);
+        }
+      } else {
+        setCurrentUser(null);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await supabase.auth.signOut({ scope: 'global' });
+      setCurrentUser(null);
+      setIsUserMenuOpen(false);
+      // Force a full page reload to clear all state
+      window.location.href = "/";
+    } catch (error) {
+      console.error("Logout error:", error);
+      // Force reload anyway
+      window.location.href = "/";
+    }
+  };
 
   const isCoursPage = pathname === "/core-de-maman" || pathname === "/sculpt-pilates" || pathname === "/cours-a-domicile";
 
@@ -134,6 +200,43 @@ export default function Header() {
               ))}
             </ul>
 
+            {/* Auth Section */}
+            <div className={styles.authSection}>
+              {currentUser ? (
+                <div className={styles.userMenu}>
+                  <button
+                    className={styles.userMenuToggle}
+                    onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                  >
+                    <User size={18} />
+                    <span>{currentUser.user_metadata?.full_name?.split(" ")[0] || "Mon compte"}</span>
+                    <ChevronDown size={14} className={isUserMenuOpen ? styles.rotated : ""} />
+                  </button>
+                  {isUserMenuOpen && (
+                    <div className={styles.userDropdown}>
+                      <Link href="/mon-compte" className={styles.userDropdownItem} onClick={() => setIsUserMenuOpen(false)}>
+                        <User size={16} />
+                        Mon compte
+                      </Link>
+                      <button onClick={handleLogout} className={styles.userDropdownItem}>
+                        <LogOut size={16} />
+                        Déconnexion
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div className={styles.authLinks}>
+                  <Link href="/connexion" className={styles.authLink}>
+                    Connexion
+                  </Link>
+                  <Link href="/inscription" className={styles.authLinkPrimary}>
+                    S&apos;inscrire
+                  </Link>
+                </div>
+              )}
+            </div>
+
             <Link href="/reserver" className={styles.ctaButton}>
               Réserver ma séance
             </Link>
@@ -203,6 +306,43 @@ export default function Header() {
             </li>
           ))}
         </ul>
+        {/* Mobile Auth Section */}
+        <div className={styles.mobileAuthSection}>
+          {currentUser ? (
+            <>
+              <Link
+                href="/mon-compte"
+                className={styles.mobileAuthLink}
+                onClick={closeMobileMenu}
+              >
+                <User size={18} />
+                Mon compte
+              </Link>
+              <button onClick={handleLogout} className={styles.mobileAuthLogout}>
+                <LogOut size={18} />
+                Déconnexion
+              </button>
+            </>
+          ) : (
+            <>
+              <Link
+                href="/connexion"
+                className={styles.mobileAuthLink}
+                onClick={closeMobileMenu}
+              >
+                Connexion
+              </Link>
+              <Link
+                href="/inscription"
+                className={styles.mobileAuthLinkPrimary}
+                onClick={closeMobileMenu}
+              >
+                S&apos;inscrire
+              </Link>
+            </>
+          )}
+        </div>
+
         <Link
           href="/reserver"
           className={styles.ctaButton}

@@ -227,6 +227,123 @@
 }
 
 /* ====================================
+   AUTH SECTION
+==================================== */
+.authSection {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.authLinks {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.authLink {
+  color: var(--color-dark);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  padding: 0.5rem 0.8rem;
+  border-radius: 8px;
+  transition: var(--transition);
+}
+
+.authLink:hover {
+  color: var(--color-primary);
+  background: rgba(169, 128, 106, 0.08);
+}
+
+.authLinkPrimary {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+  border: 2px solid var(--color-primary);
+  border-radius: 20px;
+  transition: var(--transition);
+}
+
+.authLinkPrimary:hover {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+/* User Menu (logged in) */
+.userMenu {
+  position: relative;
+}
+
+.userMenuToggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(169, 128, 106, 0.1);
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  font-family: var(--font-main);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-dark);
+  transition: var(--transition);
+}
+
+.userMenuToggle:hover {
+  background: rgba(169, 128, 106, 0.18);
+}
+
+.userMenuToggle svg:last-child {
+  transition: var(--transition);
+}
+
+.userMenuToggle svg.rotated {
+  transform: rotate(180deg);
+}
+
+.userDropdown {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(169, 128, 106, 0.2);
+  min-width: 180px;
+  overflow: hidden;
+  z-index: 1002;
+}
+
+.userDropdownItem {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.9rem 1.2rem;
+  color: var(--color-dark);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: var(--transition);
+  background: none;
+  border: none;
+  width: 100%;
+  cursor: pointer;
+  font-family: var(--font-main);
+}
+
+.userDropdownItem:hover {
+  background: rgba(169, 128, 106, 0.1);
+  color: var(--color-primary);
+}
+
+.userDropdownItem svg {
+  opacity: 0.7;
+}
+
+/* ====================================
    CTA BUTTON
 ==================================== */
 .ctaButton {
@@ -393,11 +510,80 @@
 }
 
 .navMobile .ctaButton {
-  margin-top: 2.5rem;
+  margin-top: 1.5rem;
   display: block;
   text-align: center;
   padding: 1.1rem 2rem;
   width: 100%;
+}
+
+/* Mobile Auth Section */
+.mobileAuthSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(169, 128, 106, 0.15);
+}
+
+.mobileAuthLink {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1rem 1.5rem;
+  color: var(--color-dark);
+  text-decoration: none;
+  font-weight: 500;
+  border-radius: 12px;
+  transition: var(--transition);
+  font-size: 1rem;
+}
+
+.mobileAuthLink:hover {
+  background: rgba(169, 128, 106, 0.12);
+  color: var(--color-primary);
+}
+
+.mobileAuthLinkPrimary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  padding: 1rem 1.5rem;
+  background: rgba(169, 128, 106, 0.12);
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 12px;
+  transition: var(--transition);
+  font-size: 1rem;
+}
+
+.mobileAuthLinkPrimary:hover {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.mobileAuthLogout {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1rem 1.5rem;
+  color: #dc2626;
+  font-weight: 500;
+  border-radius: 12px;
+  transition: var(--transition);
+  font-size: 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-main);
+  width: 100%;
+}
+
+.mobileAuthLogout:hover {
+  background: rgba(220, 38, 38, 0.08);
 }
 
 /* Mobile Overlay */

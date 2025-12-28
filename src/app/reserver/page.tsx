@@ -223,6 +223,12 @@ export default function ReserverPage() {
   }
 
   function handleSessionClick(session: Session) {
+    // Requiere login para reservar
+    if (!currentUser) {
+      // Redirigir a login con returnUrl
+      window.location.href = `/connexion?redirect=/reserver`;
+      return;
+    }
     setSelectedSession(session);
     setIsModalOpen(true);
   }
@@ -250,13 +256,13 @@ export default function ReserverPage() {
             </Link>
           ) : (
             <div className={styles.authLinks}>
-              <span>Pour voir la liste d&apos;attente et gérer vos réservations</span>
-              <Link href="/connexion" className={styles.loginLink}>
+              <span>Connectez-vous pour réserver une séance</span>
+              <Link href="/connexion?redirect=/reserver" className={styles.loginLink}>
                 <LogIn size={16} />
                 Se connecter
               </Link>
               <span className={styles.separator}>ou</span>
-              <Link href="/inscription" className={styles.signupLink}>
+              <Link href="/inscription?redirect=/reserver" className={styles.signupLink}>
                 S&apos;inscrire
               </Link>
             </div>
