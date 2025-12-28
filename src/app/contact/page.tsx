@@ -1,23 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import { MapPin, Mail, Instagram, Send } from "lucide-react";
+import { MapPin, Mail, Instagram, Send, Check, Loader2 } from "lucide-react";
 import { BsWhatsapp } from "react-icons/bs";
 import styles from "./page.module.css";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
-    prenom: "",
-    nom: "",
+    name: "",
     email: "",
     phone: "",
     subject: "",
-    withBaby: "",
-    courseDate: "",
     message: "",
   });
-  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -28,26 +25,33 @@ export default function ContactPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    setStatus("loading");
+    setErrorMessage("");
 
-    // Simulación de envío - en producción conectar con Supabase o API
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Une erreur est survenue");
+      }
+
       setStatus("success");
       setFormData({
-        prenom: "",
-        nom: "",
+        name: "",
         email: "",
         phone: "",
         subject: "",
-        withBaby: "",
-        courseDate: "",
         message: "",
       });
-    } catch {
+    } catch (err) {
       setStatus("error");
-    } finally {
-      setIsSubmitting(false);
+      setErrorMessage(err instanceof Error ? err.message : "Une erreur est survenue");
     }
   };
 
@@ -66,152 +70,126 @@ export default function ContactPage() {
           <h2>Envoyez-moi un message</h2>
           <p className={styles.subtitle}>Je vous répondrai dans les 24-48h</p>
 
-          {status === "success" && (
-            <div className="alert alert-success">
-              Merci pour votre message ! Je vous répondrai dans les plus brefs délais.
-            </div>
-          )}
-
-          {status === "error" && (
-            <div className="alert alert-error">
-              Une erreur est survenue. Veuillez réessayer.
-            </div>
-          )}
-
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label className="form-label">
-                Prénom <span className="required">*</span>
-              </label>
-              <input
-                type="text"
-                name="prenom"
-                className="form-input"
-                placeholder="Votre prénom"
-                value={formData.prenom}
-                onChange={handleChange}
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label className="form-label">
-                Nom <span className="required">*</span>
-              </label>
-              <input
-                type="text"
-                name="nom"
-                className="form-input"
-                placeholder="Votre nom"
-                value={formData.nom}
-                onChange={handleChange}
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label className="form-label">
-                Email <span className="required">*</span>
-              </label>
-              <input
-                type="email"
-                name="email"
-                className="form-input"
-                placeholder="votre@email.com"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label className="form-label">Téléphone</label>
-              <input
-                type="tel"
-                name="phone"
-                className="form-input"
-                placeholder="+41 XX XXX XX XX"
-                value={formData.phone}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="form-group">
-              <label className="form-label">
-                Sujet <span className="required">*</span>
-              </label>
-              <select
-                name="subject"
-                className="form-select"
-                value={formData.subject}
-                onChange={handleChange}
-                required
+          {status === "success" ? (
+            <div className={styles.successMessage}>
+              <div className={styles.successIcon}>
+                <Check size={32} />
+              </div>
+              <h3>Message envoyé !</h3>
+              <p>Merci pour votre message. Je vous répondrai dans les plus brefs délais.</p>
+              <button
+                onClick={() => setStatus("idle")}
+                className={styles.btnReset}
               >
-                <option value="">Sélectionnez un sujet</option>
-                <option value="Séance d'essai gratuite Core de Maman">Séance d'essai gratuite Core de Maman</option>
-                <option value="Pack 6 séances Core de Maman">Pack 6 séances Core de Maman</option>
-                <option value="Cours privé à domicile">Cours privé à domicile</option>
-                <option value="Cours Sculpt Pilates">Cours Sculpt Pilates (bientôt disponible)</option>
-                <option value="Informations générales">Informations générales</option>
-                <option value="Autre">Autre</option>
-              </select>
+                Envoyer un autre message
+              </button>
             </div>
+          ) : (
+            <form onSubmit={handleSubmit}>
+              {status === "error" && (
+                <div className={styles.errorMessage}>
+                  {errorMessage || "Une erreur est survenue. Veuillez réessayer."}
+                </div>
+              )}
 
-            <div className="form-group">
-              <label className="form-label">
-                Je viens avec mon bébé <span className="required">*</span>
-              </label>
-              <select
-                name="withBaby"
-                className="form-select"
-                value={formData.withBaby}
-                onChange={handleChange}
-                required
+              <div className="form-group">
+                <label className="form-label">
+                  Nom complet <span className="required">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  className="form-input"
+                  placeholder="Votre nom complet"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  disabled={status === "loading"}
+                />
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">
+                  Email <span className="required">*</span>
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  className="form-input"
+                  placeholder="votre@email.com"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  disabled={status === "loading"}
+                />
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">Téléphone</label>
+                <input
+                  type="tel"
+                  name="phone"
+                  className="form-input"
+                  placeholder="+41 XX XXX XX XX"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  disabled={status === "loading"}
+                />
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">Sujet</label>
+                <select
+                  name="subject"
+                  className="form-select"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  disabled={status === "loading"}
+                >
+                  <option value="">Sélectionnez un sujet</option>
+                  <option value="Réservation Core de Maman">Réservation Core de Maman</option>
+                  <option value="Réservation Sculpt Pilates">Réservation Sculpt Pilates</option>
+                  <option value="Cours privé à domicile">Cours privé à domicile</option>
+                  <option value="Informations générales">Informations générales</option>
+                  <option value="Autre">Autre</option>
+                </select>
+              </div>
+
+              <div className="form-group">
+                <label className="form-label">
+                  Votre message <span className="required">*</span>
+                </label>
+                <textarea
+                  name="message"
+                  className="form-textarea"
+                  placeholder="Parlez-moi de votre besoin, vos questions..."
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
+                  disabled={status === "loading"}
+                  rows={5}
+                />
+              </div>
+
+              <button
+                type="submit"
+                className={styles.btnSubmit}
+                disabled={status === "loading"}
               >
-                <option value="">Sélectionnez</option>
-                <option value="Oui">Oui</option>
-                <option value="Non">Non</option>
-              </select>
-            </div>
-
-            <div className="form-group">
-              <label className="form-label">
-                Date du cours désiré
-              </label>
-              <input
-                type="date"
-                name="courseDate"
-                className="form-input"
-                value={formData.courseDate}
-                onChange={handleChange}
-              />
-              <small style={{ color: '#666', marginTop: '0.25rem', display: 'block' }}>
-                Core de Maman : Mercredi 09h30 - 10h30 (à partir du 14/01/2026)
-              </small>
-            </div>
-
-            <div className="form-group">
-              <label className="form-label">
-                Votre message
-              </label>
-              <textarea
-                name="message"
-                className="form-textarea"
-                placeholder="Parlez-moi de votre besoin, vos questions..."
-                value={formData.message}
-                onChange={handleChange}
-              />
-            </div>
-
-            <button
-              type="submit"
-              className={styles.btnSubmit}
-              disabled={isSubmitting}
-            >
-              <Send size={20} />
-              {isSubmitting ? "Envoi en cours..." : "Envoyer le message"}
-            </button>
-          </form>
+                {status === "loading" ? (
+                  <>
+                    <Loader2 size={20} className={styles.spinner} />
+                    Envoi en cours...
+                  </>
+                ) : (
+                  <>
+                    <Send size={20} />
+                    Envoyer le message
+                  </>
+                )}
+              </button>
+            </form>
+          )}
         </div>
 
         {/* Info Cards */}
