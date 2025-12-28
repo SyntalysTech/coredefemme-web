@@ -3,7 +3,6 @@
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import { ArrowLeft, Plus, Calendar, Clock, Users, Trash2, Edit2, RefreshCw, Check } from "lucide-react";
-import { supabase } from "@/lib/supabase";
 import styles from "./page.module.css";
 
 interface Service {
@@ -48,12 +47,13 @@ export default function AdminSessionsPage() {
   });
 
   const fetchServices = useCallback(async () => {
-    const { data } = await supabase
-      .from("services")
-      .select("*")
-      .eq("is_active", true)
-      .order("name");
-    setServices(data || []);
+    try {
+      const res = await fetch("/api/services");
+      const { services } = await res.json();
+      setServices(services || []);
+    } catch (error) {
+      console.error("Error fetching services:", error);
+    }
   }, []);
 
   const fetchSessions = useCallback(async () => {
@@ -63,18 +63,8 @@ export default function AdminSessionsPage() {
       const endDate = new Date(selectedWeek);
       endDate.setDate(endDate.getDate() + 6);
 
-      const { data, error } = await supabase
-        .from("sessions")
-        .select(`
-          *,
-          service:services (*)
-        `)
-        .gte("session_date", startDate)
-        .lte("session_date", endDate.toISOString().split("T")[0])
-        .order("session_date")
-        .order("start_time");
-
-      if (error) throw error;
+      const res = await fetch(`/api/sessions?start_date=${startDate}&end_date=${endDate.toISOString().split("T")[0]}&include_all=true`);
+      const { sessions: data } = await res.json();
       setSessions(data || []);
     } catch (error) {
       console.error("Error fetching sessions:", error);
@@ -101,21 +91,20 @@ export default function AdminSessionsPage() {
         start_time: formData.start_time,
         end_time: formData.end_time,
         max_participants: formData.max_participants,
-        current_participants: 0,
-        status: "available",
       };
 
       if (editingSession) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        await (supabase as any)
-          .from("sessions")
-          .update(sessionData)
-          .eq("id", editingSession.id);
+        await fetch("/api/sessions", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: editingSession.id, ...sessionData }),
+        });
       } else {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        await (supabase as any)
-          .from("sessions")
-          .insert(sessionData);
+        await fetch("/api/sessions", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(sessionData),
+        });
       }
 
       setShowForm(false);
@@ -149,7 +138,7 @@ export default function AdminSessionsPage() {
     if (!confirm("Êtes-vous sûr de vouloir supprimer cette séance ?")) return;
 
     try {
-      await supabase.from("sessions").delete().eq("id", id);
+      await fetch(`/api/sessions?id=${id}`, { method: "DELETE" });
       fetchSessions();
     } catch (error) {
       console.error("Error deleting session:", error);
@@ -158,11 +147,11 @@ export default function AdminSessionsPage() {
 
   const handleStatusChange = async (id: string, newStatus: string) => {
     try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      await (supabase as any)
-        .from("sessions")
-        .update({ status: newStatus })
-        .eq("id", id);
+      await fetch("/api/sessions", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, status: newStatus }),
+      });
       fetchSessions();
     } catch (error) {
       console.error("Error updating status:", error);
