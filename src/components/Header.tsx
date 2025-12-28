@@ -134,8 +134,8 @@ export default function Header() {
               ))}
             </ul>
 
-            <Link href="/contact" className={styles.ctaButton}>
-              Réserver ma séance d'essai
+            <Link href="/reserver" className={styles.ctaButton}>
+              Réserver ma séance
             </Link>
           </nav>
 
@@ -204,11 +204,11 @@ export default function Header() {
           ))}
         </ul>
         <Link
-          href="/contact"
+          href="/reserver"
           className={styles.ctaButton}
           onClick={closeMobileMenu}
         >
-          Réserver ma séance d'essai
+          Réserver ma séance
         </Link>
       </nav>
 

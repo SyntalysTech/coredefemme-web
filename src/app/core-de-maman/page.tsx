@@ -95,7 +95,7 @@ export default function CoreDeMamanPage() {
           </p>
 
           <div className={styles.heroCtaContainer}>
-            <Link href="/contact" className={styles.heroCtaPrimary}>
+            <Link href="/reserver" className={styles.heroCtaPrimary}>
               <Calendar size={20} />
               Ma séance d'essai gratuite
             </Link>
@@ -247,7 +247,7 @@ export default function CoreDeMamanPage() {
               <li><Check size={16} /> Sans engagement</li>
               <li><Check size={16} /> Tous niveaux acceptés</li>
             </ul>
-            <Link href="/contact" className={styles.tarifCta}>
+            <Link href="/reserver" className={styles.tarifCta}>
               Réserver ma séance d'essai gratuite
             </Link>
           </div>
@@ -271,7 +271,7 @@ export default function CoreDeMamanPage() {
               <li><Check size={16} /> Groupe convivial</li>
               <li><Check size={16} /> Matériel fourni</li>
             </ul>
-            <Link href="/contact" className={styles.tarifCta}>
+            <Link href="/reserver" className={styles.tarifCta}>
               Acheter le pack
             </Link>
           </div>
@@ -300,7 +300,7 @@ export default function CoreDeMamanPage() {
           Rejoignez Core de Maman et offrez-vous ce moment de reconnexion. Venez tester, votre premier cours est gratuit.
         </p>
         <div className={styles.ctaFinalButtons}>
-          <Link href="/contact" className={styles.heroCtaPrimary}>
+          <Link href="/reserver" className={styles.heroCtaPrimary}>
             <Calendar size={20} />
             Réserver ma séance d'essai gratuite
           </Link>

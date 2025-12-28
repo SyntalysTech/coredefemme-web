@@ -39,7 +39,7 @@ export default function Home() {
           </p>
 
           <div className={styles.heroCtaContainer}>
-            <Link href="/contact" className={`${styles.heroCta} ${styles.heroCtaPrimary}`}>
+            <Link href="/reserver" className={`${styles.heroCta} ${styles.heroCtaPrimary}`}>
               Réserver ma séance d'essai gratuit
             </Link>
             <Link href="#cours" className={`${styles.heroCta} ${styles.heroCtaSecondary}`}>

@@ -95,7 +95,7 @@ export default function CoursADomicilePage() {
           </p>
 
           <div className={styles.heroCtaContainer}>
-            <Link href="/contact" className={styles.heroCtaPrimary}>
+            <Link href="/reserver" className={styles.heroCtaPrimary}>
               <Calendar size={20} />
               Réserver une séance
             </Link>
@@ -246,7 +246,7 @@ export default function CoursADomicilePage() {
               <li><Check size={16} /> Matériel fourni</li>
               <li><Check size={16} /> Sans engagement</li>
             </ul>
-            <Link href="/contact" className={styles.tarifCta}>
+            <Link href="/reserver" className={styles.tarifCta}>
               Réserver une séance
             </Link>
           </div>
@@ -270,7 +270,7 @@ export default function CoursADomicilePage() {
               <li><Check size={16} /> Matériel fourni</li>
               <li><Check size={16} /> Progression adaptée</li>
             </ul>
-            <Link href="/contact" className={styles.tarifCta}>
+            <Link href="/reserver" className={styles.tarifCta}>
               Acheter le pack
             </Link>
           </div>
@@ -297,7 +297,7 @@ export default function CoursADomicilePage() {
           Réservez votre première séance à domicile et découvrez le confort d'un accompagnement personnalisé chez vous.
         </p>
         <div className={styles.ctaFinalButtons}>
-          <Link href="/contact" className={styles.heroCtaPrimary}>
+          <Link href="/reserver" className={styles.heroCtaPrimary}>
             <Calendar size={20} />
             Réserver une séance
           </Link>
