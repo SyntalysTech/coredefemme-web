@@ -3,12 +3,16 @@
 -- =============================================
 -- Ejecutar este script en Supabase SQL Editor
 --
--- Nuevos precios:
--- - Sesión de prueba: GRATIS (0 CHF)
--- - Pack 6 sesiones (grupo): 99 CHF (oferta lanzamiento), después 120 CHF
--- - Pack 6 sesiones (domicilio): 199 CHF (oferta), después 240 CHF
+-- Precios actualizados según productos de Stripe:
+-- Core de Maman / Sculpt Pilates:
+--   - Sesión de prueba: GRATIS (0 CHF)
+--   - Pack 6 sesiones: 99 CHF (oferta), 120 CHF (después)
+--
+-- Cours à domicile:
+--   - Sesión individual: 40 CHF
+--   - Pack 6 sesiones: 180 CHF (oferta), 220 CHF (después)
 
--- Actualizar precios de servicios
+-- Actualizar precios de servicios de grupo
 UPDATE services
 SET
   price = 0,
@@ -16,10 +20,11 @@ SET
   updated_at = NOW()
 WHERE slug IN ('core-de-maman', 'sculpt-pilates');
 
+-- Actualizar precios de servicio a domicilio
 UPDATE services
 SET
-  price = 0,
-  price_pack = 199,
+  price = 40,
+  price_pack = 180,
   updated_at = NOW()
 WHERE slug = 'cours-domicile';
 

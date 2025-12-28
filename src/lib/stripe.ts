@@ -6,46 +6,50 @@ export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   typescript: true,
 });
 
-// Productos de Stripe
-// Precios: Sesión prueba GRATIS, Pack 6 sesiones: 99 CHF (oferta) / 120 CHF (después)
+// Productos de Stripe - LIVE
+// Sesiones individuales: Core de Maman/Sculpt = GRATIS, Domicile = 40 CHF
+// Packs: Core de Maman = 99/120 CHF, Domicile = 180/220 CHF
+// Sculpt Pilates: No disponible todavía
 export const STRIPE_PRODUCTS = {
-  // Sesiones individuales (GRATIS - séance d'essai)
+  // Sesiones individuales
   'core-de-maman-single': {
-    priceId: 'price_placeholder_core_maman_single',
+    priceId: 'free', // GRATIS - no requiere Stripe
     name: 'Core de Maman - Séance d\'essai',
-    amount: 0, // GRATIS
+    amount: 0,
     isFree: true,
   },
   'sculpt-pilates-single': {
-    priceId: 'price_placeholder_sculpt_single',
+    priceId: 'free', // GRATIS - no requiere Stripe (no disponible aún)
     name: 'Sculpt Pilates - Séance d\'essai',
-    amount: 0, // GRATIS
+    amount: 0,
     isFree: true,
   },
   'cours-domicile-single': {
-    priceId: 'price_placeholder_domicile_single',
-    name: 'Cours à domicile - Séance d\'essai',
-    amount: 0, // GRATIS
-    isFree: true,
+    priceId: 'price_1SjRUeRgJLOxeFSVgH8O2GFl', // 40 CHF
+    name: 'Cours à domicile - Séance',
+    amount: 4000,
+    isFree: false,
   },
   // Packs de 6 sesiones (oferta de lanzamiento)
   'core-de-maman-pack': {
-    priceId: 'price_placeholder_core_maman_pack',
+    priceId: 'price_1SjRTkRgJLOxeFSVL4Ip0dYx', // 99 CHF oferta
+    priceIdNormal: 'price_1SjRUHRgJLOxeFSV4e4EVpTp', // 120 CHF normal
     name: 'Core de Maman - Pack 6 séances',
     amount: 9900, // 99 CHF (oferta lanzamiento)
     amountAfterOffer: 12000, // 120 CHF después
   },
   'sculpt-pilates-pack': {
-    priceId: 'price_placeholder_sculpt_pack',
+    priceId: 'placeholder_sculpt_pack', // No disponible aún
     name: 'Sculpt Pilates - Pack 6 séances',
-    amount: 9900, // 99 CHF (oferta lanzamiento)
-    amountAfterOffer: 12000, // 120 CHF después
+    amount: 9900,
+    amountAfterOffer: 12000,
   },
   'cours-domicile-pack': {
-    priceId: 'price_placeholder_domicile_pack',
+    priceId: 'price_1SjRYQRgJLOxeFSV8IbVY1LB', // 180 CHF oferta
+    priceIdNormal: 'price_1SjRYhRgJLOxeFSVyfAfqCHU', // 220 CHF normal
     name: 'Cours à domicile - Pack 6 séances',
-    amount: 19900, // 199 CHF (oferta)
-    amountAfterOffer: 24000, // 240 CHF después
+    amount: 18000, // 180 CHF (oferta)
+    amountAfterOffer: 22000, // 220 CHF después
   },
 };
 
@@ -59,6 +63,13 @@ export interface CreateCheckoutParams {
   successUrl: string;
   cancelUrl: string;
   metadata?: Record<string, string>;
+}
+
+// Verificar si un producto es gratuito
+export function isProductFree(serviceSlug: string, isPack: boolean): boolean {
+  const productKey = `${serviceSlug}-${isPack ? 'pack' : 'single'}` as keyof typeof STRIPE_PRODUCTS;
+  const product = STRIPE_PRODUCTS[productKey];
+  return product?.isFree === true || product?.priceId === 'free';
 }
 
 // Crear sesión de checkout
@@ -79,54 +90,17 @@ export async function createCheckoutSession({
     throw new Error(`Product not found: ${productKey}`);
   }
 
-  // Verificar si estamos en modo placeholder
-  if (product.priceId.includes('placeholder')) {
-    // Modo de desarrollo: crear price inline
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      mode: 'payment',
-      customer_email: customerEmail,
-      line_items: [
-        {
-          price_data: {
-            currency: 'chf',
-            unit_amount: product.amount,
-            product_data: {
-              name: product.name,
-              description: isPack
-                ? '6 séances de 45 minutes - Valable 6 mois'
-                : 'Séance de 45 minutes',
-              images: ['https://coredefemme.ch/logos/logo-core-de-femme-no-bg.png'],
-            },
-          },
-          quantity: 1,
-        },
-      ],
-      success_url: successUrl,
-      cancel_url: cancelUrl,
-      metadata: {
-        customer_name: customerName,
-        customer_email: customerEmail,
-        service_slug: serviceSlug,
-        is_pack: isPack.toString(),
-        session_id: sessionId || '',
-        ...metadata,
-      },
-      payment_intent_data: {
-        metadata: {
-          customer_name: customerName,
-          customer_email: customerEmail,
-          service_slug: serviceSlug,
-        },
-      },
-      locale: 'fr',
-      billing_address_collection: 'required',
-    });
-
-    return session;
+  // Si es gratuito, no necesitamos Stripe
+  if (product.isFree || product.priceId === 'free') {
+    throw new Error('FREE_PRODUCT'); // Manejar en el cliente
   }
 
-  // Modo producción: usar priceId real
+  // Si el priceId contiene placeholder, no está disponible
+  if (product.priceId.includes('placeholder')) {
+    throw new Error(`Product not available yet: ${productKey}`);
+  }
+
+  // Usar priceId real de Stripe
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ['card'],
     mode: 'payment',

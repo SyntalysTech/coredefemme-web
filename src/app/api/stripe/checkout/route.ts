@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createCheckoutSession } from '@/lib/stripe';
+import { createCheckoutSession, isProductFree } from '@/lib/stripe';
 
 // POST - Crear sesión de checkout de Stripe
 export async function POST(request: NextRequest) {
@@ -19,6 +19,14 @@ export async function POST(request: NextRequest) {
         { error: 'Faltan campos requeridos' },
         { status: 400 }
       );
+    }
+
+    // Si es producto gratuito, no necesitamos Stripe
+    if (isProductFree(service_slug, is_pack)) {
+      return NextResponse.json({
+        isFree: true,
+        message: 'Producto gratuito, no requiere pago',
+      });
     }
 
     // URLs de retorno
@@ -43,6 +51,24 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error('Error creating checkout session:', error);
+
+    // Manejar errores específicos
+    const errorMessage = error instanceof Error ? error.message : 'Error desconocido';
+
+    if (errorMessage === 'FREE_PRODUCT') {
+      return NextResponse.json({
+        isFree: true,
+        message: 'Producto gratuito, no requiere pago',
+      });
+    }
+
+    if (errorMessage.includes('not available yet')) {
+      return NextResponse.json(
+        { error: 'Ce produit n\'est pas encore disponible' },
+        { status: 400 }
+      );
+    }
+
     return NextResponse.json(
       { error: 'Error al crear sesión de pago' },
       { status: 500 }

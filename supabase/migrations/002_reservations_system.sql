@@ -267,11 +267,13 @@ ALTER PUBLICATION supabase_realtime ADD TABLE reservations;
 ALTER PUBLICATION supabase_realtime ADD TABLE sessions;
 
 -- Insertar servicios iniciales
--- PRECIOS: Sesión prueba GRATIS (price=0), Pack 6 sesiones: 99 CHF (oferta lanzamiento)
+-- PRECIOS:
+-- Core de Maman / Sculpt: Sesión prueba GRATIS (0 CHF), Pack 6 = 99 CHF (oferta) / 120 CHF (normal)
+-- Domicile: Sesión = 40 CHF, Pack 6 = 180 CHF (oferta) / 220 CHF (normal)
 INSERT INTO services (slug, name, description, duration_minutes, price, price_pack, pack_sessions, max_participants, service_type) VALUES
 ('core-de-maman', 'Core de Maman', 'Cours post-partum en petit groupe pour renforcer le périnée et retrouver un centre fort.', 45, 0, 99, 6, 8, 'group'),
 ('sculpt-pilates', 'Sculpt Pilates', 'Cours de renforcement Pilates dynamique pour sculpter et tonifier le corps.', 45, 0, 99, 6, 8, 'group'),
-('cours-domicile', 'Cours à domicile', 'Séances privées de Pilates à votre domicile, adaptées à vos besoins.', 45, 0, 199, 6, 2, 'home')
+('cours-domicile', 'Cours à domicile', 'Séances privées de Pilates à votre domicile, adaptées à vos besoins.', 45, 40, 180, 6, 2, 'home')
 ON CONFLICT (slug) DO UPDATE SET
   name = EXCLUDED.name,
   description = EXCLUDED.description,

@@ -71,14 +71,14 @@ export default function ReservationModal({
     setIsSubmitting(true);
 
     try {
-      // Si es pago con Stripe
-      if (reservationType === "pack" || step === "payment") {
+      // Si es pack, intentar pago con Stripe
+      if (reservationType === "pack") {
         const response = await fetch("/api/stripe/checkout", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             service_slug: session?.service?.slug || serviceSlug,
-            is_pack: reservationType === "pack",
+            is_pack: true,
             customer_email: formData.email,
             customer_name: formData.name,
             session_id: session?.id,
@@ -87,9 +87,15 @@ export default function ReservationModal({
 
         const data = await response.json();
 
+        // Si tiene URL de Stripe, redirigir
         if (data.url) {
           window.location.href = data.url;
           return;
+        }
+
+        // Si hay error, mostrarlo
+        if (data.error) {
+          throw new Error(data.error);
         }
 
         throw new Error("Error al crear sesión de pago");
@@ -199,7 +205,9 @@ export default function ReservationModal({
                   onClick={() => setReservationType("single")}
                 >
                   <span className={styles.typeBadge}>1ère séance</span>
-                  <span className={styles.typePrice}>GRATUIT</span>
+                  <span className={styles.typePrice}>
+                    {(session?.service?.price || 0) === 0 ? "GRATUIT" : `CHF ${session?.service?.price}.-`}
+                  </span>
                   <span>Séance d&apos;essai</span>
                 </button>
                 <button
@@ -212,7 +220,9 @@ export default function ReservationModal({
                     CHF {session?.service?.price_pack || 99}.-
                   </span>
                   <span>Pack 6 séances</span>
-                  <span className={styles.priceAfter}>Ensuite CHF 120.-</span>
+                  <span className={styles.priceAfter}>
+                    Ensuite CHF {session?.service?.slug === 'cours-domicile' ? '220' : '120'}.-
+                  </span>
                 </button>
               </div>
 
