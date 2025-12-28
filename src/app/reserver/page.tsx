@@ -44,21 +44,44 @@ interface AuthUser {
   full_name?: string;
 }
 
+// Fecha mínima: 14 de enero 2026
+const MIN_DATE = new Date("2026-01-14");
+
+// Obtener los próximos N miércoles a partir de una fecha
+function getNextWednesdays(startDate: Date, count: number): Date[] {
+  const wednesdays: Date[] = [];
+  const current = new Date(startDate);
+
+  // Avanzar al próximo miércoles si no es miércoles
+  while (current.getDay() !== 3) {
+    current.setDate(current.getDate() + 1);
+  }
+
+  for (let i = 0; i < count; i++) {
+    wednesdays.push(new Date(current));
+    current.setDate(current.getDate() + 7);
+  }
+
+  return wednesdays;
+}
+
 export default function ReserverPage() {
   const [services, setServices] = useState<Service[]>([]);
   const [sessions, setSessions] = useState<Session[]>([]);
   const [selectedService, setSelectedService] = useState<string>("all");
   const [selectedSession, setSelectedSession] = useState<Session | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentWeekStart, setCurrentWeekStart] = useState(() => {
-    const today = new Date();
-    const day = today.getDay();
-    const diff = today.getDate() - day + (day === 0 ? -6 : 1);
-    return new Date(today.setDate(diff));
-  });
+  const [currentPage, setCurrentPage] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [currentUser, setCurrentUser] = useState<AuthUser | null>(null);
   const [queueInfo, setQueueInfo] = useState<QueueInfo[]>([]);
+
+  // Mostrar 4 miércoles por página
+  const WEDNESDAYS_PER_PAGE = 4;
+
+  // Calcular fecha de inicio (máximo entre hoy y MIN_DATE)
+  const today = new Date();
+  const startDate = today > MIN_DATE ? today : MIN_DATE;
 
   useEffect(() => {
     checkAuth();
@@ -78,7 +101,7 @@ export default function ReserverPage() {
 
   useEffect(() => {
     fetchSessions();
-  }, [currentWeekStart, selectedService]);
+  }, [currentPage, selectedService]);
 
   async function fetchServices() {
     try {
@@ -97,9 +120,13 @@ export default function ReserverPage() {
   async function fetchSessions() {
     setIsLoading(true);
     try {
-      const startDate = currentWeekStart.toISOString().split("T")[0];
-      const endDate = new Date(currentWeekStart);
-      endDate.setDate(endDate.getDate() + 6);
+      // Calcular los miércoles para esta página
+      const pageStartDate = new Date(startDate);
+      pageStartDate.setDate(pageStartDate.getDate() + (currentPage * WEDNESDAYS_PER_PAGE * 7));
+
+      const wednesdays = getNextWednesdays(pageStartDate, WEDNESDAYS_PER_PAGE);
+      const firstWednesday = wednesdays[0];
+      const lastWednesday = wednesdays[wednesdays.length - 1];
 
       let query = supabase
         .from("sessions")
@@ -107,8 +134,8 @@ export default function ReserverPage() {
           *,
           service:services (*)
         `)
-        .gte("session_date", startDate)
-        .lte("session_date", endDate.toISOString().split("T")[0])
+        .gte("session_date", firstWednesday.toISOString().split("T")[0])
+        .lte("session_date", lastWednesday.toISOString().split("T")[0])
         .in("status", ["available", "full"])
         .order("session_date")
         .order("start_time");
@@ -136,7 +163,6 @@ export default function ReserverPage() {
     if (!currentUser || sessionIds.length === 0) return;
 
     try {
-      // Obtener conteo de cola por sesión
       const { data: queueData } = await supabase
         .from("reservations")
         .select("session_id, queue_position, customer_email")
@@ -161,7 +187,6 @@ export default function ReserverPage() {
           }
           queueMap[r.session_id].queue_count++;
 
-          // Si es el usuario actual, guardar su posición
           if (r.customer_email === currentUser.email) {
             queueMap[r.session_id].user_position = r.queue_position;
           }
@@ -178,20 +203,18 @@ export default function ReserverPage() {
     return queueInfo.find(q => q.session_id === sessionId);
   }
 
-  function navigateWeek(direction: "prev" | "next") {
-    const newDate = new Date(currentWeekStart);
-    newDate.setDate(newDate.getDate() + (direction === "next" ? 7 : -7));
-    setCurrentWeekStart(newDate);
+  function navigatePage(direction: "prev" | "next") {
+    if (direction === "prev" && currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    } else if (direction === "next") {
+      setCurrentPage(currentPage + 1);
+    }
   }
 
-  function getWeekDays() {
-    const days = [];
-    for (let i = 0; i < 7; i++) {
-      const date = new Date(currentWeekStart);
-      date.setDate(date.getDate() + i);
-      days.push(date);
-    }
-    return days;
+  function getWednesdaysForCurrentPage(): Date[] {
+    const pageStartDate = new Date(startDate);
+    pageStartDate.setDate(pageStartDate.getDate() + (currentPage * WEDNESDAYS_PER_PAGE * 7));
+    return getNextWednesdays(pageStartDate, WEDNESDAYS_PER_PAGE);
   }
 
   function getSessionsForDay(date: Date) {
@@ -204,8 +227,12 @@ export default function ReserverPage() {
     setIsModalOpen(true);
   }
 
-  const weekDays = getWeekDays();
-  const today = new Date().toISOString().split("T")[0];
+  const wednesdays = getWednesdaysForCurrentPage();
+  const todayStr = new Date().toISOString().split("T")[0];
+
+  // Calcular rango de fechas para el título
+  const firstWednesday = wednesdays[0];
+  const lastWednesday = wednesdays[wednesdays.length - 1];
 
   return (
     <>
@@ -259,20 +286,21 @@ export default function ReserverPage() {
           </div>
         </div>
 
-        {/* Week Navigation */}
+        {/* Navigation */}
         <div className={styles.weekNav}>
           <button
             className={styles.navBtn}
-            onClick={() => navigateWeek("prev")}
+            onClick={() => navigatePage("prev")}
+            disabled={currentPage === 0}
           >
             <ChevronLeft size={20} />
-            Semaine précédente
+            Précédent
           </button>
 
           <h2 className={styles.weekTitle}>
-            {currentWeekStart.toLocaleDateString("fr-CH", { day: "numeric", month: "long" })}
+            {firstWednesday.toLocaleDateString("fr-CH", { day: "numeric", month: "long" })}
             {" - "}
-            {new Date(currentWeekStart.getTime() + 6 * 24 * 60 * 60 * 1000).toLocaleDateString("fr-CH", {
+            {lastWednesday.toLocaleDateString("fr-CH", {
               day: "numeric",
               month: "long",
               year: "numeric",
@@ -281,20 +309,20 @@ export default function ReserverPage() {
 
           <button
             className={styles.navBtn}
-            onClick={() => navigateWeek("next")}
+            onClick={() => navigatePage("next")}
           >
-            Semaine suivante
+            Suivant
             <ChevronRight size={20} />
           </button>
         </div>
 
-        {/* Calendar Grid */}
+        {/* Calendar Grid - Solo miércoles */}
         <div className={styles.calendarGrid}>
-          {weekDays.map((day) => {
+          {wednesdays.map((day) => {
             const dayStr = day.toISOString().split("T")[0];
             const daySessions = getSessionsForDay(day);
-            const isPast = dayStr < today;
-            const isToday = dayStr === today;
+            const isPast = dayStr < todayStr;
+            const isToday = dayStr === todayStr;
 
             return (
               <div
@@ -303,10 +331,10 @@ export default function ReserverPage() {
               >
                 <div className={styles.dayHeader}>
                   <span className={styles.dayName}>
-                    {day.toLocaleDateString("fr-CH", { weekday: "short" })}
+                    {day.toLocaleDateString("fr-CH", { weekday: "long" })}
                   </span>
                   <span className={styles.dayNumber}>
-                    {day.getDate()}
+                    {day.toLocaleDateString("fr-CH", { day: "numeric", month: "short" })}
                   </span>
                 </div>
 
@@ -316,12 +344,14 @@ export default function ReserverPage() {
                       <div className={styles.spinner}></div>
                     </div>
                   ) : daySessions.length === 0 ? (
-                    <p className={styles.noSessions}>Pas de séance</p>
+                    <p className={styles.noSessions}>Pas de séance prévue</p>
                   ) : (
                     daySessions.map((session) => {
                       const availableSpots = session.max_participants - session.current_participants;
                       const isFull = availableSpots <= 0;
                       const sessionQueueInfo = getQueueInfoForSession(session.id);
+                      // Durée: 60 min pour Core de Maman/Sculpt, 45 min pour domicile
+                      const duration = session.service?.service_type === "home" ? 45 : 60;
 
                       return (
                         <button
@@ -332,7 +362,7 @@ export default function ReserverPage() {
                         >
                           <span className={styles.sessionTime}>
                             <Clock size={14} />
-                            {session.start_time.slice(0, 5)}
+                            {session.start_time.slice(0, 5)} ({duration} min)
                           </span>
                           <span className={styles.sessionName}>
                             {session.service?.name}
@@ -341,7 +371,6 @@ export default function ReserverPage() {
                             <Users size={14} />
                             {isFull ? "Complet" : `${availableSpots} place${availableSpots > 1 ? "s" : ""}`}
                           </span>
-                          {/* Queue info - solo para usuarios autenticados */}
                           {currentUser && isFull && sessionQueueInfo && (
                             <span className={styles.queueInfo}>
                               {sessionQueueInfo.user_position
@@ -377,7 +406,7 @@ export default function ReserverPage() {
             </div>
             <div>
               <h3>Durée</h3>
-              <p>45 minutes par séance</p>
+              <p>1 heure par séance (45 min à domicile)</p>
             </div>
           </div>
 
@@ -396,30 +425,38 @@ export default function ReserverPage() {
         <section className={styles.servicesSection}>
           <h2>Nos cours</h2>
           <div className={styles.servicesGrid}>
-            {services.map((service) => (
-              <div key={service.id} className={styles.serviceCard}>
-                <h3>{service.name}</h3>
-                <p>{service.description}</p>
-                <div className={styles.servicePricing}>
-                  <div className={styles.priceItem}>
-                    <span className={styles.priceLabel}>Séance</span>
-                    <span className={styles.priceValue}>CHF {service.price}.-</span>
-                  </div>
-                  {service.price_pack && (
+            {services.map((service) => {
+              const duration = service.service_type === "home" ? 45 : 60;
+              return (
+                <div key={service.id} className={styles.serviceCard}>
+                  <h3>{service.name}</h3>
+                  <p>{service.description}</p>
+                  <p className={styles.serviceDuration}>
+                    <Clock size={16} /> {duration} minutes
+                  </p>
+                  <div className={styles.servicePricing}>
                     <div className={styles.priceItem}>
-                      <span className={styles.priceLabel}>Pack {service.pack_sessions} séances</span>
-                      <span className={styles.priceValue}>CHF {service.price_pack}.-</span>
+                      <span className={styles.priceLabel}>Séance</span>
+                      <span className={styles.priceValue}>
+                        {service.price === 0 ? "GRATUIT" : `CHF ${service.price}.-`}
+                      </span>
                     </div>
-                  )}
+                    {service.price_pack && (
+                      <div className={styles.priceItem}>
+                        <span className={styles.priceLabel}>Pack {service.pack_sessions} séances</span>
+                        <span className={styles.priceValue}>CHF {service.price_pack}.-</span>
+                      </div>
+                    )}
+                  </div>
+                  <Link
+                    href={`/${service.slug}`}
+                    className={styles.serviceLink}
+                  >
+                    En savoir plus
+                  </Link>
                 </div>
-                <Link
-                  href={`/${service.slug}`}
-                  className={styles.serviceLink}
-                >
-                  En savoir plus
-                </Link>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </section>
 
@@ -440,7 +477,7 @@ export default function ReserverPage() {
         onClose={() => {
           setIsModalOpen(false);
           setSelectedSession(null);
-          fetchSessions(); // Refresh after reservation
+          fetchSessions();
         }}
         session={selectedSession || undefined}
         currentUser={currentUser ? {
