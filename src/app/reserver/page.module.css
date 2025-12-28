@@ -83,7 +83,8 @@
 }
 
 .loginLink:hover {
-  background: var(--color-dark);
+  background: #5a4a3f;
+  color: #fff;
 }
 
 .signupLink {
