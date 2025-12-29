@@ -36,7 +36,7 @@ export default function AdminClientsPage() {
 
       // Get additional stats for each client
       const clientsWithStats = await Promise.all(
-        (data || []).map(async (client) => {
+        (data || []).map(async (client: { id: string; email: string; full_name: string; phone: string | null; total_sessions_attended: number; total_amount_spent: number; created_at: string; last_login_at: string | null }) => {
           const [reservationsRes, packsRes] = await Promise.all([
             supabase
               .from("reservations")
