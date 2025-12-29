@@ -88,7 +88,7 @@ export default function WelcomeModal() {
           </div>
 
           <Link
-            href="/contact"
+            href="/reserver"
             className={styles.ctaBtn}
             onClick={closeModal}
           >
