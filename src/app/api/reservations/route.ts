@@ -175,6 +175,16 @@ export async function POST(request: NextRequest) {
       validatedPackId = null;
     }
 
+    // Determinar si la sesión es gratuita (precio = 0)
+    const isFreeSession = session.service?.price === 0;
+
+    // Determinar status y payment_status
+    // - Si usa pack: confirmed + paid
+    // - Si es gratis: confirmed + paid (no requiere pago)
+    // - Si no está en cola: pending + pending (espera confirmación manual o pago)
+    // - Si está en cola: pending + pending
+    const isConfirmed = validatedPackId || isFreeSession;
+
     // Crear la reservación
     const { data: reservation, error: reservationError } = await supabase
       .from('reservations')
@@ -185,8 +195,8 @@ export async function POST(request: NextRequest) {
         customer_email,
         customer_phone,
         customer_message,
-        status: validatedPackId ? 'confirmed' : 'pending', // Si usa pack, se confirma directamente
-        payment_status: validatedPackId ? 'paid' : 'pending', // Si usa pack, ya está pagado
+        status: isConfirmed && !queuePosition ? 'confirmed' : 'pending',
+        payment_status: isConfirmed ? 'paid' : 'pending', // Gratis o pack = pagado
         queue_position: queuePosition,
         reservation_type: validatedPackId ? 'pack' : reservation_type,
         pack_id: validatedPackId,

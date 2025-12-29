@@ -58,6 +58,15 @@ body {
   padding-top: var(--total-header-height);
 }
 
+/* Admin y Login no necesitan el padding del header público */
+body.admin-page,
+body.login-page,
+body.auth-page,
+body.no-header-padding {
+  padding-top: 0 !important;
+  background-color: #f5f5f7 !important;
+}
+
 /* ====================================
    TIPOGRAFÍA
 ==================================== */

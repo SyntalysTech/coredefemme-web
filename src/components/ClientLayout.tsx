@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PromoBanner from "@/components/PromoBanner";
@@ -14,6 +15,20 @@ export default function ClientLayout({
   const pathname = usePathname();
   const isAdmin = pathname?.startsWith("/admin");
   const isLogin = pathname === "/login";
+  const isAuthPage = pathname?.startsWith("/compte");
+
+  // Manage body class for admin/login pages to remove header padding
+  useEffect(() => {
+    if (isAdmin || isLogin || isAuthPage) {
+      document.body.classList.add("no-header-padding");
+    } else {
+      document.body.classList.remove("no-header-padding");
+    }
+
+    return () => {
+      document.body.classList.remove("no-header-padding");
+    };
+  }, [isAdmin, isLogin, isAuthPage]);
 
   // Don't show Header/Footer on admin or login pages
   if (isAdmin || isLogin) {

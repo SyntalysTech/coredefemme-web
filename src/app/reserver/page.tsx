@@ -90,29 +90,35 @@ export default function ReserverPage() {
   }, []);
 
   async function checkAuth() {
-    const { data: { session } } = await supabase.auth.getSession();
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
 
-    if (session?.user) {
-      // Verificar que tenga customer_profile (no solo admin)
-      const { data: profile } = await supabase
-        .from("customer_profiles")
-        .select("id")
-        .eq("id", session.user.id)
-        .single();
+      if (session?.user) {
+        // Verificar que tenga customer_profile (no solo admin)
+        const { data: profile } = await supabase
+          .from("customer_profiles")
+          .select("id")
+          .eq("id", session.user.id)
+          .maybeSingle();
 
-      if (profile) {
-        setCurrentUser({
-          id: session.user.id,
-          email: session.user.email!,
-          full_name: session.user.user_metadata?.full_name,
-        });
+        if (profile) {
+          setCurrentUser({
+            id: session.user.id,
+            email: session.user.email!,
+            full_name: session.user.user_metadata?.full_name,
+          });
+        } else {
+          setCurrentUser(null);
+        }
       } else {
         setCurrentUser(null);
       }
-    } else {
+    } catch (error) {
+      console.error("Error checking auth:", error);
       setCurrentUser(null);
+    } finally {
+      setAuthChecked(true);
     }
-    setAuthChecked(true);
   }
 
   // Cargar sesiones solo después de verificar auth
