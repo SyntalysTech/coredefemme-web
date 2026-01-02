@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -51,6 +51,7 @@ export default function Header() {
   const [currentUser, setCurrentUser] = useState<SupabaseUser | null>(null);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const pathname = usePathname();
+  const userMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -60,6 +61,22 @@ export default function Header() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Close user dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+        setIsUserMenuOpen(false);
+      }
+    };
+
+    if (isUserMenuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isUserMenuOpen]);
 
   // Auth state - only show for customer accounts, not admin
   useEffect(() => {
@@ -109,7 +126,10 @@ export default function Header() {
     return () => subscription.unsubscribe();
   }, []);
 
-  const handleLogout = async () => {
+  const handleLogout = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
     try {
       await supabase.auth.signOut({ scope: 'global' });
       setCurrentUser(null);
@@ -203,10 +223,13 @@ export default function Header() {
             {/* Auth Section */}
             <div className={styles.authSection}>
               {currentUser ? (
-                <div className={styles.userMenu}>
+                <div className={styles.userMenu} ref={userMenuRef}>
                   <button
                     className={styles.userMenuToggle}
-                    onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsUserMenuOpen(!isUserMenuOpen);
+                    }}
                   >
                     <User size={18} />
                     <span>{currentUser.user_metadata?.full_name?.split(" ")[0] || "Mon compte"}</span>
@@ -318,7 +341,7 @@ export default function Header() {
                 <User size={18} />
                 Mon compte
               </Link>
-              <button onClick={handleLogout} className={styles.mobileAuthLogout}>
+              <button onClick={(e) => handleLogout(e)} className={styles.mobileAuthLogout}>
                 <LogOut size={18} />
                 Déconnexion
               </button>

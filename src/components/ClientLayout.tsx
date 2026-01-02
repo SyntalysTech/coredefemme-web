@@ -16,6 +16,7 @@ export default function ClientLayout({
   const isAdmin = pathname?.startsWith("/admin");
   const isLogin = pathname === "/login";
   const isAuthPage = pathname?.startsWith("/compte");
+  const isDashboard = pathname === "/mon-compte";
 
   // Manage body class for admin/login pages to remove header padding
   useEffect(() => {
@@ -33,6 +34,18 @@ export default function ClientLayout({
   // Don't show Header/Footer on admin or login pages
   if (isAdmin || isLogin) {
     return <>{children}</>;
+  }
+
+  // Dashboard page - show header but no footer (has its own layout)
+  if (isDashboard) {
+    return (
+      <>
+        <PromoBanner />
+        <Header />
+        {children}
+        <Chatbot />
+      </>
+    );
   }
 
   return (

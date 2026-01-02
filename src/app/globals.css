@@ -383,47 +383,79 @@ a:hover {
 /* ====================================
    RESPONSIVE
 ==================================== */
-@media (max-width: 1024px) {
-  h1 { font-size: 2.8rem; }
-  h2 { font-size: 2.4rem; }
 
-  .section-title {
-    font-size: 2.4rem;
+/* Large tablets and small desktops */
+@media (max-width: 1200px) {
+  .container {
+    padding: 0 2rem;
+  }
+
+  .section {
+    padding: 6rem 2rem;
   }
 }
 
-@media (max-width: 768px) {
+/* Tablets */
+@media (max-width: 1024px) {
   :root {
     --header-height: 70px;
   }
 
-  h1 { font-size: 2.2rem; }
-  h2 { font-size: 2rem; }
+  h1 { font-size: 2.5rem; }
+  h2 { font-size: 2.2rem; }
+  h3 { font-size: 1.5rem; }
+
+  .section-title {
+    font-size: 2.2rem;
+  }
 
   .section {
     padding: 5rem 1.5rem;
-  }
-
-  .section-title {
-    font-size: 2rem;
   }
 
   .container {
     padding: 0 1.5rem;
   }
 
-  .btn {
-    width: 100%;
-    justify-content: center;
+  .card {
+    padding: 2rem;
+    border-radius: 20px;
   }
 }
 
+/* Mobile landscape and small tablets */
+@media (max-width: 768px) {
+  h1 { font-size: 2.2rem; }
+  h2 { font-size: 2rem; }
+  h3 { font-size: 1.4rem; }
+
+  .section {
+    padding: 4rem 1.5rem;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .section-subtitle {
+    font-size: 1rem;
+  }
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+    padding: 1rem 2rem;
+  }
+}
+
+/* Mobile portrait */
 @media (max-width: 480px) {
   h1 { font-size: 1.9rem; }
   h2 { font-size: 1.8rem; }
+  h3 { font-size: 1.3rem; }
 
   .section {
-    padding: 4rem 1rem;
+    padding: 3.5rem 1rem;
   }
 
   .section-title {
@@ -432,5 +464,10 @@ a:hover {
 
   .container {
     padding: 0 1rem;
+  }
+
+  .card {
+    padding: 1.5rem;
+    border-radius: 16px;
   }
 }

@@ -161,25 +161,30 @@ async function handlePackPurchase({
     .single();
 
   // Guardar en historial de pagos
-  if (resolvedUserId && pack) {
+  if (pack) {
     await supabase.from('payment_history').insert({
-      user_id: resolvedUserId,
+      user_id: resolvedUserId || null,
+      customer_email: customerEmail,
       pack_id: pack.id,
       amount: amountPaid,
-      currency: 'CHF',
+      currency: 'chf',
       status: 'succeeded',
+      product_type: 'pack',
+      service_id: service.id,
+      service_name: service.name,
       stripe_payment_intent_id: paymentIntentId,
-      description: `Pack ${service.pack_sessions || 6} séances - ${service.name}`,
     });
 
-    // Crear notificación
-    await supabase.from('user_notifications').insert({
-      user_id: resolvedUserId,
-      type: 'pack_activated',
-      title: 'Pack activé !',
-      message: `Votre pack de ${service.pack_sessions || 6} séances ${service.name} est maintenant actif.`,
-      related_id: pack.id,
-    });
+    // Crear notificación (solo si hay usuario)
+    if (resolvedUserId) {
+      await supabase.from('user_notifications').insert({
+        user_id: resolvedUserId,
+        type: 'pack_activated',
+        title: 'Pack activé !',
+        message: `Votre pack de ${service.pack_sessions || 6} séances ${service.name} est maintenant actif.`,
+        related_id: pack.id,
+      });
+    }
   }
 
   // Enviar email de confirmación
@@ -239,6 +244,15 @@ async function handleSessionPayment({
 
   if (!reservation) return;
 
+  // Buscar user_id por email
+  const { data: profile } = await supabase
+    .from('customer_profiles')
+    .select('id')
+    .eq('email', customerEmail)
+    .single();
+
+  const userId = profile?.id || null;
+
   // Actualizar reservación con pago
   await supabase
     .from('reservations')
@@ -250,6 +264,20 @@ async function handleSessionPayment({
       confirmed_at: new Date().toISOString(),
     })
     .eq('id', reservation.id);
+
+  // Guardar en historial de pagos
+  await supabase.from('payment_history').insert({
+    user_id: userId,
+    customer_email: customerEmail,
+    stripe_payment_intent_id: paymentIntentId,
+    amount: amountPaid,
+    currency: 'chf',
+    status: 'succeeded',
+    product_type: 'single',
+    service_id: reservation.session.service.id,
+    service_name: reservation.session.service.name,
+    reservation_id: reservation.id,
+  });
 
   // Enviar email de confirmación
   const sessionDate = new Date(reservation.session.session_date).toLocaleDateString('fr-CH', {

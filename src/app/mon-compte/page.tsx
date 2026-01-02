@@ -81,25 +81,93 @@ export default function MonComptePage() {
   const [cancellingId, setCancellingId] = useState<string | null>(null);
 
   useEffect(() => {
-    checkAuthAndLoadData();
-  }, []);
+    let isMounted = true;
+    let dataLoaded = false;
 
-  async function checkAuthAndLoadData() {
-    const { data: { session } } = await supabase.auth.getSession();
+    console.log("[mon-compte] useEffect started");
 
-    if (!session) {
-      router.push("/connexion");
-      return;
-    }
+    const loadData = async (userId: string, email: string) => {
+      if (dataLoaded || !isMounted) return;
+      dataLoaded = true;
+      console.log("[mon-compte] loadData called for:", email);
+      await loadAllData(userId, email);
+      console.log("[mon-compte] Data loaded, setting isLoading to false");
+      if (isMounted) setIsLoading(false);
+    };
 
+    // Listen for auth changes FIRST (this is more reliable)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log("[mon-compte] onAuthStateChange:", { event, hasSession: !!session, isMounted, dataLoaded });
+
+      if (!isMounted) {
+        console.log("[mon-compte] Component unmounted, ignoring auth change");
+        return;
+      }
+
+      if (event === 'SIGNED_OUT') {
+        console.log("[mon-compte] User signed out, redirecting to /connexion");
+        router.push("/connexion");
+        return;
+      }
+
+      // Handle any event that provides a valid session
+      if (session && !dataLoaded) {
+        console.log("[mon-compte] Session available, loading data...");
+        await loadData(session.user.id, session.user.email!);
+      }
+    });
+
+    // Also check session directly (for page reloads)
+    const checkSession = async () => {
+      console.log("[mon-compte] checkSession called");
+      // Small delay to let onAuthStateChange fire first
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      if (dataLoaded) {
+        console.log("[mon-compte] Data already loaded, skipping checkSession");
+        return;
+      }
+
+      const { data: { session }, error } = await supabase.auth.getSession();
+      console.log("[mon-compte] getSession result:", { hasSession: !!session, error, isMounted, dataLoaded });
+
+      if (session && isMounted && !dataLoaded) {
+        await loadData(session.user.id, session.user.email!);
+      }
+    };
+
+    checkSession();
+
+    // Timeout fallback - if still loading after 2s, try once more
+    const timeout = setTimeout(async () => {
+      console.log("[mon-compte] Timeout reached", { isMounted, dataLoaded });
+      if (isMounted && !dataLoaded) {
+        const { data: { session } } = await supabase.auth.getSession();
+        console.log("[mon-compte] Timeout session check:", { hasSession: !!session });
+        if (session) {
+          await loadData(session.user.id, session.user.email!);
+        } else {
+          console.log("[mon-compte] No session in timeout, redirecting to /connexion");
+          router.push("/connexion");
+        }
+      }
+    }, 2000);
+
+    return () => {
+      console.log("[mon-compte] Cleanup: unmounting");
+      isMounted = false;
+      subscription.unsubscribe();
+      clearTimeout(timeout);
+    };
+  }, [router]);
+
+  async function loadAllData(userId: string, email: string) {
     await Promise.all([
-      loadUserProfile(session.user.id),
-      loadReservations(session.user.id, session.user.email!),
-      loadPacks(session.user.id, session.user.email!),
-      loadNotifications(session.user.id),
+      loadUserProfile(userId),
+      loadReservations(userId, email),
+      loadPacks(userId, email),
+      loadNotifications(userId),
     ]);
-
-    setIsLoading(false);
   }
 
   async function loadUserProfile(userId: string) {
@@ -166,7 +234,7 @@ export default function MonComptePage() {
 
   async function handleLogout() {
     await supabase.auth.signOut();
-    router.push("/");
+    window.location.href = "/";
   }
 
   async function handleCancelReservation(reservationId: string) {
@@ -493,10 +561,6 @@ export default function MonComptePage() {
                 <div className={styles.profileRow}>
                   <label>Séances effectuées</label>
                   <span>{user?.total_sessions_attended || 0}</span>
-                </div>
-                <div className={styles.profileRow}>
-                  <label>Total dépensé</label>
-                  <span>CHF {user?.total_amount_spent || 0}.-</span>
                 </div>
               </div>
             </section>

@@ -609,9 +609,37 @@
 /* ====================================
    RESPONSIVE
 ==================================== */
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
   .navMenu {
-    gap: 2rem;
+    gap: 1.8rem;
+  }
+
+  .ctaButton {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.88rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  /* Mostrar menú móvil en tablets */
+  .headerContainer {
+    padding: 1rem 1.5rem;
+  }
+
+  .logo img {
+    height: 55px;
+  }
+
+  .header.scrolled .logo img {
+    height: 50px;
+  }
+
+  .navDesktop {
+    display: none;
+  }
+
+  .menuToggle {
+    display: flex;
   }
 
   .megaMenu {
@@ -632,14 +660,6 @@
 
   .header.scrolled .logo img {
     height: 50px;
-  }
-
-  .navDesktop {
-    display: none;
-  }
-
-  .menuToggle {
-    display: flex;
   }
 }
 

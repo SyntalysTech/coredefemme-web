@@ -1,7 +1,8 @@
 /* ====================================
-   CUSTOMER DASHBOARD
+   CUSTOMER DASHBOARD - SIMPLE LAYOUT
 ==================================== */
 
+/* Loading */
 .loadingPage {
   min-height: 100vh;
   display: flex;
@@ -33,26 +34,33 @@
   to { transform: rotate(360deg); }
 }
 
+/* Dashboard Container - full width, fixed positioning */
 .dashboard {
+  position: fixed;
+  top: var(--total-header-height);
+  left: 0;
+  right: 0;
+  bottom: 0;
   display: flex;
-  min-height: 100vh;
   background: var(--color-bg-extra-light);
+  overflow: hidden;
 }
 
-/* Sidebar */
+/* Sidebar - fixed height within dashboard */
 .sidebar {
   width: 280px;
+  min-width: 280px;
+  height: 100%;
   background: #fff;
   border-right: 1px solid rgba(169, 128, 106, 0.15);
   display: flex;
   flex-direction: column;
-  position: sticky;
-  top: 0;
-  height: 100vh;
+  overflow-y: auto;
+  padding-top: 1rem;
 }
 
 .userInfo {
-  padding: 2rem;
+  padding: 2rem 1.5rem;
   border-bottom: 1px solid rgba(169, 128, 106, 0.15);
   display: flex;
   align-items: center;
@@ -62,6 +70,8 @@
 .avatar {
   width: 50px;
   height: 50px;
+  min-width: 50px;
+  min-height: 50px;
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-dark) 100%);
   border-radius: 50%;
   display: flex;
@@ -83,6 +93,7 @@
   color: var(--color-dark);
   opacity: 0.6;
   margin: 0;
+  word-break: break-all;
 }
 
 .nav {
@@ -184,7 +195,13 @@
 .main {
   flex: 1;
   padding: 2rem;
+  min-width: 0;
+  height: 100%;
   overflow-y: auto;
+}
+
+.content {
+  width: 100%;
 }
 
 /* Stats Grid */
@@ -229,6 +246,7 @@
   border-radius: 15px;
   padding: 1.5rem;
   box-shadow: 0 4px 20px rgba(169, 128, 106, 0.1);
+  width: 100%;
 }
 
 .section h2 {
@@ -240,7 +258,7 @@
 /* Empty State */
 .emptyState {
   text-align: center;
-  padding: 3rem;
+  padding: 3rem 1rem;
 }
 
 .emptyState svg {
@@ -556,18 +574,21 @@
   opacity: 0.8;
 }
 
-/* Responsive */
+/* ========== RESPONSIVE ========== */
 @media (max-width: 900px) {
   .dashboard {
     flex-direction: column;
+    overflow-y: auto;
   }
 
   .sidebar {
     width: 100%;
+    min-width: 100%;
     height: auto;
-    position: relative;
+    flex-shrink: 0;
     border-right: none;
     border-bottom: 1px solid rgba(169, 128, 106, 0.15);
+    overflow-y: visible;
   }
 
   .nav {
@@ -580,6 +601,7 @@
   .navItem {
     white-space: nowrap;
     padding: 0.7rem 1rem;
+    font-size: 0.9rem;
   }
 
   .sidebarFooter {
@@ -587,8 +609,52 @@
     padding: 1rem;
   }
 
+  .reserveBtn,
+  .logoutBtn {
+    flex: 1;
+    padding: 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .main {
+    padding: 1.5rem;
+    height: auto;
+    overflow-y: visible;
+  }
+
+  .statsGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .statCard {
+    padding: 1rem;
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+  }
+
+  .statValue {
+    font-size: 1.5rem;
+  }
+
+  .statLabel {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 600px) {
   .statsGrid {
     grid-template-columns: 1fr;
+  }
+
+  .statCard {
+    flex-direction: row;
+    text-align: left;
+  }
+
+  .userInfo {
+    padding: 1rem;
   }
 
   .main {
@@ -597,13 +663,17 @@
 }
 
 @media (max-width: 480px) {
-  .userInfo {
-    padding: 1rem;
-  }
-
   .reservationHeader {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
+  }
+
+  .section h2 {
+    font-size: 1.1rem;
+  }
+
+  .section {
+    padding: 1rem;
   }
 }

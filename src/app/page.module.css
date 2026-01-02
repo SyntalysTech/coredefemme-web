@@ -377,9 +377,56 @@
 /* ====================================
    RESPONSIVE
 ==================================== */
+@media (max-width: 1200px) {
+  .valuesContainer {
+    gap: 2rem;
+  }
+
+  .valueText h3 {
+    font-size: 1rem;
+  }
+
+  .valueText p {
+    font-size: 0.85rem;
+  }
+}
+
 @media (max-width: 1024px) {
   .heroTitle {
-    font-size: 3.5rem;
+    font-size: 3rem;
+  }
+
+  .heroSubtitle {
+    font-size: 1.2rem;
+  }
+
+  .valuesSection {
+    margin-top: 0;
+    border-radius: 0;
+  }
+
+  .valuesContainer {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    padding: 2.5rem 2rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .valueItem {
+    flex-direction: row;
+    text-align: left;
+    justify-content: flex-start;
+  }
+
+  .valueItem:last-child {
+    grid-column: 1 / -1;
+    justify-content: center;
+  }
+
+  .valueDivider {
+    display: none;
   }
 
   .chloeContainer {
@@ -387,11 +434,19 @@
   }
 
   .chloeContent h2 {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
+  }
+
+  .quoteSection {
+    padding: 7rem 2rem;
   }
 
   .quoteContent blockquote {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
+  }
+
+  .contactCtaTitle {
+    font-size: 2.4rem;
   }
 }
 

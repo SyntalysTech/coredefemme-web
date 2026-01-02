@@ -353,8 +353,10 @@
   background: var(--color-primary);
   color: #fff;
   flex: 1;
+  min-width: 120px;
   justify-content: center;
   box-shadow: 0 10px 30px rgba(169, 128, 106, 0.3);
+  padding: 0.9rem 1.5rem;
 }
 
 .mobileCardButtons .panelBtnPrimary:hover {
@@ -365,7 +367,9 @@
   color: var(--color-primary);
   border-color: var(--color-primary);
   flex: 1;
+  min-width: 120px;
   justify-content: center;
+  padding: 0.9rem 1.5rem;
 }
 
 .mobileCardButtons .panelBtnSecondary:hover {
@@ -382,22 +386,8 @@
   }
 }
 
+/* TABLET - Mostrar cards en lugar de split */
 @media (max-width: 1024px) {
-  .splitContainer {
-    height: 65vh;
-    min-height: 550px;
-  }
-
-  .panelTitle {
-    font-size: 2.2rem;
-  }
-
-  .panelContent {
-    padding: 2.5rem;
-  }
-}
-
-@media (max-width: 768px) {
   .coursSection {
     padding: 5rem 0;
   }
@@ -408,17 +398,50 @@
   }
 
   .coursTitle {
-    font-size: 2.2rem;
+    font-size: 2.4rem;
   }
 
-  /* Hide split container on mobile */
+  /* Hide split container on tablet */
   .splitContainer {
     display: none;
   }
 
-  /* Show mobile cards */
+  /* Show mobile cards on tablet */
   .mobileCards {
     display: flex;
+    padding: 0 2rem;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+
+  .mobileCard {
+    flex: 1;
+    min-width: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .coursSection {
+    padding: 4rem 0;
+  }
+
+  .coursHeader {
+    margin-bottom: 2rem;
+    padding: 0 1.5rem;
+  }
+
+  .coursTitle {
+    font-size: 2rem;
+  }
+
+  .mobileCards {
+    flex-direction: column;
+    padding: 0 1.5rem;
+  }
+
+  .mobileCard {
+    min-width: 100%;
   }
 }
 

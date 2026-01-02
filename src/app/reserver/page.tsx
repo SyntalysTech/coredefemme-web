@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Calendar, Clock, Users, ChevronLeft, ChevronRight, Check, MapPin, User, LogIn } from "lucide-react";
+import { Calendar, Clock, Users, ChevronLeft, ChevronRight, Check, MapPin, User, LogIn, Home, Mail } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import ReservationModal from "@/components/ReservationModal";
 import styles from "./page.module.css";
@@ -72,81 +72,117 @@ export default function ReserverPage() {
   const [selectedSession, setSelectedSession] = useState<Session | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [currentUser, setCurrentUser] = useState<AuthUser | null>(null);
   const [queueInfo, setQueueInfo] = useState<QueueInfo[]>([]);
-  const [authChecked, setAuthChecked] = useState(false);
+  const [servicesLoaded, setServicesLoaded] = useState(false);
 
   // Mostrar 4 miércoles por página
   const WEDNESDAYS_PER_PAGE = 4;
 
-  // Calcular fecha de inicio (máximo entre hoy y MIN_DATE)
+  // Calcular fecha de inicio como string estable (evita re-renders infinitos)
   const today = new Date();
-  const startDate = today > MIN_DATE ? today : MIN_DATE;
+  const startDateObj = today > MIN_DATE ? today : MIN_DATE;
+  const startDateStr = startDateObj.toISOString().split("T")[0];
 
-  useEffect(() => {
-    checkAuth();
-    fetchServices();
-  }, []);
-
-  async function checkAuth() {
+  // Helper function to check if user has customer profile
+  async function checkUserProfile(userId: string, email: string, fullName?: string) {
     try {
-      const { data: { session } } = await supabase.auth.getSession();
+      const { data: profile } = await supabase
+        .from("customer_profiles")
+        .select("id")
+        .eq("id", userId)
+        .maybeSingle();
 
-      if (session?.user) {
-        // Verificar que tenga customer_profile (no solo admin)
-        const { data: profile } = await supabase
-          .from("customer_profiles")
-          .select("id")
-          .eq("id", session.user.id)
-          .maybeSingle();
-
-        if (profile) {
-          setCurrentUser({
-            id: session.user.id,
-            email: session.user.email!,
-            full_name: session.user.user_metadata?.full_name,
-          });
-        } else {
-          setCurrentUser(null);
-        }
+      if (profile) {
+        setCurrentUser({
+          id: userId,
+          email: email,
+          full_name: fullName,
+        });
       } else {
         setCurrentUser(null);
       }
-    } catch (error) {
-      console.error("Error checking auth:", error);
+    } catch {
       setCurrentUser(null);
-    } finally {
-      setAuthChecked(true);
     }
   }
 
-  // Cargar sesiones solo después de verificar auth
+  // Load services on mount
   useEffect(() => {
-    if (authChecked) {
+    async function loadServices() {
+      try {
+        const { data } = await supabase
+          .from("services")
+          .select("*")
+          .eq("is_active", true)
+          .order("name");
+        setServices(data || []);
+      } catch (error) {
+        console.error("Error fetching services:", error);
+      } finally {
+        setServicesLoaded(true);
+      }
+    }
+
+    loadServices();
+  }, []);
+
+  // Check auth state on mount and listen for changes
+  useEffect(() => {
+    let isMounted = true;
+
+    async function checkAuth() {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session?.user && isMounted) {
+          await checkUserProfile(
+            session.user.id,
+            session.user.email!,
+            session.user.user_metadata?.full_name
+          );
+        }
+      } catch (error) {
+        console.error("Error checking auth:", error);
+      }
+    }
+
+    checkAuth();
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+      if (!isMounted) return;
+
+      if (session?.user) {
+        await checkUserProfile(
+          session.user.id,
+          session.user.email!,
+          session.user.user_metadata?.full_name
+        );
+      } else {
+        setCurrentUser(null);
+      }
+    });
+
+    return () => {
+      isMounted = false;
+      subscription.unsubscribe();
+    };
+  }, []);
+
+  // Fetch sessions when services are loaded or filters change
+  useEffect(() => {
+    if (servicesLoaded) {
       fetchSessions();
     }
-  }, [currentPage, selectedService, authChecked]);
-
-  async function fetchServices() {
-    try {
-      const { data } = await supabase
-        .from("services")
-        .select("*")
-        .eq("is_active", true)
-        .order("name");
-
-      setServices(data || []);
-    } catch (error) {
-      console.error("Error fetching services:", error);
-    }
-  }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentPage, selectedService, servicesLoaded]);
 
   async function fetchSessions() {
     setIsLoading(true);
     try {
-      // Calcular los miércoles para esta página
-      const pageStartDate = new Date(startDate);
+      // Calcular los miércoles para esta página usando startDateStr
+      const pageStartDate = new Date(startDateStr);
       pageStartDate.setDate(pageStartDate.getDate() + (currentPage * WEDNESDAYS_PER_PAGE * 7));
 
       const wednesdays = getNextWednesdays(pageStartDate, WEDNESDAYS_PER_PAGE);
@@ -169,7 +205,14 @@ export default function ReserverPage() {
         query = query.eq("service_id", selectedService);
       }
 
-      const { data } = await query;
+      const { data, error } = await query;
+
+      if (error) {
+        console.error("Error fetching sessions:", error);
+        setSessions([]);
+        return;
+      }
+
       const sessionsData = (data || []) as Session[];
       setSessions(sessionsData);
 
@@ -179,6 +222,7 @@ export default function ReserverPage() {
       }
     } catch (error) {
       console.error("Error fetching sessions:", error);
+      setSessions([]);
     } finally {
       setIsLoading(false);
     }
@@ -237,7 +281,7 @@ export default function ReserverPage() {
   }
 
   function getWednesdaysForCurrentPage(): Date[] {
-    const pageStartDate = new Date(startDate);
+    const pageStartDate = new Date(startDateStr);
     pageStartDate.setDate(pageStartDate.getDate() + (currentPage * WEDNESDAYS_PER_PAGE * 7));
     return getNextWednesdays(pageStartDate, WEDNESDAYS_PER_PAGE);
   }
@@ -265,12 +309,16 @@ export default function ReserverPage() {
   const firstWednesday = wednesdays[0];
   const lastWednesday = wednesdays[wednesdays.length - 1];
 
+  // Check if selected service is "home" type (Cours à domicile)
+  const selectedServiceData = services.find(s => s.id === selectedService);
+  const isHomeService = selectedServiceData?.service_type === "home";
+
   return (
     <>
       {/* Hero */}
       <section className={styles.hero}>
         <h1>Réserver une séance</h1>
-        <p>Choisissez votre cours et réservez votre place en quelques clics</p>
+        <p>Choisissez votre cours et réservez votre place facilement</p>
 
         {/* Auth Banner */}
         <div className={styles.authBanner}>
@@ -347,77 +395,94 @@ export default function ReserverPage() {
           </button>
         </div>
 
-        {/* Calendar Grid - Solo miércoles */}
-        <div className={styles.calendarGrid}>
-          {wednesdays.map((day) => {
-            const dayStr = day.toISOString().split("T")[0];
-            const daySessions = getSessionsForDay(day);
-            const isPast = dayStr < todayStr;
-            const isToday = dayStr === todayStr;
+        {/* Calendar Grid or Home Service Message */}
+        {isHomeService ? (
+          <div className={styles.homeServiceBox}>
+            <div className={styles.homeServiceIcon}>
+              <Home size={48} />
+            </div>
+            <h3 className={styles.homeServiceTitle}>Cours à domicile</h3>
+            <p className={styles.homeServiceText}>
+              Pour les cours à domicile, n&apos;hésitez pas à me contacter directement pour organiser une séance personnalisée.
+            </p>
+            <p className={styles.homeServicePrice}>CHF 80.- / séance de 45min</p>
+            <Link href="/contact?subject=Cours%20privé%20à%20domicile" className={styles.homeServiceBtn}>
+              <Mail size={20} />
+              Me contacter
+            </Link>
+          </div>
+        ) : (
+          <div className={styles.calendarGrid}>
+            {wednesdays.map((day) => {
+              const dayStr = day.toISOString().split("T")[0];
+              const daySessions = getSessionsForDay(day);
+              const isPast = dayStr < todayStr;
+              const isToday = dayStr === todayStr;
 
-            return (
-              <div
-                key={dayStr}
-                className={`${styles.dayColumn} ${isPast ? styles.past : ""} ${isToday ? styles.today : ""}`}
-              >
-                <div className={styles.dayHeader}>
-                  <span className={styles.dayName}>
-                    {day.toLocaleDateString("fr-CH", { weekday: "long" })}
-                  </span>
-                  <span className={styles.dayNumber}>
-                    {day.toLocaleDateString("fr-CH", { day: "numeric", month: "short" })}
-                  </span>
-                </div>
+              return (
+                <div
+                  key={dayStr}
+                  className={`${styles.dayColumn} ${isPast ? styles.past : ""} ${isToday ? styles.today : ""}`}
+                >
+                  <div className={styles.dayHeader}>
+                    <span className={styles.dayName}>
+                      {day.toLocaleDateString("fr-CH", { weekday: "long" })}
+                    </span>
+                    <span className={styles.dayNumber}>
+                      {day.toLocaleDateString("fr-CH", { day: "numeric", month: "short" })}
+                    </span>
+                  </div>
 
-                <div className={styles.sessionsContainer}>
-                  {isLoading ? (
-                    <div className={styles.loading}>
-                      <div className={styles.spinner}></div>
-                    </div>
-                  ) : daySessions.length === 0 ? (
-                    <p className={styles.noSessions}>Pas de séance prévue</p>
-                  ) : (
-                    daySessions.map((session) => {
-                      const availableSpots = session.max_participants - session.current_participants;
-                      const isFull = availableSpots <= 0;
-                      const sessionQueueInfo = getQueueInfoForSession(session.id);
-                      // Durée: 60 min pour Core de Maman/Sculpt, 45 min pour domicile
-                      const duration = session.service?.service_type === "home" ? 45 : 60;
+                  <div className={styles.sessionsContainer}>
+                    {isLoading || !servicesLoaded ? (
+                      <div className={styles.loading}>
+                        <div className={styles.spinner}></div>
+                      </div>
+                    ) : daySessions.length === 0 ? (
+                      <p className={styles.noSessions}>Pas de séance prévue</p>
+                    ) : (
+                      daySessions.map((session) => {
+                        const availableSpots = session.max_participants - session.current_participants;
+                        const isFull = availableSpots <= 0;
+                        const sessionQueueInfo = getQueueInfoForSession(session.id);
+                        // Durée: 60 min pour Core de Maman/Sculpt, 45 min pour domicile
+                        const duration = session.service?.service_type === "home" ? 45 : 60;
 
-                      return (
-                        <button
-                          key={session.id}
-                          className={`${styles.sessionCard} ${isFull ? styles.full : ""} ${isPast ? styles.disabled : ""}`}
-                          onClick={() => !isPast && handleSessionClick(session)}
-                          disabled={isPast}
-                        >
-                          <span className={styles.sessionTime}>
-                            <Clock size={14} />
-                            {session.start_time.slice(0, 5)} ({duration} min)
-                          </span>
-                          <span className={styles.sessionName}>
-                            {session.service?.name}
-                          </span>
-                          <span className={`${styles.sessionSpots} ${isFull ? styles.full : availableSpots <= 2 ? styles.low : ""}`}>
-                            <Users size={14} />
-                            {isFull ? "Complet" : `${availableSpots} place${availableSpots > 1 ? "s" : ""}`}
-                          </span>
-                          {currentUser && isFull && sessionQueueInfo && (
-                            <span className={styles.queueInfo}>
-                              {sessionQueueInfo.user_position
-                                ? `Vous êtes ${sessionQueueInfo.user_position}${sessionQueueInfo.user_position === 1 ? "er" : "ème"} en liste`
-                                : `${sessionQueueInfo.queue_count} en attente`}
+                        return (
+                          <button
+                            key={session.id}
+                            className={`${styles.sessionCard} ${isFull ? styles.full : ""} ${isPast ? styles.disabled : ""}`}
+                            onClick={() => !isPast && handleSessionClick(session)}
+                            disabled={isPast}
+                          >
+                            <span className={styles.sessionTime}>
+                              <Clock size={14} />
+                              {session.start_time.slice(0, 5)} ({duration} min)
                             </span>
-                          )}
-                        </button>
-                      );
-                    })
-                  )}
+                            <span className={styles.sessionName}>
+                              {session.service?.name}
+                            </span>
+                            <span className={`${styles.sessionSpots} ${isFull ? styles.full : availableSpots <= 2 ? styles.low : ""}`}>
+                              <Users size={14} />
+                              {isFull ? "Complet" : `${availableSpots} place${availableSpots > 1 ? "s" : ""}`}
+                            </span>
+                            {currentUser && isFull && sessionQueueInfo && (
+                              <span className={styles.queueInfo}>
+                                {sessionQueueInfo.user_position
+                                  ? `Vous êtes ${sessionQueueInfo.user_position}${sessionQueueInfo.user_position === 1 ? "er" : "ème"} en liste`
+                                  : `${sessionQueueInfo.queue_count} en attente`}
+                              </span>
+                            )}
+                          </button>
+                        );
+                      })
+                    )}
+                  </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
+              );
+            })}
+          </div>
+        )}
 
         {/* Info Cards */}
         <div className={styles.infoSection}>
@@ -447,14 +512,14 @@ export default function ReserverPage() {
             </div>
             <div>
               <h3>Annulation</h3>
-              <p>Gratuite jusqu&apos;à 24h avant la séance</p>
+              <p>Gratuite jusqu&apos;à 2h avant la séance</p>
             </div>
           </div>
         </div>
 
         {/* Services Overview */}
         <section className={styles.servicesSection}>
-          <h2>Nos cours</h2>
+          <h2>Mes cours</h2>
           <div className={styles.servicesGrid}>
             {services.map((service) => {
               const duration = service.service_type === "home" ? 45 : 60;

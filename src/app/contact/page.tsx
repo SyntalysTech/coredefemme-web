@@ -1,18 +1,29 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { MapPin, Mail, Instagram, Send, Check, Loader2 } from "lucide-react";
 import { BsWhatsapp } from "react-icons/bs";
 import styles from "./page.module.css";
 
 export default function ContactPage() {
+  const searchParams = useSearchParams();
+  const subjectFromUrl = searchParams.get("subject") || "";
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
-    subject: "",
+    subject: subjectFromUrl,
     message: "",
   });
+
+  // Update subject when URL changes
+  useEffect(() => {
+    if (subjectFromUrl) {
+      setFormData(prev => ({ ...prev, subject: subjectFromUrl }));
+    }
+  }, [subjectFromUrl]);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
 

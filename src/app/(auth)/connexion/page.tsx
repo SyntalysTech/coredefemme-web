@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, Suspense } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { Mail, Lock, Eye, EyeOff, AlertCircle } from "lucide-react";
@@ -9,7 +9,6 @@ import { supabase } from "@/lib/supabase";
 import styles from "../auth.module.css";
 
 function ConnexionContent() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const redirectUrl = searchParams.get("redirect") || "/mon-compte";
 
@@ -18,6 +17,21 @@ function ConnexionContent() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [checkingSession, setCheckingSession] = useState(true);
+
+  // Check if already logged in
+  useEffect(() => {
+    const checkExistingSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        // Already logged in, redirect
+        window.location.href = redirectUrl;
+      } else {
+        setCheckingSession(false);
+      }
+    };
+    checkExistingSession();
+  }, [redirectUrl]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -25,7 +39,7 @@ function ConnexionContent() {
     setIsLoading(true);
 
     try {
-      const { data, error: signInError } = await supabase.auth.signInWithPassword({
+      const { error: signInError } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
@@ -38,17 +52,30 @@ function ConnexionContent() {
         } else {
           setError(signInError.message);
         }
+        setIsLoading(false);
         return;
       }
 
-      // Redirigir a la URL especificada o al dashboard
-      router.push(redirectUrl);
-      router.refresh();
+      // Use full page navigation to ensure auth state is properly synced
+      window.location.href = redirectUrl;
     } catch {
       setError("Une erreur est survenue. Veuillez réessayer.");
-    } finally {
       setIsLoading(false);
     }
+  }
+
+  // Show loading while checking session
+  if (checkingSession) {
+    return (
+      <div className={styles.authPage}>
+        <div className={styles.authCard}>
+          <div style={{ textAlign: "center", padding: "3rem" }}>
+            <div className={styles.btnSpinner} style={{ margin: "0 auto", width: "32px", height: "32px" }}></div>
+            <p style={{ marginTop: "1rem", color: "#765c4a" }}>Vérification...</p>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (

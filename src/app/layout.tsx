@@ -16,6 +16,7 @@ const lato = Lato({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://coredefemme.ch"),
   title: {
     default: "Core de Femme - Pilates Post-Partum & Renforcement Féminin | Bressaucourt, Jura",
     template: "%s | Core de Femme"
