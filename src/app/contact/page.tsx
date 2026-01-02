@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { MapPin, Mail, Instagram, Send, Check, Loader2 } from "lucide-react";
 import { BsWhatsapp } from "react-icons/bs";
 import styles from "./page.module.css";
 
-export default function ContactPage() {
+function ContactContent() {
   const searchParams = useSearchParams();
   const subjectFromUrl = searchParams.get("subject") || "";
 
@@ -285,5 +285,17 @@ export default function ContactPage() {
         </div>
       </div>
     </>
+  );
+}
+
+export default function ContactPage() {
+  return (
+    <Suspense fallback={
+      <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <Loader2 size={32} className={styles.spinner} />
+      </div>
+    }>
+      <ContactContent />
+    </Suspense>
   );
 }
