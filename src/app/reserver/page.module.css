@@ -545,6 +545,81 @@
   background: var(--color-dark);
 }
 
+/* Coming Soon Container (Sculpt Pilates) */
+.comingSoonContainer {
+  text-align: center;
+  padding: 60px 20px;
+  margin-bottom: 60px;
+  background: linear-gradient(135deg, var(--color-bg-extra-light) 0%, var(--color-bg-light) 100%);
+  border-radius: 24px;
+}
+
+.comingSoonIcon {
+  width: 100px;
+  height: 100px;
+  background: var(--color-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+  color: white;
+}
+
+.comingSoonTitle {
+  font-size: 2rem;
+  color: var(--color-primary);
+  margin: 0 0 16px;
+}
+
+.comingSoonText {
+  font-size: 1.1rem;
+  color: var(--color-dark);
+  opacity: 0.8;
+  line-height: 1.7;
+  max-width: 500px;
+  margin: 0 auto 28px;
+}
+
+.comingSoonBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  background: var(--color-primary);
+  color: white;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: var(--transition);
+  box-shadow: 0 10px 30px rgba(169, 128, 106, 0.3);
+}
+
+.comingSoonBtn:hover {
+  background: var(--color-dark);
+  transform: translateY(-3px);
+  box-shadow: 0 15px 40px rgba(169, 128, 106, 0.4);
+}
+
+/* Service Card Coming Soon State */
+.serviceCard.comingSoon {
+  position: relative;
+  opacity: 0.85;
+}
+
+.comingSoonBadge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: var(--color-primary);
+  color: white;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
 /* Info Section */
 .infoSection {
   display: grid;

@@ -312,6 +312,8 @@ export default function ReserverPage() {
   // Check if selected service is "home" type (Cours à domicile)
   const selectedServiceData = services.find(s => s.id === selectedService);
   const isHomeService = selectedServiceData?.service_type === "home";
+  // Check if selected service is Sculpt Pilates (coming soon)
+  const isSculptPilates = selectedServiceData?.slug === "sculpt-pilates";
 
   return (
     <>
@@ -395,8 +397,22 @@ export default function ReserverPage() {
           </button>
         </div>
 
-        {/* Calendar Grid or Home Service Message */}
-        {isHomeService ? (
+        {/* Calendar Grid, Home Service Message, or Coming Soon */}
+        {isSculptPilates ? (
+          <div className={styles.comingSoonContainer}>
+            <div className={styles.comingSoonIcon}>
+              <Calendar size={48} />
+            </div>
+            <h3 className={styles.comingSoonTitle}>Bientôt disponible</h3>
+            <p className={styles.comingSoonText}>
+              Les cours Sculpt Pilates arrivent bientôt ! Contactez-moi pour être informée du lancement.
+            </p>
+            <Link href="/contact?subject=Sculpt%20Pilates%20-%20Intéressée" className={styles.comingSoonBtn}>
+              <Mail size={18} />
+              Me prévenir du lancement
+            </Link>
+          </div>
+        ) : isHomeService ? (
           <div className={styles.homeServiceContainer}>
             <div className={styles.homeServiceHeader}>
               <div className={styles.homeServiceIcon}>
@@ -564,27 +580,31 @@ export default function ReserverPage() {
           <div className={styles.servicesGrid}>
             {services.map((service) => {
               const duration = service.service_type === "home" ? 45 : 60;
+              const isComingSoon = service.slug === "sculpt-pilates";
               return (
-                <div key={service.id} className={styles.serviceCard}>
+                <div key={service.id} className={`${styles.serviceCard} ${isComingSoon ? styles.comingSoon : ""}`}>
+                  {isComingSoon && <div className={styles.comingSoonBadge}>Bientôt disponible</div>}
                   <h3>{service.name}</h3>
                   <p>{service.description}</p>
                   <p className={styles.serviceDuration}>
                     <Clock size={16} /> {duration} minutes
                   </p>
-                  <div className={styles.servicePricing}>
-                    <div className={styles.priceItem}>
-                      <span className={styles.priceLabel}>Séance</span>
-                      <span className={styles.priceValue}>
-                        {service.price === 0 ? "Offert" : `CHF ${service.price}.-`}
-                      </span>
-                    </div>
-                    {service.price_pack && (
+                  {!isComingSoon && (
+                    <div className={styles.servicePricing}>
                       <div className={styles.priceItem}>
-                        <span className={styles.priceLabel}>Pack {service.pack_sessions} séances</span>
-                        <span className={styles.priceValue}>CHF {service.price_pack}.-</span>
+                        <span className={styles.priceLabel}>Séance</span>
+                        <span className={styles.priceValue}>
+                          {service.price === 0 ? "Offert" : `CHF ${service.price}.-`}
+                        </span>
                       </div>
-                    )}
-                  </div>
+                      {service.price_pack && (
+                        <div className={styles.priceItem}>
+                          <span className={styles.priceLabel}>Pack {service.pack_sessions} séances</span>
+                          <span className={styles.priceValue}>CHF {service.price_pack}.-</span>
+                        </div>
+                      )}
+                    </div>
+                  )}
                   <Link
                     href={`/${service.slug}`}
                     className={styles.serviceLink}
