@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
-import { ArrowLeft, Search, Filter, Mail, Phone, Check, Archive, MessageSquare, RefreshCw } from "lucide-react";
+import { ArrowLeft, Search, Filter, Mail, Phone, Check, Archive, MessageSquare, RefreshCw, Send, X, Loader2 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import styles from "./page.module.css";
 
@@ -16,6 +16,7 @@ interface Contact {
   status: string;
   created_at: string;
   replied_at: string | null;
+  notes: string | null;
 }
 
 export default function AdminContactsPage() {
@@ -24,6 +25,11 @@ export default function AdminContactsPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
+  const [showReplyModal, setShowReplyModal] = useState(false);
+  const [replyMessage, setReplyMessage] = useState("");
+  const [isSendingReply, setIsSendingReply] = useState(false);
+  const [replySuccess, setReplySuccess] = useState<string | null>(null);
+  const [replyError, setReplyError] = useState<string | null>(null);
 
   const fetchContacts = useCallback(async () => {
     try {
@@ -67,6 +73,67 @@ export default function AdminContactsPage() {
       await fetchContacts();
     } catch (error) {
       console.error("Error updating contact:", error);
+    }
+  }
+
+  function openReplyModal() {
+    setReplyMessage("");
+    setReplySuccess(null);
+    setReplyError(null);
+    setShowReplyModal(true);
+  }
+
+  function closeReplyModal() {
+    setShowReplyModal(false);
+    setReplyMessage("");
+    setReplySuccess(null);
+    setReplyError(null);
+  }
+
+  async function sendReply() {
+    if (!selectedContact || !replyMessage.trim()) return;
+
+    setIsSendingReply(true);
+    setReplyError(null);
+    setReplySuccess(null);
+
+    try {
+      const response = await fetch("/api/contacts/reply", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          contact_id: selectedContact.id,
+          reply_message: replyMessage.trim(),
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Erreur lors de l'envoi");
+      }
+
+      setReplySuccess("Réponse envoyée avec succès !");
+      await fetchContacts();
+
+      // Actualizar el contacto seleccionado con el nuevo estado
+      setSelectedContact(prev => prev ? {
+        ...prev,
+        status: "replied",
+        replied_at: new Date().toISOString(),
+        notes: replyMessage.trim()
+      } : null);
+
+      // Cerrar el modal después de 2 segundos
+      setTimeout(() => {
+        closeReplyModal();
+      }, 2000);
+
+    } catch (error) {
+      console.error("Error sending reply:", error);
+      setReplyError(error instanceof Error ? error.message : "Erreur lors de l'envoi");
+    } finally {
+      setIsSendingReply(false);
     }
   }
 
@@ -258,15 +325,22 @@ export default function AdminContactsPage() {
               </div>
             </div>
 
+            {/* Respuesta anterior si existe */}
+            {selectedContact.notes && selectedContact.status === "replied" && (
+              <div className={styles.previousReply}>
+                <strong>Votre réponse :</strong>
+                <p>{selectedContact.notes}</p>
+              </div>
+            )}
+
             <div className={styles.detailActions}>
-              <a
-                href={`mailto:${selectedContact.email}?subject=Re: ${selectedContact.subject || "Votre message"}`}
+              <button
                 className={`${styles.actionBtn} ${styles.reply}`}
-                onClick={() => updateContactStatus(selectedContact.id, "replied")}
+                onClick={openReplyModal}
               >
-                <Mail size={18} />
-                Répondre
-              </a>
+                <Send size={18} />
+                {selectedContact.status === "replied" ? "Répondre à nouveau" : "Répondre"}
+              </button>
               {selectedContact.status !== "replied" && (
                 <button
                   className={`${styles.actionBtn} ${styles.markReplied}`}
@@ -292,6 +366,81 @@ export default function AdminContactsPage() {
           </div>
         )}
       </div>
+
+      {/* Modal de réponse */}
+      {showReplyModal && selectedContact && (
+        <div className={styles.modalOverlay} onClick={closeReplyModal}>
+          <div className={styles.replyModal} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.modalHeader}>
+              <h3>Répondre à {selectedContact.name}</h3>
+              <button className={styles.closeBtn} onClick={closeReplyModal}>
+                <X size={20} />
+              </button>
+            </div>
+
+            <div className={styles.modalBody}>
+              <div className={styles.originalMessage}>
+                <strong>Message original :</strong>
+                {selectedContact.subject && (
+                  <p className={styles.originalSubject}>Objet : {selectedContact.subject}</p>
+                )}
+                <p className={styles.originalText}>{selectedContact.message}</p>
+              </div>
+
+              <div className={styles.replyForm}>
+                <label htmlFor="replyMessage">Votre réponse :</label>
+                <textarea
+                  id="replyMessage"
+                  value={replyMessage}
+                  onChange={(e) => setReplyMessage(e.target.value)}
+                  placeholder="Écrivez votre réponse ici..."
+                  rows={6}
+                  disabled={isSendingReply}
+                />
+              </div>
+
+              {replyError && (
+                <div className={styles.errorMessage}>
+                  {replyError}
+                </div>
+              )}
+
+              {replySuccess && (
+                <div className={styles.successMessage}>
+                  {replySuccess}
+                </div>
+              )}
+            </div>
+
+            <div className={styles.modalFooter}>
+              <button
+                className={styles.cancelBtn}
+                onClick={closeReplyModal}
+                disabled={isSendingReply}
+              >
+                Annuler
+              </button>
+              <button
+                className={styles.sendBtn}
+                onClick={sendReply}
+                disabled={isSendingReply || !replyMessage.trim()}
+              >
+                {isSendingReply ? (
+                  <>
+                    <Loader2 size={18} className={styles.spinning} />
+                    Envoi en cours...
+                  </>
+                ) : (
+                  <>
+                    <Send size={18} />
+                    Envoyer la réponse
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

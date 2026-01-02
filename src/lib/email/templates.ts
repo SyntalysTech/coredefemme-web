@@ -683,3 +683,47 @@ export function adminNewContactTemplate({
 
   return baseTemplate(content, `Nouveau message de ${customerName}`);
 }
+
+// 10. Réponse admin à un message de contact
+export function adminReplyTemplate({
+  customerName,
+  originalSubject,
+  originalMessage,
+  replyMessage,
+}: {
+  customerName: string;
+  originalSubject?: string;
+  originalMessage: string;
+  replyMessage: string;
+}) {
+  const content = `
+    ${heading('Réponse à votre message')}
+
+    ${paragraph(`Bonjour <strong>${customerName}</strong>,`)}
+
+    ${paragraph(`Merci pour votre message. Voici ma réponse :`)}
+
+    <div style="background-color: ${BRAND_COLORS.white}; border-radius: 12px; padding: 20px; margin: 20px 0; border-left: 4px solid ${BRAND_COLORS.primary};">
+      <p style="margin: 0; color: ${BRAND_COLORS.text}; line-height: 1.7; white-space: pre-wrap;">${replyMessage}</p>
+    </div>
+
+    ${divider()}
+
+    <div style="opacity: 0.7;">
+      ${paragraph(`<strong>Votre message original :</strong>`)}
+      ${infoBox(`
+        ${originalSubject ? `<p style="margin: 0 0 10px; color: ${BRAND_COLORS.dark};"><strong>Objet :</strong> ${originalSubject}</p>` : ''}
+        <p style="margin: 0; color: ${BRAND_COLORS.text}; font-style: italic; white-space: pre-wrap;">"${originalMessage}"</p>
+      `)}
+    </div>
+
+    ${paragraph('N\'hésitez pas à me recontacter si vous avez d\'autres questions.')}
+
+    ${button('Visiter notre site', 'https://coredefemme.ch')}
+
+    ${paragraph('À bientôt !')}
+    ${paragraph(`<strong>Chloé</strong><br><span style="opacity: 0.8;">Core de Femme</span>`)}
+  `;
+
+  return baseTemplate(content, `Réponse à votre message - Core de Femme`);
+}
