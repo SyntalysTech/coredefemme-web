@@ -692,6 +692,8 @@
   border-radius: 20px;
   box-shadow: 0 10px 30px rgba(169, 128, 106, 0.1);
   transition: var(--transition);
+  display: flex;
+  flex-direction: column;
 }
 
 .serviceCard:hover {
@@ -757,6 +759,7 @@
   font-weight: 600;
   text-decoration: none;
   transition: var(--transition);
+  margin-top: auto;
 }
 
 .serviceLink:hover {
