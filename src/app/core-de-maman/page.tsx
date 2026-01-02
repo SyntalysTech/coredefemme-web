@@ -279,7 +279,7 @@ export default function CoreDeMamanPage() {
         </div>
 
         <div className={styles.tarifsLocation}>
-          <strong>Mes cours se déroulent à la salle Crossfit la Vouivre</strong>
+          <strong>Mes cours se déroulent à la salle La Vouivre</strong>
           <p>Rue Pierre-Péquignat 7, 1er étage<br />2900 Porrentruy, Suisse</p>
         </div>
       </section>

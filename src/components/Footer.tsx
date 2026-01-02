@@ -111,7 +111,7 @@ export default function Footer() {
                 <li>
                   <MapPin size={18} />
                   <span>
-                    Crossfit la Vouivre<br />
+                    La Vouivre<br />
                     Rue Pierre-Péquignat 7, 1er étage<br />
                     2900 Porrentruy, Suisse
                   </span>

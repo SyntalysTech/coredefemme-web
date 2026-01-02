@@ -357,15 +357,14 @@
   border-radius: 10px;
 }
 
-/* Home Service Box */
-.homeServiceBox {
-  background: white;
-  border-radius: 24px;
-  padding: 60px 40px;
+/* Home Service Container */
+.homeServiceContainer {
+  margin-bottom: 60px;
+}
+
+.homeServiceHeader {
   text-align: center;
-  max-width: 500px;
-  margin: 0 auto 60px;
-  box-shadow: 0 10px 40px rgba(169, 128, 106, 0.15);
+  margin-bottom: 40px;
 }
 
 .homeServiceIcon {
@@ -391,34 +390,159 @@
   color: var(--color-dark);
   opacity: 0.8;
   line-height: 1.7;
+  margin: 0;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+/* Home Service Cards */
+.homeServiceCards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.homeServiceCard {
+  background: white;
+  border-radius: 20px;
+  padding: 32px 28px;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(169, 128, 106, 0.12);
+  border: 2px solid transparent;
+  transition: var(--transition);
+  position: relative;
+}
+
+.homeServiceCard:hover {
+  border-color: var(--color-primary);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 50px rgba(169, 128, 106, 0.2);
+}
+
+.homeServiceCard.recommended {
+  border-color: var(--color-primary);
+  background: linear-gradient(180deg, #fff 0%, rgba(169, 128, 106, 0.05) 100%);
+}
+
+.recommendedBadge {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-primary);
+  color: white;
+  padding: 6px 18px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.homeServiceCard h4 {
+  font-size: 1.4rem;
+  color: var(--color-dark);
+  margin: 0 0 8px;
+}
+
+.cardDuration {
+  font-size: 0.95rem;
+  color: var(--color-dark);
+  opacity: 0.7;
   margin: 0 0 20px;
 }
 
-.homeServicePrice {
-  font-size: 1.4rem;
+.cardPrice {
+  margin-bottom: 8px;
+}
+
+.priceOld {
+  display: block;
+  font-size: 1rem;
+  color: var(--color-dark);
+  opacity: 0.5;
+  text-decoration: line-through;
+  margin-bottom: 4px;
+}
+
+.priceAmount {
+  display: block;
+  font-size: 2.2rem;
   font-weight: 700;
   color: var(--color-primary);
-  margin: 0 0 28px;
+}
+
+.priceLabel {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--color-dark);
+  opacity: 0.7;
+  margin-top: 4px;
+}
+
+.priceNote {
+  font-size: 0.85rem;
+  color: var(--color-primary);
+  margin: 0 0 16px;
+  font-weight: 500;
+}
+
+.cardFeatures {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px;
+  text-align: left;
+}
+
+.cardFeatures li {
+  position: relative;
+  padding-left: 24px;
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+  color: var(--color-dark);
+  opacity: 0.85;
+}
+
+.cardFeatures li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--color-primary);
+  font-weight: 600;
 }
 
 .homeServiceBtn {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 14px 32px;
-  background: var(--color-primary);
-  color: white;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: transparent;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
   border-radius: 30px;
   text-decoration: none;
   font-weight: 600;
-  font-size: 1.05rem;
+  font-size: 0.95rem;
   transition: var(--transition);
+  width: 100%;
 }
 
 .homeServiceBtn:hover {
-  background: var(--color-dark);
+  background: var(--color-primary);
+  color: white;
   transform: translateY(-2px);
   box-shadow: 0 10px 25px rgba(169, 128, 106, 0.3);
+}
+
+.homeServiceBtn.primary {
+  background: var(--color-primary);
+  color: white;
+}
+
+.homeServiceBtn.primary:hover {
+  background: var(--color-dark);
 }
 
 /* Info Section */
@@ -645,6 +769,15 @@
 
   .ctaSection h2 {
     font-size: 1.5rem;
+  }
+
+  .homeServiceCards {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .homeServiceCard.recommended {
+    order: -1;
   }
 }
 

@@ -397,19 +397,60 @@ export default function ReserverPage() {
 
         {/* Calendar Grid or Home Service Message */}
         {isHomeService ? (
-          <div className={styles.homeServiceBox}>
-            <div className={styles.homeServiceIcon}>
-              <Home size={48} />
+          <div className={styles.homeServiceContainer}>
+            <div className={styles.homeServiceHeader}>
+              <div className={styles.homeServiceIcon}>
+                <Home size={48} />
+              </div>
+              <h3 className={styles.homeServiceTitle}>Cours à domicile</h3>
+              <p className={styles.homeServiceText}>
+                Des séances personnalisées dans le confort de votre maison. Contactez-moi pour organiser votre cours.
+              </p>
             </div>
-            <h3 className={styles.homeServiceTitle}>Cours à domicile</h3>
-            <p className={styles.homeServiceText}>
-              Pour les cours à domicile, n&apos;hésitez pas à me contacter directement pour organiser une séance personnalisée.
-            </p>
-            <p className={styles.homeServicePrice}>CHF 80.- / séance de 45min</p>
-            <Link href="/contact?subject=Cours%20privé%20à%20domicile" className={styles.homeServiceBtn}>
-              <Mail size={20} />
-              Me contacter
-            </Link>
+
+            <div className={styles.homeServiceCards}>
+              {/* Séance individuelle */}
+              <div className={styles.homeServiceCard}>
+                <h4>Séance individuelle</h4>
+                <p className={styles.cardDuration}>45 minutes</p>
+                <div className={styles.cardPrice}>
+                  <span className={styles.priceAmount}>CHF 40.-</span>
+                  <span className={styles.priceLabel}>par séance</span>
+                </div>
+                <ul className={styles.cardFeatures}>
+                  <li>Séance personnalisée</li>
+                  <li>Matériel fourni</li>
+                  <li>Sans engagement</li>
+                </ul>
+                <Link href="/contact?subject=Cours%20privé%20à%20domicile" className={styles.homeServiceBtn}>
+                  <Mail size={18} />
+                  Me contacter
+                </Link>
+              </div>
+
+              {/* Pack 6 séances */}
+              <div className={`${styles.homeServiceCard} ${styles.recommended}`}>
+                <div className={styles.recommendedBadge}>Offre de lancement</div>
+                <h4>Pack 6 séances</h4>
+                <p className={styles.cardDuration}>6 x 45 minutes</p>
+                <div className={styles.cardPrice}>
+                  <span className={styles.priceOld}>CHF 240.-</span>
+                  <span className={styles.priceAmount}>CHF 180.-</span>
+                  <span className={styles.priceLabel}>soit 30.- / séance</span>
+                </div>
+                <p className={styles.priceNote}>Après le 1er mars : CHF 220.-</p>
+                <ul className={styles.cardFeatures}>
+                  <li>6 séances de 45 minutes</li>
+                  <li>Suivi personnalisé</li>
+                  <li>Matériel fourni</li>
+                  <li>Progression adaptée</li>
+                </ul>
+                <Link href="/contact?subject=Pack%206%20séances%20à%20domicile" className={`${styles.homeServiceBtn} ${styles.primary}`}>
+                  <Mail size={18} />
+                  Réserver le pack
+                </Link>
+              </div>
+            </div>
           </div>
         ) : (
           <div className={styles.calendarGrid}>
@@ -492,7 +533,7 @@ export default function ReserverPage() {
             </div>
             <div>
               <h3>Lieu des cours</h3>
-              <p>Crossfit la Vouivre, Rue Pierre-Péquignat 7, 1er étage, 2900 Porrentruy</p>
+              <p>La Vouivre, Rue Pierre-Péquignat 7, 1er étage, 2900 Porrentruy</p>
             </div>
           </div>
 
@@ -512,7 +553,7 @@ export default function ReserverPage() {
             </div>
             <div>
               <h3>Annulation</h3>
-              <p>Flexible jusqu&apos;à 2h avant la séance</p>
+              <p>Sans frais jusqu&apos;à 2h avant la séance</p>
             </div>
           </div>
         </div>

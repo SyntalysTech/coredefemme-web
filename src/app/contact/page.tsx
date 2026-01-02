@@ -212,7 +212,7 @@ function ContactContent() {
             <div className={styles.infoContent}>
               <h3>Adresse</h3>
               <p>
-                Crossfit la Vouivre, Rue Pierre-Péquignat 7,<br />
+                La Vouivre, Rue Pierre-Péquignat 7,<br />
                 1er étage, 2900 Porrentruy
               </p>
             </div>
@@ -273,13 +273,13 @@ function ContactContent() {
       {/* Map Section */}
       <div className={styles.mapSection}>
         <div className={styles.mapCard}>
-          <h2>Crossfit la Vouivre, Rue Pierre-Péquignat 7, 1er étage, 2900 Porrentruy</h2>
+          <h2>La Vouivre, Rue Pierre-Péquignat 7, 1er étage, 2900 Porrentruy</h2>
           <div className={styles.mapContainer}>
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2698.5!2d7.0!3d47.4!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDfCsDI0JzAwLjAiTiA3wrAwMCcwMC4wIkU!5e0!3m2!1sfr!2sch!4v1234567890"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d763!2d7.0745162!3d47.4170331!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4791f7374d9b29c3%3A0xdbf0e1a2b95ed99e!2sFunctional%20Training%20La%20Vouivre!5e1!3m2!1sfr!2sch!4v1704067200000"
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="Localisation Core de Femme - Crossfit la Vouivre Porrentruy"
+              title="Localisation Core de Femme - La Vouivre Porrentruy"
             />
           </div>
         </div>

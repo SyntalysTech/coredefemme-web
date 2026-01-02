@@ -450,7 +450,7 @@ export default function MonComptePage() {
                         </div>
                         <div className={styles.detailRow}>
                           <MapPin size={16} />
-                          <span>Crossfit la Vouivre, Porrentruy</span>
+                          <span>La Vouivre, Porrentruy</span>
                         </div>
                       </div>
                       <div className={styles.reservationActions}>

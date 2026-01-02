@@ -17,7 +17,7 @@ INFORMATIONS IMPORTANTES SUR CORE DE FEMME :
    - Pour les mamans ayant accouché récemment ou il y a plusieurs années
    - Rééducation du périnée, renforcement du transverse, posture
    - Horaire : Mercredi matin 09h30 - 10h30
-   - Lieu : Salle Crossfit la Vouivre, Rue Pierre-Péquignat 7, 1er étage, 2900 Porrentruy
+   - Lieu : Salle La Vouivre, Rue Pierre-Péquignat 7, 1er étage, 2900 Porrentruy
    - Durée : 60 minutes
    - Bébés bienvenus jusqu'à 12 mois
    - Tarifs : Séance découverte offerte, Pack 6 séances à 99.- (offre de lancement jusqu'au 1er mars, ensuite 120.-)

@@ -18,11 +18,11 @@ const lato = Lato({
 export const metadata: Metadata = {
   metadataBase: new URL("https://coredefemme.ch"),
   title: {
-    default: "Core de Femme - Pilates Post-Partum & Renforcement Féminin | Bressaucourt, Jura",
+    default: "Core de Femme - Pilates Post-Partum & Renforcement Féminin | Porrentruy, Jura",
     template: "%s | Core de Femme"
   },
-  description: "Core de Femme - Pilates post-partum et renforcement féminin à Bressaucourt, Jura suisse. Cours avec Chloé Manzambi, ancienne athlète professionnelle. Reconnectez-vous à votre corps.",
-  keywords: ["pilates suisse", "post-partum bressaucourt", "core de maman", "sculpt pilates", "renforcement féminin", "périnée", "respiration consciente", "jura suisse", "pilates femme", "coach sportive suisse"],
+  description: "Core de Femme - Pilates post-partum et renforcement féminin à Porrentruy, canton du Jura suisse. Cours avec Chloé Manzambi, ancienne athlète professionnelle. Reconnectez-vous à votre corps.",
+  keywords: ["pilates suisse", "post-partum porrentruy", "core de maman", "sculpt pilates", "renforcement féminin", "périnée", "respiration consciente", "jura suisse", "pilates femme", "coach sportive suisse", "pilates porrentruy"],
   authors: [{ name: "Chloé Manzambi - Core de Femme" }],
   creator: "Core de Femme",
   openGraph: {
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     url: "https://coredefemme.ch",
     siteName: "Core de Femme",
     title: "Core de Femme - Reconnectez-vous à votre corps | Pilates Post-Partum & Renforcement",
-    description: "Cours de Pilates et renforcement pour femmes à Bressaucourt, Jura suisse. Programme post-partum et Sculpt Pilates par Chloé Manzambi.",
+    description: "Cours de Pilates et renforcement pour femmes à Porrentruy, canton du Jura suisse. Programme post-partum et Sculpt Pilates par Chloé Manzambi.",
     images: [
       {
         url: "/logos/logo-core-de-femme-no-bg.png",
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Core de Femme - Reconnectez-vous à votre corps",
-    description: "Cours de Pilates et renforcement pour femmes à Bressaucourt, Jura suisse",
+    description: "Cours de Pilates et renforcement pour femmes à Porrentruy, canton du Jura suisse",
   },
   icons: {
     icon: "/images/favicon.png",
@@ -65,9 +65,9 @@ export default function RootLayout({
     <html lang="fr-CH">
       <head>
         <meta name="geo.region" content="CH-JU" />
-        <meta name="geo.placename" content="Bressaucourt, Jura, Suisse" />
-        <meta name="geo.position" content="47.4167;7.0167" />
-        <meta name="ICBM" content="47.4167, 7.0167" />
+        <meta name="geo.placename" content="Porrentruy, Jura, Suisse" />
+        <meta name="geo.position" content="47.4170;7.0745" />
+        <meta name="ICBM" content="47.4170, 7.0745" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -80,16 +80,16 @@ export default function RootLayout({
               "image": "/logos/logo-core-de-femme-no-bg.png",
               "address": {
                 "@type": "PostalAddress",
-                "streetAddress": "Rue de la Maltière 82H, Domaine du Pré sur l'Eau",
-                "addressLocality": "Bressaucourt",
+                "streetAddress": "Rue Pierre-Péquignat 7, Functional Training La Vouivre",
+                "addressLocality": "Porrentruy",
                 "addressRegion": "Jura",
-                "postalCode": "2904",
+                "postalCode": "2900",
                 "addressCountry": "CH"
               },
               "geo": {
                 "@type": "GeoCoordinates",
-                "latitude": "47.4167",
-                "longitude": "7.0167"
+                "latitude": "47.4170",
+                "longitude": "7.0745"
               },
               "founder": {
                 "@type": "Person",
