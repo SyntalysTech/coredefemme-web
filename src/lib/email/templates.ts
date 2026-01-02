@@ -27,7 +27,7 @@ const baseTemplate = (content: string, preheader: string = '') => `
       margin: 0;
       padding: 0;
       font-family: 'Montserrat', Arial, sans-serif;
-      background-color: ${BRAND_COLORS.light};
+      background-color: #ffffff;
       -webkit-font-smoothing: antialiased;
     }
 
@@ -66,15 +66,15 @@ const baseTemplate = (content: string, preheader: string = '') => `
     }
   </style>
 </head>
-<body style="margin: 0; padding: 0; background-color: ${BRAND_COLORS.light};">
+<body style="margin: 0; padding: 0; background-color: #ffffff;">
   <!-- Preheader -->
   <span class="preheader">${preheader}</span>
 
   <!-- Email Container -->
-  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: ${BRAND_COLORS.light};">
+  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="background-color: #ffffff;">
     <tr>
       <td style="padding: 30px 15px;">
-        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="600" class="email-container" style="margin: 0 auto; background-color: ${BRAND_COLORS.white}; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 25px rgba(169, 128, 106, 0.15);">
+        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="600" class="email-container" style="margin: 0 auto; background-color: ${BRAND_COLORS.light}; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 25px rgba(169, 128, 106, 0.15);">
 
           <!-- Header con Logo -->
           <tr>
