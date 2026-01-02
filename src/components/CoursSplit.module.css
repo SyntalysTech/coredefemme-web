@@ -388,8 +388,8 @@
   }
 }
 
-/* TABLET - Mostrar cards en lugar de split */
-@media (max-width: 1024px) {
+/* TABLET & iPad Landscape - Mostrar cards en lugar de split */
+@media (max-width: 1180px) {
   .coursSection {
     padding: 5rem 0;
   }
