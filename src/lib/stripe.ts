@@ -102,8 +102,8 @@ export async function createCheckoutSession({
   }
 
   // Usar priceId real de Stripe
+  // No especificamos payment_method_types para permitir métodos dinámicos (TWINT, Apple Pay, etc.)
   const session = await stripe.checkout.sessions.create({
-    payment_method_types: ['card'],
     mode: 'payment',
     customer_email: customerEmail,
     line_items: [
