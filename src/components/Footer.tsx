@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { MapPin, Mail, Instagram, ArrowUp } from "lucide-react";
 import { BsWhatsapp } from "react-icons/bs";
+import { FaCcVisa, FaCcMastercard, FaCcApplePay, FaGooglePay, FaStripe } from "react-icons/fa6";
 import styles from "./Footer.module.css";
 
 const navigationLinks = [
@@ -130,6 +131,25 @@ export default function Footer() {
 
           {/* Footer Bottom */}
           <div className={styles.footerBottom}>
+            {/* Payment Methods */}
+            <div className={styles.paymentMethods}>
+              <span className={styles.paymentLabel}>Paiement sécurisé</span>
+              <div className={styles.paymentIcons}>
+                <FaStripe size={40} title="Stripe" />
+                <FaCcVisa size={32} title="Visa" />
+                <FaCcMastercard size={32} title="Mastercard" />
+                <Image
+                  src="/icons/twint.svg"
+                  alt="TWINT"
+                  width={50}
+                  height={24}
+                  className={styles.twintIcon}
+                />
+                <FaCcApplePay size={32} title="Apple Pay" />
+                <FaGooglePay size={32} title="Google Pay" />
+              </div>
+            </div>
+
             <div className={styles.footerBottomContent}>
               <p className={styles.footerCopyright}>
                 © {currentYear} Core de Femme - Tous droits réservés
