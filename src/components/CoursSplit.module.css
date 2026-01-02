@@ -353,10 +353,11 @@
   background: var(--color-primary);
   color: #fff;
   flex: 1;
-  min-width: 120px;
+  min-width: 140px;
   justify-content: center;
   box-shadow: 0 10px 30px rgba(169, 128, 106, 0.3);
   padding: 0.9rem 1.5rem;
+  white-space: nowrap;
 }
 
 .mobileCardButtons .panelBtnPrimary:hover {
@@ -370,6 +371,7 @@
   min-width: 120px;
   justify-content: center;
   padding: 0.9rem 1.5rem;
+  white-space: nowrap;
 }
 
 .mobileCardButtons .panelBtnSecondary:hover {
@@ -418,6 +420,19 @@
   .mobileCard {
     flex: 1;
     min-width: 300px;
+  }
+
+  .mobileCardButtons {
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+
+  .mobileCardButtons .panelBtnPrimary,
+  .mobileCardButtons .panelBtnSecondary {
+    flex: 1;
+    min-width: auto;
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
   }
 }
 

@@ -35,7 +35,7 @@ export default function Home() {
           </h1>
 
           <p className={styles.heroSubtitle}>
-            Rééducation post-partum et sculpt Pilates à Porrentruy
+            Rééducation post-partum et sculpt Pilates dans le canton du Jura
           </p>
 
           <div className={styles.heroCtaContainer}>
