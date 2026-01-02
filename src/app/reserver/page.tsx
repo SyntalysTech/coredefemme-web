@@ -512,7 +512,7 @@ export default function ReserverPage() {
             </div>
             <div>
               <h3>Annulation</h3>
-              <p>Gratuite jusqu&apos;à 2h avant la séance</p>
+              <p>Flexible jusqu&apos;à 2h avant la séance</p>
             </div>
           </div>
         </div>
@@ -534,7 +534,7 @@ export default function ReserverPage() {
                     <div className={styles.priceItem}>
                       <span className={styles.priceLabel}>Séance</span>
                       <span className={styles.priceValue}>
-                        {service.price === 0 ? "GRATUIT" : `CHF ${service.price}.-`}
+                        {service.price === 0 ? "Offert" : `CHF ${service.price}.-`}
                       </span>
                     </div>
                     {service.price_pack && (

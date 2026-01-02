@@ -97,7 +97,7 @@ export default function CoreDeMamanPage() {
           <div className={styles.heroCtaContainer}>
             <Link href="/reserver" className={styles.heroCtaPrimary}>
               <Calendar size={20} />
-              Ma séance d'essai gratuite
+              Ma séance découverte
             </Link>
             <Link href="#tarifs" className={styles.heroCtaSecondary}>
               Horaire & tarifs
@@ -240,7 +240,7 @@ export default function CoreDeMamanPage() {
               <strong>Mercredi matin</strong><br />
               09h30 - 10h30
             </p>
-            <div className={styles.tarifPrice}>Gratuit</div>
+            <div className={styles.tarifPrice}>Offert</div>
             <p className={styles.tarifPriceDetail}>On commence le 14/01/2026</p>
             <ul className={styles.tarifFeatures}>
               <li><Check size={16} /> Découvrir la méthode</li>
@@ -248,7 +248,7 @@ export default function CoreDeMamanPage() {
               <li><Check size={16} /> Tous niveaux acceptés</li>
             </ul>
             <Link href="/reserver" className={styles.tarifCta}>
-              Réserver ma séance d'essai gratuite
+              Réserver ma séance découverte
             </Link>
           </div>
 
@@ -297,12 +297,12 @@ export default function CoreDeMamanPage() {
       <section className={styles.ctaFinal}>
         <h2>Prête à retrouver votre centre ?</h2>
         <p>
-          Rejoignez Core de Maman et offrez-vous ce moment de reconnexion. Venez tester, votre premier cours est gratuit.
+          Rejoignez Core de Maman et offrez-vous ce moment de reconnexion. Venez tester, votre premier cours est offert.
         </p>
         <div className={styles.ctaFinalButtons}>
           <Link href="/reserver" className={styles.heroCtaPrimary}>
             <Calendar size={20} />
-            Réserver ma séance d'essai gratuite
+            Réserver ma séance découverte
           </Link>
           <Link href="/contact" className={styles.heroCtaSecondary}>
             Poser une question

@@ -40,7 +40,7 @@ export default function Home() {
 
           <div className={styles.heroCtaContainer}>
             <Link href="/reserver" className={`${styles.heroCta} ${styles.heroCtaPrimary}`}>
-              Réserver ma séance d'essai gratuit
+              Réserver ma séance découverte
             </Link>
             <Link href="#cours" className={`${styles.heroCta} ${styles.heroCtaSecondary}`}>
               Découvrir les cours
@@ -120,7 +120,7 @@ export default function Home() {
         <div className={styles.contactCtaContent}>
           <h2 className={styles.contactCtaTitle}>Prête à commencer ?</h2>
           <p className={styles.contactCtaText}>
-            Réservez votre séance découverte gratuite et faites le premier pas
+            Réservez votre séance découverte offerte et faites le premier pas
             vers votre bien-être.
           </p>
 

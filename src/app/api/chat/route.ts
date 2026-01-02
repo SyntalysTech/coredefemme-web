@@ -20,7 +20,7 @@ INFORMATIONS IMPORTANTES SUR CORE DE FEMME :
    - Lieu : Salle Crossfit la Vouivre, Rue Pierre-Péquignat 7, 1er étage, 2900 Porrentruy
    - Durée : 60 minutes
    - Bébés bienvenus jusqu'à 12 mois
-   - Tarifs : Séance découverte GRATUITE, Pack 6 séances à 99.- (offre de lancement jusqu'au 1er mars, ensuite 120.-)
+   - Tarifs : Séance découverte offerte, Pack 6 séances à 99.- (offre de lancement jusqu'au 1er mars, ensuite 120.-)
    - Les cours commencent le 14/01/2026
 
 2. **Cours à domicile**
@@ -43,7 +43,7 @@ INFORMATIONS IMPORTANTES SUR CORE DE FEMME :
 - Utilise un ton chaleureux et encourageant
 - Si tu ne connais pas une information, invite la personne à contacter Chloé directement via la page contact
 - Mets en avant les bénéfices : douceur, bienveillance, progression à son rythme
-- Rappelle que la première séance est gratuite pour Core de Maman`;
+- Rappelle que la première séance est offerte pour Core de Maman`;
 
 export async function POST(request: NextRequest) {
   try {

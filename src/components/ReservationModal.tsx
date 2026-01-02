@@ -309,7 +309,7 @@ export default function ReservationModal({
                 >
                   <span className={styles.typeBadge}>1ère séance</span>
                   <span className={styles.typePrice}>
-                    {(session?.service?.price || 0) === 0 ? "GRATUIT" : `CHF ${session?.service?.price}.-`}
+                    {(session?.service?.price || 0) === 0 ? "Offert" : `CHF ${session?.service?.price}.-`}
                   </span>
                   <span>Séance d&apos;essai</span>
                 </button>
@@ -408,14 +408,14 @@ export default function ReservationModal({
                 ) : (
                   <>
                     <Check size={18} />
-                    Réserver ma séance gratuite
+                    Réserver ma séance découverte
                   </>
                 )}
               </button>
 
               <p className={styles.terms}>
                 En réservant, vous acceptez les conditions générales.
-                Annulation gratuite jusqu&apos;à 24h avant la séance.
+                Annulation flexible jusqu&apos;à 24h avant la séance.
               </p>
             </form>
           </>

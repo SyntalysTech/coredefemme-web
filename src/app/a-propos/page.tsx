@@ -220,7 +220,7 @@ export default function APropos() {
         <div className={styles.ctaContent}>
           <h2>Prête à commencer ?</h2>
           <p>
-            Rejoignez-moi pour une séance découverte gratuite et découvrez les bienfaits du Pilates adapté aux femmes.
+            Rejoignez-moi pour une séance découverte offerte et découvrez les bienfaits du Pilates adapté aux femmes.
           </p>
           <div className={styles.ctaButtons}>
             <Link href="/contact" className={styles.ctaBtnPrimary}>

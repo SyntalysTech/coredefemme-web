@@ -189,9 +189,9 @@ export default async function ArticlePage({ params }: Props) {
         {/* CTA */}
         <div className={styles.articleCta}>
           <h3>Envie de passer à l&apos;action ?</h3>
-          <p>Réservez votre séance découverte gratuite et commencez votre transformation.</p>
-          <Link href="/seances-decouvertes" className={styles.ctaBtn}>
-            Réserver gratuitement
+          <p>Réservez votre séance découverte offerte et commencez votre transformation.</p>
+          <Link href="/reserver" className={styles.ctaBtn}>
+            Réserver ma séance
           </Link>
         </div>
       </article>
