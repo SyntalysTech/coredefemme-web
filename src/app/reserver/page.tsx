@@ -592,9 +592,9 @@ export default function ReserverPage() {
                   {!isComingSoon ? (
                     <div className={styles.servicePricing}>
                       <div className={styles.priceItem}>
-                        <span className={styles.priceLabel}>Séance</span>
+                        <span className={styles.priceLabel}>{service.price === 0 ? "Séance découverte" : "Séance"}</span>
                         <span className={styles.priceValue}>
-                          {service.price === 0 ? "Offert" : `CHF ${service.price}.-`}
+                          {service.price === 0 ? "1 séance offerte" : `CHF ${service.price}.-`}
                         </span>
                       </div>
                       {service.price_pack && (
