@@ -589,7 +589,7 @@ export default function ReserverPage() {
                   <p className={styles.serviceDuration}>
                     <Clock size={16} /> {duration} minutes
                   </p>
-                  {!isComingSoon && (
+                  {!isComingSoon ? (
                     <div className={styles.servicePricing}>
                       <div className={styles.priceItem}>
                         <span className={styles.priceLabel}>Séance</span>
@@ -604,6 +604,8 @@ export default function ReserverPage() {
                         </div>
                       )}
                     </div>
+                  ) : (
+                    <div className={styles.comingSoonSpacer}></div>
                   )}
                   <Link
                     href={`/${service.slug}`}

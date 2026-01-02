@@ -620,6 +620,10 @@
   font-weight: 600;
 }
 
+.comingSoonSpacer {
+  margin-bottom: 1.5rem;
+}
+
 /* Info Section */
 .infoSection {
   display: grid;
