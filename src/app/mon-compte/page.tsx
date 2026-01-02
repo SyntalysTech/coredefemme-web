@@ -17,6 +17,9 @@ import {
   Check,
   X,
   Users,
+  Lock,
+  Eye,
+  EyeOff,
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import styles from "./page.module.css";
@@ -80,84 +83,61 @@ export default function MonComptePage() {
   const [isLoading, setIsLoading] = useState(true);
   const [cancellingId, setCancellingId] = useState<string | null>(null);
 
+  // Password change states
+  const [showPasswordForm, setShowPasswordForm] = useState(false);
+  const [passwordData, setPasswordData] = useState({ newPassword: "", confirmPassword: "" });
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [passwordStatus, setPasswordStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [passwordError, setPasswordError] = useState("");
+
   useEffect(() => {
     let isMounted = true;
     let dataLoaded = false;
 
-    console.log("[mon-compte] useEffect started");
-
     const loadData = async (userId: string, email: string) => {
       if (dataLoaded || !isMounted) return;
       dataLoaded = true;
-      console.log("[mon-compte] loadData called for:", email);
       await loadAllData(userId, email);
-      console.log("[mon-compte] Data loaded, setting isLoading to false");
       if (isMounted) setIsLoading(false);
     };
 
-    // Listen for auth changes FIRST (this is more reliable)
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log("[mon-compte] onAuthStateChange:", { event, hasSession: !!session, isMounted, dataLoaded });
+    // Check session immediately on mount
+    const initializeAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
 
-      if (!isMounted) {
-        console.log("[mon-compte] Component unmounted, ignoring auth change");
-        return;
+      if (!isMounted) return;
+
+      if (session) {
+        await loadData(session.user.id, session.user.email!);
+      } else {
+        // No session found, redirect to login
+        router.push("/connexion");
       }
+    };
+
+    initializeAuth();
+
+    // Listen for auth changes (for sign out, token refresh, etc.)
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (!isMounted) return;
 
       if (event === 'SIGNED_OUT') {
-        console.log("[mon-compte] User signed out, redirecting to /connexion");
         router.push("/connexion");
         return;
       }
 
-      // Handle any event that provides a valid session
-      if (session && !dataLoaded) {
-        console.log("[mon-compte] Session available, loading data...");
-        await loadData(session.user.id, session.user.email!);
+      // Handle token refresh or new sign in
+      if (event === 'TOKEN_REFRESHED' || event === 'SIGNED_IN') {
+        if (session && !dataLoaded) {
+          await loadData(session.user.id, session.user.email!);
+        }
       }
     });
 
-    // Also check session directly (for page reloads)
-    const checkSession = async () => {
-      console.log("[mon-compte] checkSession called");
-      // Small delay to let onAuthStateChange fire first
-      await new Promise(resolve => setTimeout(resolve, 100));
-
-      if (dataLoaded) {
-        console.log("[mon-compte] Data already loaded, skipping checkSession");
-        return;
-      }
-
-      const { data: { session }, error } = await supabase.auth.getSession();
-      console.log("[mon-compte] getSession result:", { hasSession: !!session, error, isMounted, dataLoaded });
-
-      if (session && isMounted && !dataLoaded) {
-        await loadData(session.user.id, session.user.email!);
-      }
-    };
-
-    checkSession();
-
-    // Timeout fallback - if still loading after 2s, try once more
-    const timeout = setTimeout(async () => {
-      console.log("[mon-compte] Timeout reached", { isMounted, dataLoaded });
-      if (isMounted && !dataLoaded) {
-        const { data: { session } } = await supabase.auth.getSession();
-        console.log("[mon-compte] Timeout session check:", { hasSession: !!session });
-        if (session) {
-          await loadData(session.user.id, session.user.email!);
-        } else {
-          console.log("[mon-compte] No session in timeout, redirecting to /connexion");
-          router.push("/connexion");
-        }
-      }
-    }, 2000);
-
     return () => {
-      console.log("[mon-compte] Cleanup: unmounting");
       isMounted = false;
       subscription.unsubscribe();
-      clearTimeout(timeout);
     };
   }, [router]);
 
@@ -235,6 +215,47 @@ export default function MonComptePage() {
   async function handleLogout() {
     await supabase.auth.signOut();
     window.location.href = "/";
+  }
+
+  async function handlePasswordChange(e: React.FormEvent) {
+    e.preventDefault();
+    setPasswordError("");
+
+    if (passwordData.newPassword.length < 6) {
+      setPasswordError("Le mot de passe doit contenir au moins 6 caractères");
+      return;
+    }
+
+    if (passwordData.newPassword !== passwordData.confirmPassword) {
+      setPasswordError("Les mots de passe ne correspondent pas");
+      return;
+    }
+
+    setPasswordStatus("loading");
+
+    try {
+      const { error } = await supabase.auth.updateUser({
+        password: passwordData.newPassword
+      });
+
+      if (error) {
+        setPasswordError(error.message);
+        setPasswordStatus("error");
+        return;
+      }
+
+      setPasswordStatus("success");
+      setPasswordData({ newPassword: "", confirmPassword: "" });
+
+      // Reset after 3 seconds
+      setTimeout(() => {
+        setShowPasswordForm(false);
+        setPasswordStatus("idle");
+      }, 3000);
+    } catch {
+      setPasswordError("Une erreur est survenue");
+      setPasswordStatus("error");
+    }
   }
 
   async function handleCancelReservation(reservationId: string) {
@@ -562,6 +583,110 @@ export default function MonComptePage() {
                   <label>Séances effectuées</label>
                   <span>{user?.total_sessions_attended || 0}</span>
                 </div>
+              </div>
+
+              {/* Password Change Section */}
+              <div className={styles.passwordSection}>
+                <h3 className={styles.securityTitle}>
+                  <Lock size={18} />
+                  Sécurité
+                </h3>
+
+                {!showPasswordForm ? (
+                  <button
+                    className={styles.changePasswordBtn}
+                    onClick={() => setShowPasswordForm(true)}
+                  >
+                    Changer mon mot de passe
+                  </button>
+                ) : (
+                  <form onSubmit={handlePasswordChange} className={styles.passwordForm}>
+                    {passwordStatus === "success" ? (
+                      <div className={styles.passwordSuccess}>
+                        <Check size={20} />
+                        Mot de passe modifié avec succès !
+                      </div>
+                    ) : (
+                      <>
+                        {passwordError && (
+                          <div className={styles.passwordError}>
+                            <AlertCircle size={16} />
+                            {passwordError}
+                          </div>
+                        )}
+
+                        <div className={styles.passwordField}>
+                          <label>Nouveau mot de passe</label>
+                          <div className={styles.passwordInputWrapper}>
+                            <input
+                              type={showNewPassword ? "text" : "password"}
+                              value={passwordData.newPassword}
+                              onChange={(e) => setPasswordData({ ...passwordData, newPassword: e.target.value })}
+                              placeholder="Minimum 6 caractères"
+                              required
+                              minLength={6}
+                            />
+                            <button
+                              type="button"
+                              className={styles.togglePassword}
+                              onClick={() => setShowNewPassword(!showNewPassword)}
+                            >
+                              {showNewPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className={styles.passwordField}>
+                          <label>Confirmer le mot de passe</label>
+                          <div className={styles.passwordInputWrapper}>
+                            <input
+                              type={showConfirmPassword ? "text" : "password"}
+                              value={passwordData.confirmPassword}
+                              onChange={(e) => setPasswordData({ ...passwordData, confirmPassword: e.target.value })}
+                              placeholder="Répétez le mot de passe"
+                              required
+                            />
+                            <button
+                              type="button"
+                              className={styles.togglePassword}
+                              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                            >
+                              {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className={styles.passwordActions}>
+                          <button
+                            type="button"
+                            className={styles.cancelPasswordBtn}
+                            onClick={() => {
+                              setShowPasswordForm(false);
+                              setPasswordData({ newPassword: "", confirmPassword: "" });
+                              setPasswordError("");
+                            }}
+                          >
+                            Annuler
+                          </button>
+                          <button
+                            type="submit"
+                            className={styles.savePasswordBtn}
+                            disabled={passwordStatus === "loading"}
+                          >
+                            {passwordStatus === "loading" ? (
+                              <span className={styles.smallSpinner}></span>
+                            ) : (
+                              <>
+                                <Check size={16} />
+                                Enregistrer
+                              </>
+                            )}
+                          </button>
+                        </div>
+                      </>
+                    )}
+                  </form>
+                )}
               </div>
             </section>
           )}
