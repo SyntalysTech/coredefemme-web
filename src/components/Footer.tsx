@@ -52,7 +52,7 @@ export default function Footer() {
             <div className={styles.footerCol}>
               <Image
                 src="/logos/logo-core-de-femme-no-bg.png"
-                alt="Core de Femme - Pilates Bressaucourt"
+                alt="Core de Femme - Pilates Porrentruy Jura"
                 width={200}
                 height={70}
                 className={styles.footerLogo}

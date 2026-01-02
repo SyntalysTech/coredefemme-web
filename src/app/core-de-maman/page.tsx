@@ -8,7 +8,7 @@ import styles from "./page.module.css";
 
 export const metadata: Metadata = {
   title: "Core de Maman - Pilates Post-Partum",
-  description: "Cours de Pilates post-partum à Bressaucourt. Programme doux et progressif pour mamans: rééducation du périnée, renforcement du core, respiration consciente.",
+  description: "Cours de Pilates post-partum à Porrentruy, Jura. Programme doux et progressif pour mamans: rééducation du périnée, renforcement du core, respiration consciente.",
 };
 
 const benefices = [

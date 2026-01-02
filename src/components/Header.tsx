@@ -163,7 +163,7 @@ export default function Header() {
           <Link href="/" className={styles.logo}>
             <Image
               src="/logos/logo-core-de-femme-no-bg.png"
-              alt="Core de Femme - Pilates Féminin Bressaucourt Suisse"
+              alt="Core de Femme - Pilates Féminin Porrentruy Jura Suisse"
               width={200}
               height={70}
               priority

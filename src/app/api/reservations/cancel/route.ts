@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
+import { sendEmail, reservationCancellationTemplate, adminCancellationTemplate } from "@/lib/email";
 
 // Crear cliente Supabase con service role para operaciones admin
 const supabaseAdmin = createClient(
@@ -38,10 +39,17 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Obtener la reservación para verificar propiedad
+    // Obtener la reservación con información completa
     const { data: reservation, error: fetchError } = await supabaseAdmin
       .from("reservations")
-      .select("*, sessions(session_date, start_time)")
+      .select(`
+        *,
+        sessions(
+          session_date,
+          start_time,
+          service:services(name, slug)
+        )
+      `)
       .eq("id", reservation_id)
       .single();
 
@@ -139,7 +147,73 @@ export async function POST(request: NextRequest) {
       });
     }
 
-    // TODO: Enviar email de confirmación de cancelación
+    // Formatear fecha y hora para emails
+    const sessionDate = new Date(reservation.sessions.session_date).toLocaleDateString('fr-CH', {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    });
+    const sessionTime = reservation.sessions.start_time.slice(0, 5);
+    const serviceName = reservation.sessions.service?.name || 'Séance';
+
+    // Enviar email de confirmación al cliente
+    try {
+      await sendEmail({
+        to: reservation.customer_email,
+        subject: `Annulation confirmée - ${serviceName}`,
+        html: reservationCancellationTemplate({
+          customerName: reservation.customer_name,
+          reservationNumber: reservation.reservation_number,
+          serviceName,
+          sessionDate,
+          sessionTime,
+        }),
+      });
+
+      // Log del email cliente
+      await supabaseAdmin.from('email_logs').insert({
+        recipient_email: reservation.customer_email,
+        recipient_name: reservation.customer_name,
+        email_type: 'cancellation_confirmation',
+        subject: `Annulation confirmée - ${serviceName}`,
+        status: 'sent',
+        related_id: reservation_id,
+      });
+    } catch (emailError) {
+      console.error('Error sending cancellation email to customer:', emailError);
+    }
+
+    // Enviar email de notificación a Chloé (admin)
+    const adminEmail = process.env.ADMIN_EMAIL || 'contact@coredefemme.ch';
+    try {
+      await sendEmail({
+        to: adminEmail,
+        subject: `Annulation - ${reservation.reservation_number}`,
+        html: adminCancellationTemplate({
+          reservationNumber: reservation.reservation_number,
+          customerName: reservation.customer_name,
+          customerEmail: reservation.customer_email,
+          customerPhone: reservation.customer_phone,
+          serviceName,
+          sessionDate,
+          sessionTime,
+          reason,
+        }),
+      });
+
+      // Log del email admin
+      await supabaseAdmin.from('email_logs').insert({
+        recipient_email: adminEmail,
+        recipient_name: 'Admin',
+        email_type: 'admin_cancellation_notification',
+        subject: `Annulation - ${reservation.reservation_number}`,
+        status: 'sent',
+        related_id: reservation_id,
+      });
+    } catch (emailError) {
+      console.error('Error sending cancellation email to admin:', emailError);
+    }
 
     return NextResponse.json({
       success: true,

@@ -242,7 +242,7 @@ export async function POST(request: NextRequest) {
 
     const location = session.service.service_type === 'home'
       ? 'À votre domicile'
-      : 'Rue de la Maltière 82H, 2904 Bressaucourt';
+      : 'La Vouivre, Rue Pierre-Péquignat 7, 1er étage, 2900 Porrentruy';
 
     // Enviar email de confirmación al cliente
     const customerEmailResult = await sendEmail({

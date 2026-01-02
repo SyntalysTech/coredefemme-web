@@ -7,7 +7,7 @@ import styles from "../core-de-maman/page.module.css";
 
 export const metadata: Metadata = {
   title: "Sculpt Pilates - Renforcement Féminin",
-  description: "Cours de Sculpt Pilates à Bressaucourt. Renforcement musculaire global, tonification, énergie et vitalité. Accessible à toutes.",
+  description: "Cours de Sculpt Pilates à Porrentruy, Jura. Renforcement musculaire global, tonification, énergie et vitalité. Accessible à toutes.",
 };
 
 const benefices = [
@@ -78,7 +78,7 @@ export default function SculptPilatesPage() {
         <div className={styles.heroBg}>
           <Image
             src="/images/pilates-matwork.png"
-            alt="Sculpt Pilates - Renforcement Féminin Bressaucourt"
+            alt="Sculpt Pilates - Renforcement Féminin Porrentruy"
             fill
             style={{ objectFit: "cover" }}
             priority
@@ -111,7 +111,7 @@ export default function SculptPilatesPage() {
           <div className={styles.introImageWrapper}>
             <Image
               src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?w=800&q=80"
-              alt="Cours Sculpt Pilates Bressaucourt"
+              alt="Cours Sculpt Pilates Porrentruy"
               width={500}
               height={600}
               className={styles.introImage}

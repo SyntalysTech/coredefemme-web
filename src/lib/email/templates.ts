@@ -97,8 +97,8 @@ const baseTemplate = (content: string, preheader: string = '') => `
                 Chloé Manzambi
               </p>
               <p style="margin: 0 0 15px; color: ${BRAND_COLORS.text}; font-size: 13px; opacity: 0.8;">
-                Rue de la Maltière 82H, Domaine du Pré sur l'Eau<br>
-                2904 Bressaucourt, Jura, Suisse
+                La Vouivre, Rue Pierre-Péquignat 7, 1er étage<br>
+                2900 Porrentruy, Jura, Suisse
               </p>
               <p style="margin: 0 0 20px;">
                 <a href="https://coredefemme.ch" style="color: ${BRAND_COLORS.primary}; font-size: 13px; font-weight: 500;">coredefemme.ch</a>
@@ -564,7 +564,75 @@ export function adminNewReservationTemplate({
   return baseTemplate(content, `Nouvelle réservation : ${reservationNumber}`);
 }
 
-// 8. Notification admin - Nouveau message de contact
+// 8. Notification admin - Annulation de réservation
+export function adminCancellationTemplate({
+  reservationNumber,
+  customerName,
+  customerEmail,
+  customerPhone,
+  serviceName,
+  sessionDate,
+  sessionTime,
+  reason,
+}: {
+  reservationNumber: string;
+  customerName: string;
+  customerEmail: string;
+  customerPhone?: string;
+  serviceName: string;
+  sessionDate: string;
+  sessionTime: string;
+  reason?: string;
+}) {
+  const content = `
+    ${heading('Réservation annulée')}
+
+    ${paragraph('Une réservation vient d\'être annulée par le client.')}
+
+    ${infoBox(`
+      <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
+        <tr>
+          <td style="padding: 5px 0;">
+            <strong style="color: ${BRAND_COLORS.dark};">Réservation</strong><br>
+            <span style="color: #e74c3c; font-size: 16px; font-weight: 600;">${reservationNumber}</span>
+            <br><span style="color: #e74c3c; font-size: 12px;">ANNULÉE</span>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 10px 0 5px; border-top: 1px solid rgba(169, 128, 106, 0.2);">
+            <strong style="color: ${BRAND_COLORS.dark};">Client</strong><br>
+            <span style="color: ${BRAND_COLORS.text};">${customerName}</span><br>
+            <a href="mailto:${customerEmail}" style="color: ${BRAND_COLORS.primary};">${customerEmail}</a>
+            ${customerPhone ? `<br><a href="tel:${customerPhone}" style="color: ${BRAND_COLORS.primary};">${customerPhone}</a>` : ''}
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 10px 0 5px; border-top: 1px solid rgba(169, 128, 106, 0.2);">
+            <strong style="color: ${BRAND_COLORS.dark};">Séance</strong><br>
+            <span style="color: ${BRAND_COLORS.text};">${serviceName}</span><br>
+            <span style="color: ${BRAND_COLORS.text};">${sessionDate} à ${sessionTime}</span>
+          </td>
+        </tr>
+        ${reason ? `
+        <tr>
+          <td style="padding: 10px 0 5px; border-top: 1px solid rgba(169, 128, 106, 0.2);">
+            <strong style="color: ${BRAND_COLORS.dark};">Raison</strong><br>
+            <span style="color: ${BRAND_COLORS.text};">${reason}</span>
+          </td>
+        </tr>
+        ` : ''}
+      </table>
+    `)}
+
+    ${paragraph('Une place est maintenant disponible pour cette séance.')}
+
+    ${button('Voir dans l\'admin', 'https://coredefemme.ch/admin/reservations')}
+  `;
+
+  return baseTemplate(content, `Annulation : ${reservationNumber}`);
+}
+
+// 9. Notification admin - Nouveau message de contact
 export function adminNewContactTemplate({
   customerName,
   customerEmail,
