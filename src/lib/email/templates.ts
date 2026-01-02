@@ -678,8 +678,6 @@ export function adminNewContactTemplate({
       </table>
     `)}
 
-    ${button('Répondre', `mailto:${customerEmail}?subject=Re: ${subject || 'Votre message'}`)}
-
     ${button('Voir dans l\'admin', 'https://coredefemme.ch/admin/contacts')}
   `;
 
