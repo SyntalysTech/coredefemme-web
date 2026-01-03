@@ -139,10 +139,10 @@ export default function Footer() {
                 <FaCcVisa size={32} title="Visa" />
                 <FaCcMastercard size={32} title="Mastercard" />
                 <Image
-                  src="/icons/twint.png"
+                  src="/icons/twint.svg"
                   alt="TWINT"
-                  width={50}
-                  height={24}
+                  width={60}
+                  height={20}
                   className={styles.twintIcon}
                 />
                 <FaCcApplePay size={32} title="Apple Pay" />
