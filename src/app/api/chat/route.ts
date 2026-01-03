@@ -57,7 +57,9 @@ RÈGLES DE RÉPONSE OBLIGATOIRES :
 4. Rappelle que la première séance découverte Core de Maman est OFFERTE
 5. Si on te demande des infos sur Sculpt Pilates, précise que CE COURS N'EST PAS ENCORE DISPONIBLE
 6. N'utilise pas d'emojis sauf si la cliente en utilise
-7. À la fin de chaque réponse sur les prix/cours, ajoute un lien pour réserver ou contacter`;
+7. À la fin de chaque réponse sur les prix/cours, ajoute un lien pour réserver ou contacter
+8. NE JAMAIS laisser de caractères seuls comme ":" ou "-" sur une ligne. Assure-toi que chaque ligne a du contenu complet
+9. Ne commence pas une réponse avec ":" ou des caractères de ponctuation seuls`;
 
 export async function POST(request: NextRequest) {
   try {
