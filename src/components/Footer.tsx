@@ -3,9 +3,9 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { MapPin, Mail, Instagram, ArrowUp } from "lucide-react";
+import { MapPin, Mail, Instagram, ArrowUp, Smartphone } from "lucide-react";
 import { BsWhatsapp } from "react-icons/bs";
-import { FaCcVisa, FaCcMastercard, FaCcApplePay, FaGooglePay, FaStripe } from "react-icons/fa6";
+import { FaCcVisa, FaCcMastercard, FaCcApplePay, FaGooglePay, FaStripe, FaApple, FaGooglePlay } from "react-icons/fa6";
 import styles from "./Footer.module.css";
 
 const navigationLinks = [
@@ -78,6 +78,30 @@ export default function Footer() {
                 >
                   <BsWhatsapp size={20} />
                 </a>
+              </div>
+
+              {/* App Coming Soon */}
+              <div className={styles.appComingSoon}>
+                <p className={styles.appComingSoonLabel}>
+                  <Smartphone size={16} />
+                  Application mobile
+                </p>
+                <div className={styles.appBadges}>
+                  <div className={styles.appBadge}>
+                    <FaApple size={18} />
+                    <div>
+                      <span className={styles.appBadgeSmall}>Prochainement</span>
+                      <span className={styles.appBadgeName}>App Store</span>
+                    </div>
+                  </div>
+                  <div className={styles.appBadge}>
+                    <FaGooglePlay size={16} />
+                    <div>
+                      <span className={styles.appBadgeSmall}>Prochainement</span>
+                      <span className={styles.appBadgeName}>Google Play</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 

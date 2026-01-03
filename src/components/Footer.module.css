@@ -87,6 +87,75 @@
   box-shadow: 0 6px 20px rgba(169, 128, 106, 0.35);
 }
 
+/* App Coming Soon */
+.appComingSoon {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(169, 128, 106, 0.15);
+}
+
+.appComingSoonLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--color-dark);
+  opacity: 0.7;
+  margin: 0 0 0.8rem 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
+.appComingSoonLabel svg {
+  color: var(--color-primary);
+}
+
+.appBadges {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.appBadge {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: #1a1a1a;
+  color: #fff;
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  opacity: 0.85;
+  transition: var(--transition);
+}
+
+.appBadge:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+.appBadge svg {
+  flex-shrink: 0;
+}
+
+.appBadge div {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.appBadgeSmall {
+  font-size: 0.6rem;
+  opacity: 0.8;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.appBadgeName {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
 /* Footer Titles */
 .footerTitle {
   color: var(--color-primary);
@@ -309,6 +378,18 @@
   }
 
   .footerSocial {
+    justify-content: center;
+  }
+
+  .appComingSoon {
+    text-align: center;
+  }
+
+  .appComingSoonLabel {
+    justify-content: center;
+  }
+
+  .appBadges {
     justify-content: center;
   }
 
