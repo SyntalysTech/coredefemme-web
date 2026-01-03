@@ -159,14 +159,20 @@ export default function AdminContactsPage() {
     setIsProcessing(true);
 
     try {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      await (supabase as any)
-        .from("contacts")
-        .delete()
-        .in("id", ids);
+      const response = await fetch("/api/contacts/delete", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ contact_ids: ids }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || "Erreur lors de la suppression");
+      }
 
       await fetchContacts();
       setShowDeleteModal(false);
+      setSelectedContact(null);
     } catch (error) {
       console.error("Error deleting contacts:", error);
     } finally {
