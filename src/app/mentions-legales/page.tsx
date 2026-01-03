@@ -34,6 +34,13 @@ export default function MentionsLegalesPage() {
             <li>Covina, CA 91723, USA</li>
             <li>Site web : <a href="https://vercel.com" target="_blank" rel="noopener noreferrer">vercel.com</a></li>
           </ul>
+          <p style={{ marginTop: "1rem" }}>Le nom de domaine est géré par :</p>
+          <ul>
+            <li><strong>Infomaniak Network SA</strong></li>
+            <li>Rue Eugène-Marziano 25</li>
+            <li>1227 Les Acacias, Genève, Suisse</li>
+            <li>Site web : <a href="https://www.infomaniak.com" target="_blank" rel="noopener noreferrer">infomaniak.com</a></li>
+          </ul>
         </section>
 
         <section className={styles.section}>
