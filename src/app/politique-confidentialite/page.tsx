@@ -93,6 +93,7 @@ export default function PolitiqueConfidentialitePage() {
           </p>
           <ul>
             <li><strong>Hébergement :</strong> Vercel (USA) - pour l&apos;hébergement du site</li>
+            <li><strong>Domaine :</strong> Infomaniak (Suisse) - pour la gestion du nom de domaine</li>
             <li><strong>Base de données :</strong> Supabase - pour le stockage sécurisé des données</li>
             <li><strong>Paiement :</strong> Stripe - pour le traitement des paiements</li>
             <li><strong>Email :</strong> Resend - pour l&apos;envoi d&apos;emails transactionnels</li>
