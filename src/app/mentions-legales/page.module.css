@@ -1,0 +1,119 @@
+.container {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #FDF8F5 0%, #FFFFFF 100%);
+  padding: 120px 20px 80px;
+}
+
+.content {
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 24px;
+  padding: 48px;
+  box-shadow: 0 4px 24px rgba(169, 128, 106, 0.08);
+}
+
+.content h1 {
+  font-family: var(--font-cormorant);
+  font-size: 2.5rem;
+  color: #1a1a1a;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.lastUpdate {
+  text-align: center;
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 48px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #eee;
+}
+
+.section {
+  margin-bottom: 32px;
+}
+
+.section h2 {
+  font-family: var(--font-cormorant);
+  font-size: 1.4rem;
+  color: #A9806A;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #F5EDE8;
+}
+
+.section p {
+  color: #444;
+  line-height: 1.8;
+  margin-bottom: 12px;
+}
+
+.section ul {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0;
+}
+
+.section ul li {
+  color: #444;
+  line-height: 1.8;
+  padding: 4px 0;
+  padding-left: 20px;
+  position: relative;
+}
+
+.section ul li::before {
+  content: "•";
+  color: #A9806A;
+  position: absolute;
+  left: 0;
+}
+
+.section a {
+  color: #A9806A;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.section a:hover {
+  color: #8B6A56;
+  text-decoration: underline;
+}
+
+.backLink {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid #eee;
+  text-align: center;
+}
+
+.backLink a {
+  color: #A9806A;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.backLink a:hover {
+  color: #8B6A56;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 100px 16px 60px;
+  }
+
+  .content {
+    padding: 32px 24px;
+    border-radius: 16px;
+  }
+
+  .content h1 {
+    font-size: 2rem;
+  }
+
+  .section h2 {
+    font-size: 1.2rem;
+  }
+}
