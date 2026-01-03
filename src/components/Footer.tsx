@@ -87,15 +87,15 @@ export default function Footer() {
                   Application mobile
                 </p>
                 <div className={styles.appBadges}>
-                  <div className={styles.appBadge}>
-                    <FaApple size={18} />
+                  <div className={`${styles.appBadge} ${styles.appBadgeApple}`}>
+                    <FaApple size={20} />
                     <div>
                       <span className={styles.appBadgeSmall}>Prochainement</span>
                       <span className={styles.appBadgeName}>App Store</span>
                     </div>
                   </div>
-                  <div className={styles.appBadge}>
-                    <FaGooglePlay size={16} />
+                  <div className={`${styles.appBadge} ${styles.appBadgeGoogle}`}>
+                    <FaGooglePlay size={18} />
                     <div>
                       <span className={styles.appBadgeSmall}>Prochainement</span>
                       <span className={styles.appBadgeName}>Google Play</span>

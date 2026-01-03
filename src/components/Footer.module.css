@@ -120,18 +120,17 @@
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  background: #1a1a1a;
   color: #fff;
-  padding: 0.5rem 0.9rem;
-  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  border-radius: 10px;
   font-size: 0.75rem;
-  opacity: 0.85;
   transition: var(--transition);
+  cursor: default;
 }
 
 .appBadge:hover {
-  opacity: 1;
   transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .appBadge svg {
@@ -145,15 +144,43 @@
 }
 
 .appBadgeSmall {
-  font-size: 0.6rem;
-  opacity: 0.8;
+  font-size: 0.55rem;
+  opacity: 0.9;
   text-transform: uppercase;
   letter-spacing: 0.3px;
 }
 
 .appBadgeName {
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   font-weight: 600;
+}
+
+/* Apple Store Badge - Negro oficial */
+.appBadgeApple {
+  background: #000000;
+}
+
+.appBadgeApple:hover {
+  background: #1a1a1a;
+}
+
+/* Google Play Badge - Gradiente multicolor oficial */
+.appBadgeGoogle {
+  background: linear-gradient(135deg,
+    #4285F4 0%,    /* Google Blue */
+    #34A853 35%,   /* Google Green */
+    #FBBC05 65%,   /* Google Yellow */
+    #EA4335 100%   /* Google Red */
+  );
+}
+
+.appBadgeGoogle:hover {
+  background: linear-gradient(135deg,
+    #5a9cf5 0%,
+    #4cb963 35%,
+    #fcc726 65%,
+    #ed5a4c 100%
+  );
 }
 
 /* Footer Titles */
