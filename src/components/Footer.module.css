@@ -155,32 +155,15 @@
   font-weight: 600;
 }
 
-/* Apple Store Badge - Negro oficial */
-.appBadgeApple {
-  background: #000000;
-}
-
-.appBadgeApple:hover {
-  background: #1a1a1a;
-}
-
-/* Google Play Badge - Gradiente multicolor oficial */
+/* App Badges - Core de Femme brand colors */
+.appBadgeApple,
 .appBadgeGoogle {
-  background: linear-gradient(135deg,
-    #4285F4 0%,    /* Google Blue */
-    #34A853 35%,   /* Google Green */
-    #FBBC05 65%,   /* Google Yellow */
-    #EA4335 100%   /* Google Red */
-  );
+  background: var(--color-primary);
 }
 
+.appBadgeApple:hover,
 .appBadgeGoogle:hover {
-  background: linear-gradient(135deg,
-    #5a9cf5 0%,
-    #4cb963 35%,
-    #fcc726 65%,
-    #ed5a4c 100%
-  );
+  background: var(--color-secondary);
 }
 
 /* Footer Titles */
