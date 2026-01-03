@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { X, Send } from "lucide-react";
+import ReactMarkdown from "react-markdown";
 import styles from "./Chatbot.module.css";
 
 interface Message {
@@ -137,7 +138,21 @@ export default function Chatbot() {
                 />
               )}
               <div className={styles.messageContent}>
-                <p>{message.content}</p>
+                {message.role === "assistant" ? (
+                  <ReactMarkdown
+                    components={{
+                      a: ({ href, children }) => (
+                        <a href={href} target="_blank" rel="noopener noreferrer">
+                          {children}
+                        </a>
+                      ),
+                    }}
+                  >
+                    {message.content}
+                  </ReactMarkdown>
+                ) : (
+                  <p>{message.content}</p>
+                )}
               </div>
             </div>
           ))}

@@ -233,6 +233,45 @@
   font-size: 0.9rem;
 }
 
+/* Markdown Styles for Assistant Messages */
+.messageContent h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0.8rem 0 0.4rem 0;
+  color: var(--color-primary);
+}
+
+.messageContent h3:first-child {
+  margin-top: 0;
+}
+
+.messageContent ul,
+.messageContent ol {
+  margin: 0.4rem 0;
+  padding-left: 1.2rem;
+}
+
+.messageContent li {
+  font-size: 0.9rem;
+  margin: 0.2rem 0;
+  line-height: 1.5;
+}
+
+.messageContent strong {
+  font-weight: 600;
+  color: var(--color-dark);
+}
+
+.messageContent a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.messageContent a:hover {
+  color: var(--color-dark);
+}
+
 /* Typing Indicator */
 .typingIndicator {
   display: flex;
